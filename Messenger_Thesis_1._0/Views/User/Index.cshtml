@@ -1,0 +1,591 @@
+﻿@model List<User>
+
+@{
+    ViewData["Title"] = "list";
+    Layout = "_Admin";
+}
+<div class="container-fluid mt--7">
+
+
+
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+
+            <div class="card shadow">
+
+
+
+
+
+                <div class="card-header border-0">
+
+
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-block" data-toggle="modal" data-target="#modal-form">Add user</button>
+                        <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+                                <div class="modal-content">
+
+                                    <div class="modal-body p-0">
+
+
+                                        <div class="card bg-secondary shadow border-0">
+                                            <div class="card-header bg-white pb-3">
+                                          
+                                                <div class="btn-wrapper text-center">
+                                                   <h3>Add new user</h3>
+                                                  
+                                                </div>
+                                            </div>
+                                            <div class="card-body px-lg-5 py-lg-3">
+                                                <div class="text-center text-muted mb-4">
+                                                    <small>Account information</small>
+                                                </div>
+                                                <form role="form" id="registration" enctype="multipart/form-data">
+                                                    <div class="form-group mb-3">
+                                                        <div class="input-group input-group-alternative">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                                            </div>
+                                                            <input id="email" class="form-control" placeholder="Email" type="email">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group input-group-alternative">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                            </div>
+                                                            <input id="password" class="form-control" placeholder="Password" type="password">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="input-group input-group-alternative">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                            </div>
+                                                            <input id="cpassword" class="form-control" placeholder="Confirm password" type="password">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="text-center text-muted mb-4">
+                                                        <small>Personal information</small>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <div class="input-group input-group-alternative">
+
+                                                            <input id="first-name" class="form-control" placeholder="First Name" type="text">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group mb-4">
+                                                        <div class="input-group input-group-alternative">
+                                                            <input id="last-name" class="form-control" placeholder="Last Name" type="text">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="input-group  input-group-alternative   ">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                            </div>
+                                                            <input id="birth-date" class="form-control datepicker" placeholder="Birthdate" type="text">
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                    <div class="input-group     ">
+                                                        <div class="input-group-prepend">
+                                                            <div class="custom-control custom-radio mb-3">
+                                                                <input name="custom-radio-1" class="custom-control-input" id="gender-male" type="radio">
+                                                                <label class="custom-control-label" for="customRadio1">Male</label>
+                                                            </div> &nbsp;&nbsp;&nbsp;
+                                                            <div class="custom-control custom-radio mb-3">
+                                                                <input name="custom-radio-1" class="custom-control-input" id="gender-female" checked="" type="radio">
+                                                                <label class="custom-control-label" for="customRadio2">Female</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="input-group input-group-alternative">
+                                                            <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                                <option>Select Position</option>
+                                                                <option>Accountant</option>
+                                                                <option>Admin</option>
+                                                                <option>Messenger</option>
+                                                                <option>Customer Representative</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        <div class="input-group input-group-alternative">
+                                                            <input type="file" id="fileInput" class="form-control form-control" />
+                                                        </div>
+                                                    </div>
+
+
+
+
+                                                        <div class="text-center">
+                                                       <input type="submit" value="Save"  class="btn btn-primary my-4" />
+                                                        </div>
+</form>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Project</th>
+                                <th scope="col">Budget</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Users</th>
+                                <th scope="col">Completion</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="tableData">
+                         
+
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fas fa-angle-left"></i>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a onclick="Page1()" class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a onclick="Page2()" class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li onclick="Page3()" class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fas fa-angle-right"></i>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+
+
+<script>
+
+     GetAllUser(1);
+  
+
+    document.getElementById('registration').onsubmit = function () {
+
+        var formdata = new FormData();
+        var fileInput = document.getElementById('fileInput');
+        var email = $('#email').val();
+        var password = $('#password').val();
+        var cpassword = $('#cpassword').val();  
+        var firstName = $('#first-name').val();  
+        var lastName = $('#last-name').val();  
+        var birthDate = $('#birth-date').val();
+        var role = $('#role').val();
+
+
+        for (i = 0; i < fileInput.files.length; i++) {
+            formdata.append("Image", fileInput.files[i]);
+        }
+        formdata.append("Email", email);
+        formdata.append("Password", password);
+        formdata.append("FirstName", firstName);
+        formdata.append("LastName", lastName);
+        formdata.append("BirthDate", birthDate);
+        formdata.append("Role", role);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/User/SendRegisteredData');
+        xhr.send(formdata);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                GetAllUser();
+            }
+        }   
+
+        return false;
+    }
+
+    
+
+     function GetAllUser(page) {
+        
+          var fullTable = "";
+        $.ajax({
+
+            url: '/User/GetUserList',
+            type: 'GET',
+            data: { param: 1 },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                     var t = '       <tr> '+
+                                '       <th scope="row">'+
+                                        '    <div class="media align-items-center">' +
+                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
+                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
+                                             '   </a>' +
+                                         '       <div class="media-body">' +
+                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
+                                            '    </div>' +
+                                         '   </div>' +
+                                     '   </th>' +
+                                       ' <td>' +
+                                      '      $2,500 USD' +
+                                     '   </td>' +
+                                     '   <td>' +
+                                       '     <span class="badge badge-dot mr-4">' +
+                                           '    <i class="bg-warning"></i> pending' +
+                                         '   </span>' +
+                                    '    </td>' +
+                                     '   <td>' +
+                                      '      <div class="avatar-group">' +
+                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                                           '     </a>' +
+                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                                            '    </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                                             '   </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                                              '  </a>' +
+                                         '   </div>' +
+                                     '   </td>' +
+                                       ' <td>' +
+                                          '  <div class="d-flex align-items-center">' +
+                                             '   <span class="mr-2">60%</span>' +
+                                             '   <div>' +
+                                                 '   <div class="progress">' +
+                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                                                   ' </div>' +
+                                             '   </div>' +
+                                           ' </div>' +
+                                       ' </td>' +
+                                       ' <td class="text-right">' +
+                                          '  <div class="dropdown">' +
+                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                                 '   <i class="fas fa-ellipsis-v"></i>' +
+                                            '    </a>' +
+                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                                              '      <a class="dropdown-item" href="#">Action</a>' +
+                                             '       <a class="dropdown-item" href="#">Another action</a>' +
+                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
+                                '      </div>' +
+                                    '     </div>' +
+                                    '    </td>' +
+                '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                   $('.tableData').html(fullTable);
+
+            }
+
+        });
+    }
+
+ 
+
+    function Page1() {
+      var fullTable = "";
+        $.ajax({
+
+               url: '/User/GetUserList',
+            type: 'GET',
+            data: { page: 1 },
+            success: function (e)  {
+
+                for (var key of Object.keys(e)) {
+
+                     var t = '       <tr> '+
+                                '       <th scope="row">'+
+                                        '    <div class="media align-items-center">' +
+                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
+                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
+                                             '   </a>' +
+                                         '       <div class="media-body">' +
+                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
+                                            '    </div>' +
+                                         '   </div>' +
+                                     '   </th>' +
+                                       ' <td>' +
+                                      '      $2,500 USD' +
+                                     '   </td>' +
+                                     '   <td>' +
+                                       '     <span class="badge badge-dot mr-4">' +
+                                           '    <i class="bg-warning"></i> pending' +
+                                         '   </span>' +
+                                    '    </td>' +
+                                     '   <td>' +
+                                      '      <div class="avatar-group">' +
+                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                                           '     </a>' +
+                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                                            '    </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                                             '   </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                                              '  </a>' +
+                                         '   </div>' +
+                                     '   </td>' +
+                                       ' <td>' +
+                                          '  <div class="d-flex align-items-center">' +
+                                             '   <span class="mr-2">60%</span>' +
+                                             '   <div>' +
+                                                 '   <div class="progress">' +
+                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                                                   ' </div>' +
+                                             '   </div>' +
+                                           ' </div>' +
+                                       ' </td>' +
+                                       ' <td class="text-right">' +
+                                          '  <div class="dropdown">' +
+                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                                 '   <i class="fas fa-ellipsis-v"></i>' +
+                                            '    </a>' +
+                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                                              '      <a class="dropdown-item" href="#">Action</a>' +
+                                             '       <a class="dropdown-item" href="#">Another action</a>' +
+                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
+                                '      </div>' +
+                                    '     </div>' +
+                                    '    </td>' +
+                '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                   $('.tableData').html(fullTable);
+
+            }
+
+        });
+
+    }
+
+    
+    function Page2() {
+     var fullTable = "";
+        $.ajax({
+
+               url: '/User/GetUserList',
+            type: 'GET',
+            data: { page: 2 },
+            success: function (e)  {
+
+                for (var key of Object.keys(e)) {
+
+                     var t = '       <tr> '+
+                                '       <th scope="row">'+
+                                        '    <div class="media align-items-center">' +
+                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
+                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
+                                             '   </a>' +
+                                         '       <div class="media-body">' +
+                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
+                                            '    </div>' +
+                                         '   </div>' +
+                                     '   </th>' +
+                                       ' <td>' +
+                                      '      $2,500 USD' +
+                                     '   </td>' +
+                                     '   <td>' +
+                                       '     <span class="badge badge-dot mr-4">' +
+                                           '    <i class="bg-warning"></i> pending' +
+                                         '   </span>' +
+                                    '    </td>' +
+                                     '   <td>' +
+                                      '      <div class="avatar-group">' +
+                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                                           '     </a>' +
+                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                                            '    </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                                             '   </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                                              '  </a>' +
+                                         '   </div>' +
+                                     '   </td>' +
+                                       ' <td>' +
+                                          '  <div class="d-flex align-items-center">' +
+                                             '   <span class="mr-2">60%</span>' +
+                                             '   <div>' +
+                                                 '   <div class="progress">' +
+                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                                                   ' </div>' +
+                                             '   </div>' +
+                                           ' </div>' +
+                                       ' </td>' +
+                                       ' <td class="text-right">' +
+                                          '  <div class="dropdown">' +
+                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                                 '   <i class="fas fa-ellipsis-v"></i>' +
+                                            '    </a>' +
+                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                                              '      <a class="dropdown-item" href="#">Action</a>' +
+                                             '       <a class="dropdown-item" href="#">Another action</a>' +
+                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
+                                '      </div>' +
+                                    '     </div>' +
+                                    '    </td>' +
+                '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                   $('.tableData').html(fullTable);
+
+            }
+
+        });
+    }
+
+    
+    function Page3() {
+        var fullTable = "";
+        $.ajax({
+
+               url: '/User/GetUserList',
+            type: 'GET',
+            data: { page: 3 },
+            success: function (e)  {
+
+                for (var key of Object.keys(e)) {
+
+                     var t = '       <tr> '+
+                                '       <th scope="row">'+
+                                        '    <div class="media align-items-center">' +
+                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
+                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
+                                             '   </a>' +
+                                         '       <div class="media-body">' +
+                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
+                                            '    </div>' +
+                                         '   </div>' +
+                                     '   </th>' +
+                                       ' <td>' +
+                                      '      $2,500 USD' +
+                                     '   </td>' +
+                                     '   <td>' +
+                                       '     <span class="badge badge-dot mr-4">' +
+                                           '    <i class="bg-warning"></i> pending' +
+                                         '   </span>' +
+                                    '    </td>' +
+                                     '   <td>' +
+                                      '      <div class="avatar-group">' +
+                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                                           '     </a>' +
+                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                                            '    </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                                             '   </a>' +
+                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                                              '  </a>' +
+                                         '   </div>' +
+                                     '   </td>' +
+                                       ' <td>' +
+                                          '  <div class="d-flex align-items-center">' +
+                                             '   <span class="mr-2">60%</span>' +
+                                             '   <div>' +
+                                                 '   <div class="progress">' +
+                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                                                   ' </div>' +
+                                             '   </div>' +
+                                           ' </div>' +
+                                       ' </td>' +
+                                       ' <td class="text-right">' +
+                                          '  <div class="dropdown">' +
+                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                                 '   <i class="fas fa-ellipsis-v"></i>' +
+                                            '    </a>' +
+                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                                              '      <a class="dropdown-item" href="#">Action</a>' +
+                                             '       <a class="dropdown-item" href="#">Another action</a>' +
+                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
+                                '      </div>' +
+                                    '     </div>' +
+                                    '    </td>' +
+                '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                   $('.tableData').html(fullTable);
+
+            }
+
+        });
+    }
+
+
+
+
+</script>
+
