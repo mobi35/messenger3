@@ -15,6 +15,8 @@ namespace Messenger_Thesis_1._0.Data.Model
         public string Email { get; set; }
         public string Password { get; set; }
         [NotMapped]
+        public string ConfirmPassword { get; set; }
+        [NotMapped]
         public IFormFile Image { get; set; }
         public string ImageName { get; set; }
 
@@ -22,6 +24,8 @@ namespace Messenger_Thesis_1._0.Data.Model
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
+
+        public string Gender { get; set; }
         public DateTime BirthDate { get; set; }
 
         public string Role { get; set; }

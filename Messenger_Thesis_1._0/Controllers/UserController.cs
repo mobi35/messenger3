@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using System.Net.Mail;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
@@ -69,10 +70,70 @@ namespace Messenger_Thesis_1._0.Controllers
             return Json(sortedUser);
         }
 
+
+        public bool IsValidEmail(string emailaddress)
+        {
+            try
+            {
+                MailAddress m = new MailAddress(emailaddress);
+
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
         [HttpPost]
 
         public string SendRegisteredData( User user)
         {
+            List<string> errors = new List<string>();
+            if(user.Email == null)
+                errors.Add("no_email");
+            else if (!IsValidEmail(user.Email))
+                errors.Add("invalid_email");
+            else if(_userRepo.FindUser(a => a.Email == user.Email) != null)
+                errors.Add("existing_email");
+
+            if (user.Password ==  null|| user.ConfirmPassword == null)
+                errors.Add("no_password");
+            else if (user.ConfirmPassword != user.Password)
+                errors.Add("password_not_match");
+             
+
+            if (user.FirstName == null)
+                errors.Add("firstname_required");
+            else if (user.FirstName.Any(char.IsDigit) ) 
+                errors.Add("firstname_not_letter");
+            else if (user.FirstName.Length > 50)
+                errors.Add("firstname_max_letter");
+
+            if (user.LastName == null)
+                errors.Add("lastname_required");
+            else if (user.LastName.Any(char.IsDigit))
+                errors.Add("lastname_not_letter");
+            else if (user.LastName.Length > 50)
+                errors.Add("lastname_max_letter");
+
+
+            int birthdayDifference = DateTime.Now.Year - user.BirthDate.Year;
+            if (user.BirthDate.Year == 0001)
+                errors.Add("no_birthdate");
+           else  if (birthdayDifference <= 17 )
+                errors.Add("invalid_birthdate");
+
+            if (user.Image == null)
+                errors.Add("no_picture");
+
+
+            if (errors.Count != 0)
+            {
+                string errorList = string.Join(",", errors);
+                return errorList;
+            }
+
 
             if (user.Image != null)
             {
@@ -85,7 +146,7 @@ namespace Messenger_Thesis_1._0.Controllers
             _userRepo.Create(user);
 
 
-            return "burat"+ user.Email;
+            return "";
         }
 
 

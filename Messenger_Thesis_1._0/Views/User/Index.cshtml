@@ -46,13 +46,15 @@
                                                     <small>Account information</small>
                                                 </div>
                                                 <form role="form" id="registration" enctype="multipart/form-data">
-                                                    <div class="form-group mb-3">
+                                                    <div id="parentEmail" class="form-group mb-3">
                                                         <div class="input-group input-group-alternative">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-email-83"></i></span>
                                                             </div>
                                                             <input id="email" class="form-control" placeholder="Email" type="email">
                                                         </div>
+
+                                                        <small class="emailValidation" style="color:#f5365c"></small>
                                                     </div>
                                                     <div id="parentPassword" class="form-group">
                                                         <div class="input-group input-group-alternative">
@@ -75,54 +77,53 @@
                                                     </div>
 
 
-                                                 
-                                                  
+
+
 
                                                     <div class="text-center text-muted mb-4">
                                                         <small>Personal information</small>
                                                     </div>
 
-                                                    <div class="form-group mb-4">
+                                                    <div id="parentFirstName" class="form-group mb-4">
                                                         <div class="input-group input-group-alternative">
 
                                                             <input id="first-name" class="form-control" placeholder="First Name" type="text">
                                                         </div>
+                                                        <small class="firstNameValidation" style="color:#f5365c"></small>
                                                     </div>
 
-                                                    <div class="form-group mb-4">
+                                                    <div id="parentLastName" class="form-group mb-4">
                                                         <div class="input-group input-group-alternative">
                                                             <input id="last-name" class="form-control" placeholder="Last Name" type="text">
                                                         </div>
+                                                        <small class="lastNameValidation" style="color:#f5365c"></small>
                                                     </div>
 
-                                                    <div class="form-group">
+                                                    <div id="parentBirthdate" class="form-group">
                                                         <div class="input-group  input-group-alternative   ">
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                                             </div>
                                                             <input id="birth-date" class="form-control datepicker" placeholder="Birthdate" type="text">
                                                         </div>
+                                                        <small class="birthdateValidation" style="color:#f5365c"></small>
                                                     </div>
 
 
-
-
-                                                    <div class="input-group     ">
-                                                        <div class="input-group-prepend">
-                                                            <div class="custom-control custom-radio mb-3">
-                                                                <input name="custom-radio-1" class="custom-control-input" id="gender-male" type="radio">
-                                                                <label class="custom-control-label" for="customRadio1">Male</label>
-                                                            </div> &nbsp;&nbsp;&nbsp;
-                                                            <div class="custom-control custom-radio mb-3">
-                                                                <input name="custom-radio-1" class="custom-control-input" id="gender-female" checked="" type="radio">
-                                                                <label class="custom-control-label" for="customRadio2">Female</label>
-                                                            </div>
-                                                        </div>
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="custom-radio-1" class="custom-control-input" id="customRadio1" checked="" value="male" type="radio">
+                                                        <label class="custom-control-label" for="customRadio1">Male</label>
                                                     </div>
+                                                    <div class="custom-control custom-radio mb-3">
+                                                        <input name="custom-radio-1" class="custom-control-input" id="customRadio2"  value="female"  type="radio">
+                                                        <label class="custom-control-label" for="customRadio2">Female</label>
+                                                    </div>
+                                                
+
+
                                                     <div class="form-group">
                                                         <div class="input-group input-group-alternative">
                                                             <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                                                <option>Select Position</option>
                                                                 <option>Accountant</option>
                                                                 <option>Admin</option>
                                                                 <option>Messenger</option>
@@ -132,10 +133,11 @@
                                                     </div>
 
 
-                                                    <div class="form-group">
+                                                    <div id="parentFileinput" class="form-group">
                                                         <div class="input-group input-group-alternative">
                                                             <input type="file" id="fileInput" class="form-control form-control" />
                                                         </div>
+                                                        <small class="fileinputValidation" style="color:#f5365c"></small>
                                                     </div>
 
 
@@ -218,6 +220,7 @@
 
 <script>
 
+
      GetAllUser(1);
   
 
@@ -235,21 +238,18 @@
         var birthDate = $('#birth-date').val();
         var role = $('#role').val();
 
-
-   
-        if (password != cpassword) {
-            $('#parentPassword').addClass('has-danger');
-            $('#parentCPassword').addClass('has-danger');
-          
-            $('.passwordValidation').html("Your password doesn't match.")
-      
-            return false;
-        } else if (password == "" || cpassword == "") {
-              $('#parentPassword').addClass('has-danger');
-            $('#parentCPassword').addClass('has-danger');
-             $('.passwordValidation').html("Please input your password")
-            return false;
+        var gender = "";
+        if ($('#customRadio1').is(':checked')) {
+            gender = "male";
+        } else {
+            gender = "female";
         }
+   
+      
+       
+
+      
+    
 
 
         for (i = 0; i < fileInput.files.length; i++) {
@@ -258,18 +258,110 @@
         formdata.append("Email", email);
         formdata.append("Password", password);
         formdata.append("FirstName", firstName);
+         formdata.append("ConfirmPassword", cpassword);
         formdata.append("LastName", lastName);
+          formdata.append("Gender", gender);
         formdata.append("BirthDate", birthDate);
         formdata.append("Role", role);
-
+            $('#submit').disabled = true;
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/User/SendRegisteredData');
         xhr.send(formdata);
 
 
-           $('#submit').disabled = true;
+
+       
         xhr.onreadystatechange = function () {
+         
+
             if (xhr.readyState == 4 && xhr.status == 200) {
+
+                if (xhr.responseText.split(',').includes("no_password")) {
+                      $('#parentPassword').addClass('has-danger');
+                    $('#parentCPassword').addClass('has-danger');
+                       $('.passwordValidation').html("Please input your password");
+                 }  else if (xhr.responseText.split(',').includes("password_not_match")) {
+                    $('#parentPassword').addClass('has-danger');
+                    $('#parentCPassword').addClass('has-danger');
+                       $('.passwordValidation').html("Your password doesn't match.");
+                  }  else {
+                       $('#parentPassword').addClass("has-success");
+                       $('#parentCPassword').addClass("has-success");
+                        $('#parentPassword').removeClass("has-danger");
+                       $('#parentCPassword').removeClass("has-danger");
+                       $('.passwordValidation').html("");
+                }
+
+                if (xhr.responseText.split(',').includes("firstname_required")) {
+                    $('#parentFirstName').addClass('has-danger');
+                       $('.firstNameValidation').html("Please write your first name");
+                  } else  if (xhr.responseText.split(',').includes("firstname_not_letter")) {
+                    $('#parentFirstName').addClass('has-danger');
+                       $('.firstNameValidation').html("Invalid character");
+                  } else  if (xhr.responseText.split(',').includes("firstname_max_letter")) {
+                    $('#parentFirstName').addClass('has-danger');
+                       $('.firstNameValidation').html("Maximum of 50 characters only");
+                } else {
+                      $('#parentFirstName').removeClass("has-danger");
+                      $('#parentFirstName').addClass("has-success");
+                    $('.firstNameValidation').html("");
+                }
+
+                 if (xhr.responseText.split(',').includes("lastname_required")) {
+                    $('#parentLastName').addClass('has-danger');
+                       $('.lastNameValidation').html("Please write your last name");
+                  } else  if (xhr.responseText.split(',').includes("lastname_not_letter")) {
+                    $('#parentLastName').addClass('has-danger');
+                       $('.lastNameValidation').html("Invalid character");
+                  } else  if (xhr.responseText.split(',').includes("lastname_max_letter")) {
+                    $('#parentLastName').addClass('has-danger');
+                       $('.lastNameValidation').html("Maximum of 50 characters only");
+                 } else {
+                        $('#parentLastName').removeClass("has-danger");
+                      $('#parentLastName').addClass("has-success");
+                    $('.lastNameValidation').html("");
+                }
+
+
+                  if (xhr.responseText.split(',').includes("no_birthdate")) {
+                    $('#parentBirthdate').addClass('has-danger');
+                       $('.birthdateValidation').html("Please choose your birthdate");
+                  }else  if (xhr.responseText.split(',').includes("invalid_birthdate")) {
+                    $('#parentBirthdate').addClass('has-danger');
+                       $('.birthdateValidation').html("You should be 18 years old to register");
+                  }else {
+                      $('#parentBirthdate').removeClass("has-danger");
+                      $('#parentBirthdate').addClass("has-success");
+                    $('.birthdateValidation').html("");
+                }
+
+                 if (xhr.responseText.split(',').includes("no_picture")) {
+                    $('#parentFileinput').addClass('has-danger');
+                       $('.fileinputValidation').html("Please upload your picture");
+                  }else {
+                     $('#parentFileinput').addClass("has-success");
+                       $('#parentFileinput').removeClass('has-danger');
+                    $('.fileinputValidation').html("");
+                }
+
+
+                 if (xhr.responseText.split(',').includes("no_email") ) {
+                    $('#parentEmail').addClass("has-danger");
+                    $('.emailValidation').html("Email is required.");
+                }else  if (xhr.responseText.split(',').includes("invalid_email") ) {
+                    $('#parentEmail').addClass("has-danger");
+                    $('.emailValidation').html("This is not a valid email.");
+                } 
+               else if (xhr.responseText.split(',').includes("existing_email") ) {
+                    $('#parentEmail').addClass("has-danger");
+                    $('.emailValidation').html("Email is already taken");
+                } else {
+                     $('#parentEmail').addClass("has-success");
+                       $('#parentEmail').removeClass("has-danger");
+                    $('.emailValidation').html("");
+                }
+
+                if (xhr.responseText == "") {
                 $('#RegistrationForm').hide();
                 Swal.fire(
                     'Good job!',
@@ -278,6 +370,8 @@
                 );
                      $('#submit').disabled = false;
                 GetAllUser();
+                 }
+
             }
         }   
 
