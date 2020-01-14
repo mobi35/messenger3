@@ -5,17 +5,37 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Messenger_Thesis_1._0.Models;
+using Messenger_Thesis_1._0.Data.Model.Interface;
+using Messenger_Thesis_1._0.Data.Model;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
     public class HomeController : Controller
     {
+
         public IActionResult Index()
         {
             return View();
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+     
+
+        public IActionResult Services()
         {
             return View();
         }

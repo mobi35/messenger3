@@ -89,6 +89,11 @@ namespace Messenger_Thesis_1._0.Controllers
         }
 
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
     
 
 

@@ -31,7 +31,10 @@ namespace Messenger_Thesis_1._0
             services.AddDbContext<MessengerDBContext>(options => options.UseInMemoryDatabase("MessengerDBContext"));
       //      services.AddDbContext<MessengerDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             services.AddScoped<IUserRepository, UserRepository>();
-
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<ILetterRepository, LetterRepository>();
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IClientRepository, ClientRepository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.

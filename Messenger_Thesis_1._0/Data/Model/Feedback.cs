@@ -11,6 +11,7 @@ namespace Messenger_Thesis_1._0.Data.Model
         [Key]
         public int FeedbackID { get; set; }
         public string Name { get; set; }
+        public string Subject { get; set; }
         public string Message { get; set; }
         public int Rating { get; set; }
         public DateTime DateFeedbacked { get; set; }
