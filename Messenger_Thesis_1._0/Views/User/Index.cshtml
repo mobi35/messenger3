@@ -4,6 +4,99 @@
     ViewData["Title"] = "list";
     Layout = "_Admin";
 }
+<div class="modal fade" id="edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+<div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+
+    <div class="modal-content">
+        <div id="UpdateForm">
+            <div class="modal-body p-0">
+
+                <div class="card bg-secondary shadow border-0">
+                    <div class="card-header bg-white pb-3">
+
+                        <div class="btn-wrapper text-center">
+                            <h3>Update User</h3>
+                        </div>
+                    </div>
+                    <div class="card-body px-lg-5 py-lg-3">
+                        <div class="text-center text-muted mb-4">
+                            <small>Account information</small>
+                        </div>
+                        <form role="form" id="update-registration" enctype="multipart/form-data">
+                            <input type="hidden" id="userId"/>
+                            <div id="update_parentPassword" class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input id="update_password" class="form-control" placeholder="Password" type="password">
+                                </div>
+                            </div>
+
+                            <div id="update_parentCPassword" class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input id="update_cpassword" class="form-control" placeholder="Confirm password" type="password">
+                                </div>
+
+                                <small class="update_passwordValidation" style="color:#f5365c"></small>
+                            </div>
+
+                            <div class="text-center text-muted mb-4">
+                                <small>Personal information</small>
+                            </div>
+
+                            <div id="update_parentFirstName" class="form-group mb-4">
+                                <div class="input-group input-group-alternative">
+
+                                    <input id="update_first-name" class="form-control" placeholder="First Name" type="text">
+                                </div>
+                                <small class="update_firstNameValidation" style="color:#f5365c"></small>
+                            </div>
+
+                            <div id="update_parentLastName" class="form-group mb-4">
+                                <div class="input-group input-group-alternative">
+                                    <input id="update_last-name" class="form-control" placeholder="Last Name" type="text">
+                                </div>
+                                <small class="update_lastNameValidation" style="color:#f5365c"></small>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <select id="update_role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                        <option>Accountant</option>
+                                        <option>Admin</option>
+                                        <option>Messenger</option>
+                                        <option>Customer Representative</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div id="update_parentFileinput" class="form-group">
+                                <div class="input-group input-group-alternative">
+                                    <input type="file" id="update_fileInput" class="form-control form-control" />
+                                </div>
+                                <small class="update_fileinputValidation" style="color:#f5365c"></small>
+                            </div>
+
+
+                            <div class="text-center">
+                                <button  class="btn btn-primary my-4" id="update-submit"></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+ </div>
+
+
+
 <div class="container-fluid mt--7">
 
 
@@ -26,137 +119,137 @@
                         <button type="button" onclick="AddUserClick()" class="btn btn-block" data-toggle="modal" data-target="#modal-form">Add user</button>
                         <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
                             <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
-                               
-                                
+
+
                                 <div class="modal-content">
-                    <div id="RegistrationForm">
-                                    <div class="modal-body p-0">
+                                    <div id="RegistrationForm">
+                                        <div class="modal-body p-0">
 
 
-                                        <div class="card bg-secondary shadow border-0">
-                                            <div class="card-header bg-white pb-3">
+                                            <div class="card bg-secondary shadow border-0">
+                                                <div class="card-header bg-white pb-3">
 
-                                                <div class="btn-wrapper text-center">
-                                                    <h3>Add new user</h3>
+                                                    <div class="btn-wrapper text-center">
+                                                        <h3>Add new user</h3>
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body px-lg-5 py-lg-3">
-                                                <div class="text-center text-muted mb-4">
-                                                    <small>Account information</small>
-                                                </div>
-                                                <form role="form" id="registration" enctype="multipart/form-data">
-                                                    <div id="parentEmail" class="form-group mb-3">
-                                                        <div class="input-group input-group-alternative">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text"><i class="ni ni-email-83"></i></span>
-                                                            </div>
-                                                            <input id="email" class="form-control" placeholder="Email" type="email">
-                                                        </div>
-
-                                                        <small class="emailValidation" style="color:#f5365c"></small>
-                                                    </div>
-                                                    <div id="parentPassword" class="form-group">
-                                                        <div class="input-group input-group-alternative">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                                            </div>
-                                                            <input id="password" class="form-control" placeholder="Password" type="password">
-                                                        </div>
-                                                    </div>
-
-                                                    <div id="parentCPassword" class="form-group">
-                                                        <div class="input-group input-group-alternative">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                                            </div>
-                                                            <input id="cpassword" class="form-control" placeholder="Confirm password" type="password">
-                                                        </div>
-
-                                                        <small class="passwordValidation" style="color:#f5365c"></small>
-                                                    </div>
-
-
-
-
-
+                                                <div class="card-body px-lg-5 py-lg-3">
                                                     <div class="text-center text-muted mb-4">
-                                                        <small>Personal information</small>
+                                                        <small>Account information</small>
                                                     </div>
-
-                                                    <div id="parentFirstName" class="form-group mb-4">
-                                                        <div class="input-group input-group-alternative">
-
-                                                            <input id="first-name" class="form-control" placeholder="First Name" type="text">
-                                                        </div>
-                                                        <small class="firstNameValidation" style="color:#f5365c"></small>
-                                                    </div>
-
-                                                    <div id="parentLastName" class="form-group mb-4">
-                                                        <div class="input-group input-group-alternative">
-                                                            <input id="last-name" class="form-control" placeholder="Last Name" type="text">
-                                                        </div>
-                                                        <small class="lastNameValidation" style="color:#f5365c"></small>
-                                                    </div>
-
-                                                    <div id="parentBirthdate" class="form-group">
-                                                        <div class="input-group  input-group-alternative   ">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                    <form role="form" id="registration" enctype="multipart/form-data">
+                                                        <div id="parentEmail" class="form-group mb-3">
+                                                            <div class="input-group input-group-alternative">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                                                </div>
+                                                                <input id="email" class="form-control" placeholder="Email" type="email">
                                                             </div>
-                                                            <input id="birth-date" class="form-control datepicker" placeholder="Birthdate" type="text">
+
+                                                            <small class="emailValidation" style="color:#f5365c"></small>
                                                         </div>
-                                                        <small class="birthdateValidation" style="color:#f5365c"></small>
-                                                    </div>
-
-
-                                                    <div class="custom-control custom-radio mb-3">
-                                                        <input name="custom-radio-1" class="custom-control-input" id="customRadio1" checked="" value="male" type="radio">
-                                                        <label class="custom-control-label" for="customRadio1">Male</label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio mb-3">
-                                                        <input name="custom-radio-1" class="custom-control-input" id="customRadio2"  value="female"  type="radio">
-                                                        <label class="custom-control-label" for="customRadio2">Female</label>
-                                                    </div>
-                                                
-
-
-                                                    <div class="form-group">
-                                                        <div class="input-group input-group-alternative">
-                                                            <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                                                <option>Accountant</option>
-                                                                <option>Admin</option>
-                                                                <option>Messenger</option>
-                                                                <option>Customer Representative</option>
-                                                            </select>
+                                                        <div id="parentPassword" class="form-group">
+                                                            <div class="input-group input-group-alternative">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                </div>
+                                                                <input id="password" class="form-control" placeholder="Password" type="password">
+                                                            </div>
                                                         </div>
-                                                    </div>
 
+                                                        <div id="parentCPassword" class="form-group">
+                                                            <div class="input-group input-group-alternative">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                </div>
+                                                                <input id="cpassword" class="form-control" placeholder="Confirm password" type="password">
+                                                            </div>
 
-                                                    <div id="parentFileinput" class="form-group">
-                                                        <div class="input-group input-group-alternative">
-                                                            <input type="file" id="fileInput" class="form-control form-control" />
+                                                            <small class="passwordValidation" style="color:#f5365c"></small>
                                                         </div>
-                                                        <small class="fileinputValidation" style="color:#f5365c"></small>
-                                                    </div>
 
 
 
 
-                                                    <div class="text-center">
-                                                        <input type="submit" id="submit" value="Save" class="btn btn-primary my-4" />
-                                                    </div>
-                                                </form>
+
+                                                        <div class="text-center text-muted mb-4">
+                                                            <small>Personal information</small>
+                                                        </div>
+
+                                                        <div id="parentFirstName" class="form-group mb-4">
+                                                            <div class="input-group input-group-alternative">
+
+                                                                <input id="first-name" class="form-control" placeholder="First Name" type="text">
+                                                            </div>
+                                                            <small class="firstNameValidation" style="color:#f5365c"></small>
+                                                        </div>
+
+                                                        <div id="parentLastName" class="form-group mb-4">
+                                                            <div class="input-group input-group-alternative">
+                                                                <input id="last-name" class="form-control" placeholder="Last Name" type="text">
+                                                            </div>
+                                                            <small class="lastNameValidation" style="color:#f5365c"></small>
+                                                        </div>
+
+                                                        <div id="parentBirthdate" class="form-group">
+                                                            <div class="input-group  input-group-alternative   ">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                                </div>
+                                                                <input id="birth-date" class="form-control datepicker" placeholder="Birthdate" type="text">
+                                                            </div>
+                                                            <small class="birthdateValidation" style="color:#f5365c"></small>
+                                                        </div>
+
+
+                                                        <div class="custom-control custom-radio mb-3">
+                                                            <input name="custom-radio-1" class="custom-control-input" id="customRadio1" checked="" value="male" type="radio">
+                                                            <label class="custom-control-label" for="customRadio1">Male</label>
+                                                        </div>
+                                                        <div class="custom-control custom-radio mb-3">
+                                                            <input name="custom-radio-1" class="custom-control-input" id="customRadio2" value="female" type="radio">
+                                                            <label class="custom-control-label" for="customRadio2">Female</label>
+                                                        </div>
+
+
+
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-alternative">
+                                                                <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                                    <option>Accountant</option>
+                                                                    <option>Admin</option>
+                                                                    <option>Messenger</option>
+                                                                    <option>Customer Representative</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div id="parentFileinput" class="form-group">
+                                                            <div class="input-group input-group-alternative">
+                                                                <input type="file" id="fileInput" class="form-control form-control" />
+                                                            </div>
+                                                            <small class="fileinputValidation" style="color:#f5365c"></small>
+                                                        </div>
+
+
+
+
+                                                        <div class="text-center">
+                                                            <input type="submit" id="submit" value="Save" class="btn btn-primary my-4" />
+                                                        </div>
+                                                    </form>
+                                                </div>
                                             </div>
+
+
+
                                         </div>
-
-
 
                                     </div>
 
-                                </div>
 
-             
 
                                 </div>
                             </div>
@@ -173,16 +266,11 @@
                                 <th scope="col">Status</th>
                                 <th scope="col">Role</th>
 
-                                <th scope="col"></th>   
+                                <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody class="tableData">
-                         
-
-
-
-
                         </tbody>
                     </table>
                 </div>
@@ -221,20 +309,20 @@
 <script>
 
 
-     GetAllUser(1);
-  
+    GetAllUser(1);
+
 
     document.getElementById('registration').onsubmit = function () {
 
-     
+
 
         var formdata = new FormData();
         var fileInput = document.getElementById('fileInput');
         var email = $('#email').val();
         var password = $('#password').val();
-        var cpassword = $('#cpassword').val();  
-        var firstName = $('#first-name').val();  
-        var lastName = $('#last-name').val();  
+        var cpassword = $('#cpassword').val();
+        var firstName = $('#first-name').val();
+        var lastName = $('#last-name').val();
         var birthDate = $('#birth-date').val();
         var role = $('#role').val();
 
@@ -244,12 +332,6 @@
         } else {
             gender = "female";
         }
-   
-      
-       
-
-      
-    
 
 
         for (i = 0; i < fileInput.files.length; i++) {
@@ -258,134 +340,132 @@
         formdata.append("Email", email);
         formdata.append("Password", password);
         formdata.append("FirstName", firstName);
-         formdata.append("ConfirmPassword", cpassword);
+        formdata.append("ConfirmPassword", cpassword);
         formdata.append("LastName", lastName);
-          formdata.append("Gender", gender);
+        formdata.append("Gender", gender);
         formdata.append("BirthDate", birthDate);
         formdata.append("Role", role);
-            $('#submit').disabled = true;
+        $('#submit').disabled = true;
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/User/SendRegisteredData');
         xhr.send(formdata);
 
 
-
-       
         xhr.onreadystatechange = function () {
-         
+
 
             if (xhr.readyState == 4 && xhr.status == 200) {
 
                 if (xhr.responseText.split(',').includes("no_password")) {
-                      $('#parentPassword').addClass('has-danger');
-                    $('#parentCPassword').addClass('has-danger');
-                       $('.passwordValidation').html("Please input your password");
-                 }  else if (xhr.responseText.split(',').includes("password_not_match")) {
                     $('#parentPassword').addClass('has-danger');
                     $('#parentCPassword').addClass('has-danger');
-                       $('.passwordValidation').html("Your password doesn't match.");
-                  }  else {
-                       $('#parentPassword').addClass("has-success");
-                       $('#parentCPassword').addClass("has-success");
-                        $('#parentPassword').removeClass("has-danger");
-                       $('#parentCPassword').removeClass("has-danger");
-                       $('.passwordValidation').html("");
+                    $('.passwordValidation').html("Please input your password");
+                } else if (xhr.responseText.split(',').includes("password_not_match")) {
+                    $('#parentPassword').addClass('has-danger');
+                    $('#parentCPassword').addClass('has-danger');
+                    $('.passwordValidation').html("Your password doesn't match.");
+                } else {
+                    $('#parentPassword').addClass("has-success");
+                    $('#parentCPassword').addClass("has-success");
+                    $('#parentPassword').removeClass("has-danger");
+                    $('#parentCPassword').removeClass("has-danger");
+                    $('.passwordValidation').html("");
                 }
 
                 if (xhr.responseText.split(',').includes("firstname_required")) {
                     $('#parentFirstName').addClass('has-danger');
-                       $('.firstNameValidation').html("Please write your first name");
-                  } else  if (xhr.responseText.split(',').includes("firstname_not_letter")) {
+                    $('.firstNameValidation').html("Please write your first name");
+                } else if (xhr.responseText.split(',').includes("firstname_not_letter")) {
                     $('#parentFirstName').addClass('has-danger');
-                       $('.firstNameValidation').html("Invalid character");
-                  } else  if (xhr.responseText.split(',').includes("firstname_max_letter")) {
+                    $('.firstNameValidation').html("Invalid character");
+                } else if (xhr.responseText.split(',').includes("firstname_max_letter")) {
                     $('#parentFirstName').addClass('has-danger');
-                       $('.firstNameValidation').html("Maximum of 50 characters only");
+                    $('.firstNameValidation').html("Maximum of 50 characters only");
                 } else {
-                      $('#parentFirstName').removeClass("has-danger");
-                      $('#parentFirstName').addClass("has-success");
+                    $('#parentFirstName').removeClass("has-danger");
+                    $('#parentFirstName').addClass("has-success");
                     $('.firstNameValidation').html("");
                 }
 
-                 if (xhr.responseText.split(',').includes("lastname_required")) {
+                if (xhr.responseText.split(',').includes("lastname_required")) {
                     $('#parentLastName').addClass('has-danger');
-                       $('.lastNameValidation').html("Please write your last name");
-                  } else  if (xhr.responseText.split(',').includes("lastname_not_letter")) {
+                    $('.lastNameValidation').html("Please write your last name");
+                } else if (xhr.responseText.split(',').includes("lastname_not_letter")) {
                     $('#parentLastName').addClass('has-danger');
-                       $('.lastNameValidation').html("Invalid character");
-                  } else  if (xhr.responseText.split(',').includes("lastname_max_letter")) {
+                    $('.lastNameValidation').html("Invalid character");
+                } else if (xhr.responseText.split(',').includes("lastname_max_letter")) {
                     $('#parentLastName').addClass('has-danger');
-                       $('.lastNameValidation').html("Maximum of 50 characters only");
-                 } else {
-                        $('#parentLastName').removeClass("has-danger");
-                      $('#parentLastName').addClass("has-success");
+                    $('.lastNameValidation').html("Maximum of 50 characters only");
+                } else {
+                    $('#parentLastName').removeClass("has-danger");
+                    $('#parentLastName').addClass("has-success");
                     $('.lastNameValidation').html("");
                 }
 
 
-                  if (xhr.responseText.split(',').includes("no_birthdate")) {
+                if (xhr.responseText.split(',').includes("no_birthdate")) {
                     $('#parentBirthdate').addClass('has-danger');
-                       $('.birthdateValidation').html("Please choose your birthdate");
-                  }else  if (xhr.responseText.split(',').includes("invalid_birthdate")) {
+                    $('.birthdateValidation').html("Please choose your birthdate");
+                } else if (xhr.responseText.split(',').includes("invalid_birthdate")) {
                     $('#parentBirthdate').addClass('has-danger');
-                       $('.birthdateValidation').html("You should be 18 years old to register");
-                  }else {
-                      $('#parentBirthdate').removeClass("has-danger");
-                      $('#parentBirthdate').addClass("has-success");
+                    $('.birthdateValidation').html("You should be 18 years old to register");
+                } else {
+                    $('#parentBirthdate').removeClass("has-danger");
+                    $('#parentBirthdate').addClass("has-success");
                     $('.birthdateValidation').html("");
                 }
 
-                 if (xhr.responseText.split(',').includes("no_picture")) {
+                if (xhr.responseText.split(',').includes("no_picture")) {
                     $('#parentFileinput').addClass('has-danger');
-                       $('.fileinputValidation').html("Please upload your picture");
-                  }else {
-                     $('#parentFileinput').addClass("has-success");
-                       $('#parentFileinput').removeClass('has-danger');
+                    $('.fileinputValidation').html("Please upload your picture");
+                } else {
+                    $('#parentFileinput').addClass("has-success");
+                    $('#parentFileinput').removeClass('has-danger');
                     $('.fileinputValidation').html("");
                 }
 
 
-                 if (xhr.responseText.split(',').includes("no_email") ) {
+                if (xhr.responseText.split(',').includes("no_email")) {
                     $('#parentEmail').addClass("has-danger");
                     $('.emailValidation').html("Email is required.");
-                }else  if (xhr.responseText.split(',').includes("invalid_email") ) {
+                } else if (xhr.responseText.split(',').includes("invalid_email")) {
                     $('#parentEmail').addClass("has-danger");
                     $('.emailValidation').html("This is not a valid email.");
-                } 
-               else if (xhr.responseText.split(',').includes("existing_email") ) {
+                }
+                else if (xhr.responseText.split(',').includes("existing_email")) {
                     $('#parentEmail').addClass("has-danger");
                     $('.emailValidation').html("Email is already taken");
                 } else {
-                     $('#parentEmail').addClass("has-success");
-                       $('#parentEmail').removeClass("has-danger");
+                    $('#parentEmail').addClass("has-success");
+                    $('#parentEmail').removeClass("has-danger");
                     $('.emailValidation').html("");
                 }
 
                 if (xhr.responseText == "") {
-                $('#RegistrationForm').hide();
-                Swal.fire(
-                    'Good job!',
-                    'You clicked the button!',
-                    'success'
-                );
-                     $('#submit').disabled = false;
-                GetAllUser();
-                 }
+                    $('#RegistrationForm').hide();
+                    Swal.fire(
+                        'Good job!',
+                        'You clicked the button!',
+                        'success'
+                    );
+                    $('#submit').disabled = false;
+                    GetAllUser();
+                }
 
             }
-        }   
+        }
 
         return false;
     }
 
     function AddUserClick() {
-         $('#RegistrationForm').show();
+        $('#RegistrationForm').show();
     }
-    
 
-     function GetAllUser(page) {
-        
-          var fullTable = "";
+
+    function GetAllUser(page) {
+
+        var fullTable = "";
         $.ajax({
 
             url: '/User/GetUserList',
@@ -395,51 +475,49 @@
 
                 for (var key of Object.keys(e)) {
 
-                     var t = '       <tr> '+
-                                '       <th scope="row">'+
-                                        '    <div class="media align-items-center">' +
-                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
-                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
-                                             '   </a>' +
-                                         '       <div class="media-body">' +
-                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
-                                            '    </div>' +
-                                         '   </div>' +
-                                     '   </th>' +
-                                       ' <td>' +
-                                      '  ' + e[key].email + ''+
-                                     '   </td>' +
-                                     '   <td>' +
-                                       '     <span class="badge badge-dot mr-4">' +
-                                           '    <i class="bg-warning"></i> pending' +
-                                         '   </span>' +
-                                    '    </td>' +
-                                     '   <td>' +
-                                    e[key].role +
-                                     '   </td>' +
-                                       ' <td>' +
-                                          '  <div class="d-flex align-items-center">' +
-                                             '   <span class="mr-2">60%</span>' +
-                                             '   <div>' +
-                                                 '   <div class="progress">' +
-                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
-                                                   ' </div>' +
-                                             '   </div>' +
-                                           ' </div>' +
-                                       ' </td>' +
-                                       ' <td class="text-right">' +
-                                          '  <div class="dropdown">' +
-                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                                                 '   <i class="fas fa-ellipsis-v"></i>' +
-                                            '    </a>' +
-                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                                              '      <a class="dropdown-item" href="#">Action</a>' +
-                                             '       <a class="dropdown-item" href="#">Another action</a>' +
-                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
-                                '      </div>' +
-                                    '     </div>' +
-                                    '    </td>' +
-                '  </tr>';
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '  ' + e[key].email + '' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        e[key].role +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <button type="button" onclick="GetUser(' + e[key].userID + ')" class="btn btn-block" data-toggle="modal" data-target="#edit-user">manage</button>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
 
                     fullTable += t;
 
@@ -447,84 +525,84 @@
 
                 }
 
-                   $('.tableData').html(fullTable);
+                $('.tableData').html(fullTable);
 
             }
 
         });
     }
 
- 
+
 
     function Page1() {
-      var fullTable = "";
+        var fullTable = "";
         $.ajax({
 
-               url: '/User/GetUserList',
+            url: '/User/GetUserList',
             type: 'GET',
             data: { page: 1 },
-            success: function (e)  {
+            success: function (e) {
 
                 for (var key of Object.keys(e)) {
 
-                     var t = '       <tr> '+
-                                '       <th scope="row">'+
-                                        '    <div class="media align-items-center">' +
-                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
-                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
-                                             '   </a>' +
-                                         '       <div class="media-body">' +
-                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
-                                            '    </div>' +
-                                         '   </div>' +
-                                     '   </th>' +
-                                       ' <td>' +
-                                      '      $2,500 USD' +
-                                     '   </td>' +
-                                     '   <td>' +
-                                       '     <span class="badge badge-dot mr-4">' +
-                                           '    <i class="bg-warning"></i> pending' +
-                                         '   </span>' +
-                                    '    </td>' +
-                                     '   <td>' +
-                                      '      <div class="avatar-group">' +
-                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
-                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
-                                           '     </a>' +
-                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
-                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
-                                            '    </a>' +
-                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
-                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
-                                             '   </a>' +
-                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
-                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
-                                              '  </a>' +
-                                         '   </div>' +
-                                     '   </td>' +
-                                       ' <td>' +
-                                          '  <div class="d-flex align-items-center">' +
-                                             '   <span class="mr-2">60%</span>' +
-                                             '   <div>' +
-                                                 '   <div class="progress">' +
-                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
-                                                   ' </div>' +
-                                             '   </div>' +
-                                           ' </div>' +
-                                       ' </td>' +
-                                       ' <td class="text-right">' +
-                                          '  <div class="dropdown">' +
-                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                                                 '   <i class="fas fa-ellipsis-v"></i>' +
-                                            '    </a>' +
-                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                                              '      <a class="dropdown-item" href="#">Action</a>' +
-                                             '       <a class="dropdown-item" href="#">Another action</a>' +
-                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
-                                '      </div>' +
-                                    '     </div>' +
-                                    '    </td>' +
-                '  </tr>';
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '      $2,500 USD' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        '      <div class="avatar-group">' +
+                        '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                        '     </a>' +
+                        ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                        '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                        '    </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                        '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                        '   </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                        '  </a>' +
+                        '   </div>' +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <div class="progress">' +
+                        '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                        ' </div>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
 
                     fullTable += t;
 
@@ -532,7 +610,7 @@
 
                 }
 
-                   $('.tableData').html(fullTable);
+                $('.tableData').html(fullTable);
 
             }
 
@@ -540,76 +618,76 @@
 
     }
 
-    
+
     function Page2() {
-     var fullTable = "";
+        var fullTable = "";
         $.ajax({
 
-               url: '/User/GetUserList',
+            url: '/User/GetUserList',
             type: 'GET',
             data: { page: 2 },
-            success: function (e)  {
+            success: function (e) {
 
                 for (var key of Object.keys(e)) {
 
-                     var t = '       <tr> '+
-                                '       <th scope="row">'+
-                                        '    <div class="media align-items-center">' +
-                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
-                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
-                                             '   </a>' +
-                                         '       <div class="media-body">' +
-                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
-                                            '    </div>' +
-                                         '   </div>' +
-                                     '   </th>' +
-                                       ' <td>' +
-                                      '      $2,500 USD' +
-                                     '   </td>' +
-                                     '   <td>' +
-                                       '     <span class="badge badge-dot mr-4">' +
-                                           '    <i class="bg-warning"></i> pending' +
-                                         '   </span>' +
-                                    '    </td>' +
-                                     '   <td>' +
-                                      '      <div class="avatar-group">' +
-                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
-                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
-                                           '     </a>' +
-                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
-                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
-                                            '    </a>' +
-                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
-                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
-                                             '   </a>' +
-                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
-                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
-                                              '  </a>' +
-                                         '   </div>' +
-                                     '   </td>' +
-                                       ' <td>' +
-                                          '  <div class="d-flex align-items-center">' +
-                                             '   <span class="mr-2">60%</span>' +
-                                             '   <div>' +
-                                                 '   <div class="progress">' +
-                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
-                                                   ' </div>' +
-                                             '   </div>' +
-                                           ' </div>' +
-                                       ' </td>' +
-                                       ' <td class="text-right">' +
-                                          '  <div class="dropdown">' +
-                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                                                 '   <i class="fas fa-ellipsis-v"></i>' +
-                                            '    </a>' +
-                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                                              '      <a class="dropdown-item" href="#">Action</a>' +
-                                             '       <a class="dropdown-item" href="#">Another action</a>' +
-                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
-                                '      </div>' +
-                                    '     </div>' +
-                                    '    </td>' +
-                '  </tr>';
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '      $2,500 USD' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        '      <div class="avatar-group">' +
+                        '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                        '     </a>' +
+                        ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                        '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                        '    </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                        '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                        '   </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                        '  </a>' +
+                        '   </div>' +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <div class="progress">' +
+                        '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                        ' </div>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
 
                     fullTable += t;
 
@@ -617,83 +695,83 @@
 
                 }
 
-                   $('.tableData').html(fullTable);
+                $('.tableData').html(fullTable);
 
             }
 
         });
     }
 
-    
+
     function Page3() {
         var fullTable = "";
         $.ajax({
 
-               url: '/User/GetUserList',
+            url: '/User/GetUserList',
             type: 'GET',
             data: { page: 3 },
-            success: function (e)  {
+            success: function (e) {
 
                 for (var key of Object.keys(e)) {
 
-                     var t = '       <tr> '+
-                                '       <th scope="row">'+
-                                        '    <div class="media align-items-center">' +
-                                          '      <a href="#" class="avatar rounded-circle mr-3">' +
-                                               '     <img alt="Image placeholder" style="height:50px;" src="../Images/'+e[key].imageName +'   ">' +
-                                             '   </a>' +
-                                         '       <div class="media-body">' +
-                                         '   <span class="mb-0 text-sm">  '+ e[key].firstName+ " " + e[key].lastName+  ' </span>' +
-                                            '    </div>' +
-                                         '   </div>' +
-                                     '   </th>' +
-                                       ' <td>' +
-                                      '      $2,500 USD' +
-                                     '   </td>' +
-                                     '   <td>' +
-                                       '     <span class="badge badge-dot mr-4">' +
-                                           '    <i class="bg-warning"></i> pending' +
-                                         '   </span>' +
-                                    '    </td>' +
-                                     '   <td>' +
-                                      '      <div class="avatar-group">' +
-                                             '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
-                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
-                                           '     </a>' +
-                                               ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
-                                                 '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
-                                            '    </a>' +
-                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
-                                                  '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
-                                             '   </a>' +
-                                            '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
-                                               '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
-                                              '  </a>' +
-                                         '   </div>' +
-                                     '   </td>' +
-                                       ' <td>' +
-                                          '  <div class="d-flex align-items-center">' +
-                                             '   <span class="mr-2">60%</span>' +
-                                             '   <div>' +
-                                                 '   <div class="progress">' +
-                                                     '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
-                                                   ' </div>' +
-                                             '   </div>' +
-                                           ' </div>' +
-                                       ' </td>' +
-                                       ' <td class="text-right">' +
-                                          '  <div class="dropdown">' +
-                                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                                                 '   <i class="fas fa-ellipsis-v"></i>' +
-                                            '    </a>' +
-                                             '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                                              '      <a class="dropdown-item" href="#">Action</a>' +
-                                             '       <a class="dropdown-item" href="#">Another action</a>' +
-                                           '         <a class="dropdown-item" href="#">Something else here</a> '+
-                                '      </div>' +
-                                    '     </div>' +
-                                    '    </td>' +
-                '  </tr>';
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '      $2,500 USD' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        '      <div class="avatar-group">' +
+                        '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                        '     </a>' +
+                        ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                        '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                        '    </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                        '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                        '   </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                        '  </a>' +
+                        '   </div>' +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <div class="progress">' +
+                        '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                        ' </div>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
 
                     fullTable += t;
 
@@ -701,7 +779,7 @@
 
                 }
 
-                   $('.tableData').html(fullTable);
+                $('.tableData').html(fullTable);
 
             }
 
@@ -709,7 +787,52 @@
     }
 
 
+    function GetUser(id) {
 
+        $.ajax({
+
+            url: '/User/GetUserDetails',
+            type: 'POST',
+            data: { id : id },
+            success: function (e) {
+
+             
+                $('#update_first-name').val(e.firstName);
+                $('#update_last-name').val(e.lastName);
+                $('#userId').val(id);
+                $('#update_role').val(e.role);
+
+
+            }
+
+        });
+    }
+
+
+    $('#update-submit').click(function () {
+
+        var fileInput = document.getElementById('update_fileInput').file;
+
+        var password = $('#update_password').val();
+        var cpassword = $('#update_cpassword').val();
+        var firstName = $('#update_first-name').val();
+        var lastName = $('#update_last-name').val();
+        var role = $('#update_role').val();
+         var userId = $('#userId').val();
+        $.ajax({
+
+            url: '/User/UpdateData',
+            type: 'POST',
+            data: {userId:userId, password:password, cpassword:cpassword,firstName : firstName, lastName : lastName,role:role , fileInput : fileInput },
+            success: function (e) {
+                alert(e);
+                GetAllUser();
+            }
+
+        });
+
+        return false;
+    });
 
 </script>
 

@@ -202,22 +202,21 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         <div class="popup_box ">
             <div class="popup_inner">
                 <h3>Login</h3>
-                <form action="#">
                     <div class="row">
-                     
-                     
                         <div class="col-xl-6">
-                            <input type="text"  placeholder="Email">
+                            <input type="text" id="email-address"  placeholder="Email">
                         </div>
                         <div class="col-xl-6">
-                            <input type="text"  placeholder="Password">
+                            <input type="password" id="password" placeholder="Password">
                         </div>
-                      
+                        <div style="font-style:italic; color:red;" class="col-xl-12">
+                            <small id="login-validation"></small>
+                        </div>
+                        <br />
                         <div class="col-xl-12">
-                            <button type="submit" class="boxed-btn3">Confirm</button>
+                            <button id="login" class="boxed-btn3">Login</button>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </form>
@@ -264,9 +263,49 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             }
 
         });
-    $(document).ready(function() {
-    $('.js-example-basic-multiple').select2();
-});
+
+
+
+
+
+        $('#login').click(function () {
+            $('#login-validation').html('');
+            var email = $('#email-address').val();
+            var password = $('#password').val();
+
+            $.ajax({
+
+                url: '/Login/Logon',
+                type: 'POST',
+                data: {email:email,password:password},
+                success: function (e) {
+
+                    if (e.split(',').includes("password_required")) {
+                        $('#login-validation').append("<br>Password is required");
+                    }
+
+                    if (e.split(',').includes("email_required")) {
+                         $('#login-validation').append("<br>Email is required");
+                    }
+                    
+                    if (e.split(',').includes("email_error")) {
+                         $('#login-validation').append("<br>Email is invalid");
+                    }
+
+                    if (e.split(',').includes("error")) {
+                         $('#login-validation').append("<br>Wrong Credentials");
+                    }
+                     alert(e);
+                    if (e == "") {
+                        alert("done");
+                    }
+
+                }
+
+            });
+
+            return false;
+        })
     </script>
 </body>
 
