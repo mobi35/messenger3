@@ -1,0 +1,624 @@
+﻿@model List<User>
+@{
+    ViewData["Title"] = "Admin - Project List";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+
+
+
+<div class="container-fluid mt--7">
+
+
+
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+
+            <div class="card shadow">
+
+
+
+
+
+                <div class="card-header border-0">
+
+
+                    <div class="col-md-3">
+                        <button type="button" onclick="AddUserClick()" class="btn btn-block" data-toggle="modal" data-target="#modal-form">Assign</button>
+                        <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+
+
+                                <div class="modal-content">
+                                    <div id="RegistrationForm">
+                                        <div class="modal-body p-0">
+
+
+                                            <div class="card bg-secondary shadow border-0">
+                                                <div class="card-header bg-white pb-3">
+
+                                                    <div class="btn-wrapper text-center">
+                                                        <h3>Assign Messenger</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body px-lg-5 py-lg-3">
+                                              
+                                                    <form role="form" id="projectForm" enctype="multipart/form-data">
+
+
+                                                        <div class="text-center text-muted mb-4">
+                                                            <small>Supply the details.</small>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-alternative">
+                                                                <select  id="update_role_admin" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                                   @{ 
+                                                                       foreach(var user in Model)
+                                                                       {
+                                                                           <option>@user.FirstName + " " + @user.LastName</option>
+                                                                       }
+                                                                   }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="text-center">
+                                                            <input type="submit" id="submit" value="Assign" class="btn btn-primary my-4" />
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Status</th>
+                                <th scope="col"></th>
+
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="tableData">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer py-4">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-end mb-0">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">
+                                    <i class="fas fa-angle-left"></i>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item active">
+                                <a onclick="Page1()" class="page-link" href="#">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a onclick="Page2()" class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li onclick="Page3()" class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fas fa-angle-right"></i>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+
+
+<script>
+
+
+    GetAllUser(1);
+
+
+    document.getElementById('projectForm').onsubmit = function () {
+
+
+
+        var formdata = new FormData();
+       
+        var projectName = $('#project-name').val();
+        var projectQuantity = $('#project-quantity').val();
+      
+       
+
+
+        formdata.append("ProjectName", projectName);
+        formdata.append("Quantity", projectQuantity);
+
+            
+        $('#submit').disabled = true;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Project/SendNewDelivery');
+        xhr.send(formdata);
+
+
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                if (xhr.responseText.split(',').includes("no_zero_quantity")) {
+                    $('#parent-project-quantity').addClass('has-danger');
+                    $('.project-quantity-validation').html("Please input quantity");
+                } else if (xhr.responseText.split(',').includes("invalid_quantity")) {
+                    $('#parent-project-quantity').addClass('has-danger');
+                    $('.project-quantity-validation').html("Number only.");
+                } else {
+                    $('#parent-project-quantity').addClass("has-success");
+                    $('#parent-project-quantity').removeClass("has-danger");
+                    $('.project-quantity-validation').html("");
+                }
+
+                if (xhr.responseText.split(',').includes("project_name_required")) {
+                    $('#parent-project-name').addClass('has-danger');
+                    $('.project-name-validation').html("Please write your first name");
+                }  else {
+                    $('#parent-project-name').removeClass("has-danger");
+                    $('#parent-project-name').addClass("has-success");
+                    $('.project-name-validation').html("");
+                }
+
+
+
+                if (xhr.responseText == "") {
+                    $('#RegistrationForm').hide();
+                    Swal.fire(
+                        'Good job!',
+                        'You clicked the button!',
+                        'success'
+                    );
+                    $('#submit').disabled = false;
+                    GetAllUser();
+                }
+
+            }
+        }
+
+        return false;
+    }
+
+    function AddUserClick() {
+        $('#RegistrationForm').show();
+    }
+
+
+    function GetAllUser(page) {
+
+        var fullTable = "";
+        $.ajax({
+
+            url: '/Project/GetProjectList',
+            type: 'GET',
+            data: { param: 1 },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].projectName  + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '  ' + e[key].quantity   + '' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                    
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                     
+                     
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                $('.tableData').html(fullTable);
+
+            }
+
+        });
+    }
+
+
+
+    function Page1() {
+        var fullTable = "";
+        $.ajax({
+
+            url: '/User/GetUserList',
+            type: 'GET',
+            data: { page: 1 },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '      $2,500 USD' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        '      <div class="avatar-group">' +
+                        '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                        '     </a>' +
+                        ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                        '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                        '    </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                        '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                        '   </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                        '  </a>' +
+                        '   </div>' +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <div class="progress">' +
+                        '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                        ' </div>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                $('.tableData').html(fullTable);
+
+            }
+
+        });
+
+    }
+
+
+    function Page2() {
+        var fullTable = "";
+        $.ajax({
+
+            url: '/User/GetUserList',
+            type: 'GET',
+            data: { page: 2 },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '      $2,500 USD' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        '      <div class="avatar-group">' +
+                        '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                        '     </a>' +
+                        ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                        '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                        '    </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                        '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                        '   </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                        '  </a>' +
+                        '   </div>' +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <div class="progress">' +
+                        '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                        ' </div>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                $('.tableData').html(fullTable);
+
+            }
+
+        });
+    }
+
+
+    function Page3() {
+        var fullTable = "";
+        $.ajax({
+
+            url: '/User/GetUserList',
+            type: 'GET',
+            data: { page: 3 },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    var t = '       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
+                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
+                        '   </a>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].firstName + " " + e[key].lastName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
+                        ' <td>' +
+                        '      $2,500 USD' +
+                        '   </td>' +
+                        '   <td>' +
+                        '     <span class="badge badge-dot mr-4">' +
+                        '    <i class="bg-warning"></i> pending' +
+                        '   </span>' +
+                        '    </td>' +
+                        '   <td>' +
+                        '      <div class="avatar-group">' +
+                        '   <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Ryan Tompson">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-1-800x800.jpg" class="rounded-circle">' +
+                        '     </a>' +
+                        ' <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Romina Hadid">' +
+                        '   <img alt="Image placeholder" src="../assets/img/theme/team-2-800x800.jpg" class="rounded-circle">' +
+                        '    </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Alexander Smith">' +
+                        '  <img alt="Image placeholder" src="../assets/img/theme/team-3-800x800.jpg" class="rounded-circle">' +
+                        '   </a>' +
+                        '    <a href="#" class="avatar avatar-sm" data-toggle="tooltip" data-original-title="Jessica Doe">' +
+                        '     <img alt="Image placeholder" src="../assets/img/theme/team-4-800x800.jpg" class="rounded-circle">' +
+                        '  </a>' +
+                        '   </div>' +
+                        '   </td>' +
+                        ' <td>' +
+                        '  <div class="d-flex align-items-center">' +
+                        '   <span class="mr-2">60%</span>' +
+                        '   <div>' +
+                        '   <div class="progress">' +
+                        '   <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>' +
+                        ' </div>' +
+                        '   </div>' +
+                        ' </div>' +
+                        ' </td>' +
+                        ' <td class="text-right">' +
+                        '  <div class="dropdown">' +
+                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '   <i class="fas fa-ellipsis-v"></i>' +
+                        '    </a>' +
+                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                        '      <a class="dropdown-item" href="#">Action</a>' +
+                        '       <a class="dropdown-item" href="#">Another action</a>' +
+                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                        '      </div>' +
+                        '     </div>' +
+                        '    </td>' +
+                        '  </tr>';
+
+                    fullTable += t;
+
+                    $('tr:first').css('background-color', 'red');
+
+                }
+
+                $('.tableData').html(fullTable);
+
+            }
+
+        });
+    }
+
+
+    function GetUser(id) {
+
+        $.ajax({
+
+            url: '/User/GetUserDetails',
+            type: 'POST',
+            data: { id : id },
+            success: function (e) {
+
+
+                $('#update_first-name').val(e.firstName);
+                $('#update_last-name').val(e.lastName);
+                $('#userId').val(id);
+                $('#update_role').val(e.role);
+
+
+            }
+
+        });
+    }
+
+
+    $('#update-submit-admin').click(function () {
+
+        var fileInput = document.getElementById('update_fileInput_admin').file;
+
+        var password = $('#update_password_admin').val();
+        var cpassword = $('#update_cpassword_admin').val();
+        var firstName = $('#update_first-name_admin').val();
+        var lastName = $('#update_last-name_admin').val();
+        var role = $('#update_role_admin').val();
+         var userId = $('#userId_admin').val();
+        $.ajax({
+
+            url: '/User/UpdateData',
+            type: 'POST',
+            data: {userId:userId, password:password, cpassword:cpassword,firstName : firstName, lastName : lastName,role:role , fileInput : fileInput },
+            success: function (e) {
+                 if (e == "password_not_match") {
+                       $('#update_parentPassword_admin').addClass('has-danger');
+                       $('#update_parentCPassword_admin').addClass('has-danger');
+                       $('.update_passwordValidation_admin').html("Please input your password");
+                }
+
+                if (e == "firstname_required") {
+                         $('#update_parentFirstName_admin').addClass('has-danger');
+                         $('.update_firstNameValidation_admin').html("Please write your first name");
+                }else if (e == "firstname_not_letter") {
+                         $('#update_parentFirstName_admin').addClass('has-danger');
+                         $('.update_firstNameValidation_admin').html("Invalid character");
+                }else if (e == "firstname_max_letter") {
+                        $('#update_parentFirstName_admin').addClass('has-danger');
+                        $('.update_firstNameValidation_admin').html("Maximum of 50 characters only");
+                }else {
+                    $('#update_parentFirstName_admin').removeClass("has-danger");
+                    $('#update_parentFirstName_admin').addClass("has-success");
+                    $('.update_firstNameValidation_admin').html("");
+                }
+
+                if (e == "lastname_required") {
+                    $('#update_parentLastName_admin').addClass('has-danger');
+                    $('.update_lastNameValidation_admin').html("Please write your last name");
+                }else  if (e == "lastname_not_letter") {
+                    $('#update_parentLastName_admin').addClass('has-danger');
+                    $('.update_lastNameValidation_admin').html("Invalid character");
+                }else  if (e == "lastname_max_letter") {
+                    $('#update_parentLastName_admin').addClass('has-danger');
+                    $('.update_lastNameValidation_admin').html("Maximum of 50 characters only");
+                }else {
+                    $('#update_parentLastName_admin').removeClass("has-danger");
+                    $('#update_parentLastName_admin').addClass("has-success");
+                    $('.update_lastNameValidation_admin').html("");
+                }
+
+
+                GetAllUser();
+            }
+
+        });
+
+        return false;
+    });
+
+</script>
+

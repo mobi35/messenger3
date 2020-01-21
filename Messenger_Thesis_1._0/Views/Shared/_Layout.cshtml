@@ -1,4 +1,5 @@
 ﻿
+
     <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -30,11 +31,11 @@
 </head>
 
 <body>
-    <!--[if lte IE 9]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-        <![endif]-->
 
-    <!-- header-start -->
+
+
+
+
     <header>
         <div class="header-area ">
             <div class="header-top_area">
@@ -78,11 +79,11 @@
                             <div class="main-menu  d-none d-lg-block">
                                 <nav>
                                     <ul id="navigation">
-                                        <li><a class="active" href="index.html">home</a></li>
-                                        <li><a href="Department.html">Services</a></li>
-                                      
-                                        <li><a href="Doctors.html">About</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
+                                        <li><a class="active" asp-controller="Home" asp-action="Index">home</a></li>
+                                        <li><a asp-controller="Home" asp-action="Services">Services</a></li>
+
+                                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                                        <li><a asp-controller="Home" asp-action="Contact">Contact Us</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -103,125 +104,120 @@
         </div>
     </header>
     <!-- header-end -->
-    
-    
-   
-        
-        
-            @RenderBody()
-       
-       
-       
-  
-
-       
-     <!-- footer start -->
-    <footer class="footer">
-            <div class="footer_top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-4 col-md-6 col-lg-4">
-                            <div class="footer_widget">
-                                <div class="footer_logo">
-                                   <h2 style="color:white;">MEM</h2>
-                                </div>
-                                <p>
-                                    To Make “Leadership in the industry” a reality.
-                                </p>
-                                <div class="socail_links">
-                                    <ul>
-                                        <li>
-                                            <a href="#">
-                                                <i class="ti-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="ti-twitter-alt"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <i class="fa fa-instagram"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-    
-                            </div>
-                        </div>
-                     
-                        <div class="col-xl-2 col-md-6 col-lg-2">
-                            <div class="footer_widget">
-                                <h3 class="footer_title">
-                                        Useful Links
-                                </h3>
-                                <ul>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Contact Us</a></li>
-                                 
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6 col-lg-3">
-                            <div class="footer_widget">
-                                <h3 class="footer_title">
-                                        Address
-                                </h3>
-                                <p>
-                                    67-C Maysilo Circle, Barangay Plainview, Mandaluyong City <br>
-                                    09952703294<br>
-                                    info@messengerial.com
-                                </p>
-                            </div>
-                        </div>
+    <!-- form itself end-->
+    <form id="test-form" asp-controller="Login" asp-action="Logon" method="post" class="white-popup-block mfp-hide">
+        <div class="popup_box ">
+            <div class="popup_inner">
+                <h3>Login</h3>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <input type="text" name="email" id="email-address" placeholder="Email">
+                    </div>
+                    <div class="col-xl-6">
+                        <input type="password" name="password" id="password" placeholder="Password">
+                    </div>
+                    <div style="font-style:italic; color:red;" class="col-xl-12">
+                        <small id="login-validation"></small>
+                    </div>
+                    <br />
+                    <div class="col-xl-12">
+                        <input type="submit" id="login" class="boxed-btn3" value="Login" />
                     </div>
                 </div>
             </div>
-            <div class="copy-right_text">
-                <div class="container">
-                    <div class="footer_border"></div>
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <p class="copy_right text-center">
-                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Mail Expert Messengerial
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        </div>
+    </form>
+
+    @RenderBody()
+
+
+
+
+
+
+    <!-- footer start -->
+    <footer class="footer">
+        <div class="footer_top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-4 col-md-6 col-lg-4">
+                        <div class="footer_widget">
+                            <div class="footer_logo">
+                                <h2 style="color:white;">MEM</h2>
+                            </div>
+                            <p>
+                                To Make “Leadership in the industry” a reality.
+                            </p>
+                            <div class="socail_links">
+                                <ul>
+                                    <li>
+                                        <a href="#">
+                                            <i class="ti-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="ti-twitter-alt"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xl-2 col-md-6 col-lg-2">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Useful Links
+                            </h3>
+                            <ul>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">Contact Us</a></li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6 col-lg-3">
+                        <div class="footer_widget">
+                            <h3 class="footer_title">
+                                Address
+                            </h3>
+                            <p>
+                                67-C Maysilo Circle, Barangay Plainview, Mandaluyong City <br>
+                                09952703294<br>
+                                info@messengerial.com
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </footer>
-<!-- footer end  -->
-    <!-- link that opens popup -->
-
-    <!-- form itself end-->
-    <form id="test-form" class="white-popup-block mfp-hide">
-        <div class="popup_box ">
-            <div class="popup_inner">
-                <h3>Login</h3>
-                    <div class="row">
-                        <div class="col-xl-6">
-                            <input type="text" id="email-address"  placeholder="Email">
-                        </div>
-                        <div class="col-xl-6">
-                            <input type="password" id="password" placeholder="Password">
-                        </div>
-                        <div style="font-style:italic; color:red;" class="col-xl-12">
-                            <small id="login-validation"></small>
-                        </div>
-                        <br />
-                        <div class="col-xl-12">
-                            <button id="login" class="boxed-btn3">Login</button>
-                        </div>
+        </div>
+        <div class="copy-right_text">
+            <div class="container">
+                <div class="footer_border"></div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <p class="copy_right text-center">
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;
+                            <script>document.write(new Date().getFullYear());</script> All rights reserved | Mail Expert Messengerial
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
                     </div>
+                </div>
             </div>
         </div>
-    </form>
+    </footer>
+    <!-- footer end  -->
+    <!-- link that opens popup -->
     <!-- form itself end -->
-
     <!-- JS here -->
     <script src="~/js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
@@ -248,7 +244,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="~/js/jquery.validate.min.js"></script>
     <script src="~/js/mail-script.js"></script>
 
-    <script src="js/main.js"></script>
+    <script src="~/js/main.js"></script>
     <script>
         $('#datepicker').datepicker({
             iconsLibrary: 'fontawesome',
@@ -265,47 +261,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
         });
 
 
-
-
-
-        $('#login').click(function () {
-            $('#login-validation').html('');
-            var email = $('#email-address').val();
-            var password = $('#password').val();
-
-            $.ajax({
-
-                url: '/Login/Logon',
-                type: 'POST',
-                data: {email:email,password:password},
-                success: function (e) {
-
-                    if (e.split(',').includes("password_required")) {
-                        $('#login-validation').append("<br>Password is required");
-                    }
-
-                    if (e.split(',').includes("email_required")) {
-                         $('#login-validation').append("<br>Email is required");
-                    }
-                    
-                    if (e.split(',').includes("email_error")) {
-                         $('#login-validation').append("<br>Email is invalid");
-                    }
-
-                    if (e.split(',').includes("error")) {
-                         $('#login-validation').append("<br>Wrong Credentials");
-                    }
-                     alert(e);
-                    if (e == "") {
-                        alert("done");
-                    }
-
-                }
-
-            });
-
-            return false;
-        })
     </script>
 </body>
 

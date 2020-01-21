@@ -11,10 +11,13 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         [Key]
         public int ProjectID { get; set; }
-        public string ClientID { get; set; }
+        public string ClientName { get; set; }
         public string Status { get; set; }
         public int Quantity { get; set; }
         public float Price { get; set; }
+        public string ProjectName { get; set; }
+
+
 
     }
 }

@@ -142,7 +142,8 @@ namespace Messenger_Thesis_1._0.Controllers
                     string filePath = Path.Combine(uploadsFolder, uniqueName);
                     user.Image.CopyTo(new FileStream(filePath, FileMode.Create));
                     user.ImageName = uniqueName;
-                }
+                    HttpContext.Session.SetString("Image", user.ImageName);
+            }
                 Utilities util = new Utilities();
                 user.Password = util.base64Encode(user.Password);
          
@@ -168,31 +169,36 @@ namespace Messenger_Thesis_1._0.Controllers
         }
 
         [HttpPost]
-        public string UpdateData(int userId, string password, string cpassword, string firstName, string lastName, string role, IFormFile image )
+        public string UpdateData(User userModel )
         {
-            var user = _userRepo.FindUser(a => a.UserID == userId);
+            var user = new User();
 
             List<string> errors = new List<string>();
          
+            if(userModel.Email == null)
+            {
+                user = _userRepo.FindUser(a => a.UserID == userModel.UserID);
+            }else
+            {
+                user = _userRepo.FindUser(a => a.Email  == userModel.Email);
+            }
 
-            if (password == null || cpassword == null)
-                errors.Add("no_password");
-            else if (cpassword != password)
+             if (userModel.ConfirmPassword != userModel.Password)
                 errors.Add("password_not_match");
 
 
-            if (firstName == null)
+            if (userModel.FirstName == null)
                 errors.Add("firstname_required");
-            else if (firstName.Any(char.IsDigit))
+            else if (userModel.FirstName.Any(char.IsDigit))
                 errors.Add("firstname_not_letter");
-            else if (firstName.Length > 50)
+            else if (userModel.FirstName.Length > 50)
                 errors.Add("firstname_max_letter");
 
-            if (lastName == null)
+            if (userModel.LastName == null)
                 errors.Add("lastname_required");
-            else if (lastName.Any(char.IsDigit))
+            else if (userModel.LastName.Any(char.IsDigit))
                 errors.Add("lastname_not_letter");
-            else if (lastName.Length > 50)
+            else if (userModel.LastName.Length > 50)
                 errors.Add("lastname_max_letter");
 
          
@@ -204,24 +210,33 @@ namespace Messenger_Thesis_1._0.Controllers
             }
 
 
-            if (image != null)
+            if (userModel.Image != null)
             {
                 string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "Images");
-                var uniqueName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                var uniqueName = Guid.NewGuid().ToString() + "_" + userModel.Image.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueName);
-                image.CopyTo(new FileStream(filePath, FileMode.Create));
+                userModel.Image.CopyTo(new FileStream(filePath, FileMode.Create));
                 user.ImageName = uniqueName;
             }
 
-            if (errors.Count == 0) {
+            if (errors.Count == 0 && userModel.Password != null) {
                 Utilities util = new Utilities();
-                user.Password = util.base64Encode(password);
-                user.FirstName = firstName;
-                user.LastName = lastName;
-                user.Role = role;
+                user.Password = util.base64Encode(userModel.Password);
+                user.FirstName = userModel.FirstName;
+                user.LastName = userModel.LastName;
+                user.Role = userModel.Role;
 
                 _userRepo.Update(user);
 
+            }
+            else if (errors.Count == 0 )
+            {
+                Utilities util = new Utilities();
+                user.FirstName = userModel.FirstName;
+                user.LastName = userModel.LastName;
+                user.Role = userModel.Role;
+
+                _userRepo.Update(user);
             }
             
 

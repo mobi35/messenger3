@@ -16,7 +16,6 @@ namespace Messenger_Thesis_1._0.Data
             {
                 var context = serviceScope.ServiceProvider.GetService<MessengerDBContext>();
 
-               // var user = new User { FirstName = "Raymond", LastName = "Raymond", MiddleName = "Raymond", UserName = "admin", Password = "YWRtaW5hZG1pbg==", EmailAddress = "Maeee@yahoo.com", Role = "employee", Status = "Activated" };
 
               //  context.Users.Add(user);
 

@@ -1,27 +1,126 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>
-@{
-    ViewData["Title"] = "Admin Page";
-}
-</title>
-  <!-- Favicon -->
-  <link href="~/assets/img/brand/favicon.png" rel="icon" type="image/png">
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-  <!-- Icons -->
-  <link href="~/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
-  <link href="~/assets/js/plugins/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link href="~/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        @{
+            ViewData["Title"] = "Admin Page";
+        }
+    </title>
+    <!-- Favicon -->
+    <link href="~/assets/img/brand/favicon.png" rel="icon" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <!-- Icons -->
+    <link href="~/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
+    <link href="~/assets/js/plugins/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="~/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
 </head>
 
+
+
 <body class="">
+
+
+
+
+    <div class="modal fade editUser" id="edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+
+            <div class="modal-content">
+                <div id="UpdateForm">
+                    <div class="modal-body p-0">
+
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-header bg-white pb-3">
+
+                                <div class="btn-wrapper text-center">
+                                    <h3>My Account</h3>
+                                </div>
+                            </div>
+                            <div class="card-body px-lg-5 py-lg-3">
+                                <div class="text-center text-muted mb-4">
+                                    <small>Account information</small>
+                                </div>
+                                <form role="form" id="update-registration" enctype="multipart/form-data">
+                                    <div id="update_parentPassword" class="form-group">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                            </div>
+                                            <input id="update_password" class="form-control" placeholder="Password" type="password">
+                                        </div>
+                                    </div>
+
+                                    <div id="update_parentCPassword" class="form-group">
+                                        <div class="input-group input-group-alternative">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                            </div>
+                                            <input id="update_cpassword" class="form-control" placeholder="Confirm password" type="password">
+                                        </div>
+
+                                        <small class="update_passwordValidation" style="color:#f5365c"></small>
+                                    </div>
+
+                                    <div class="text-center text-muted mb-4">
+                                        <small>Personal information</small>
+                                    </div>
+
+                                    <div id="update_parentFirstName" class="form-group mb-4">
+                                        <div class="input-group input-group-alternative">
+
+                                            <input id="update_first-name" class="form-control" placeholder="First Name" type="text">
+                                        </div>
+                                        <small class="update_firstNameValidation" style="color:#f5365c"></small>
+                                    </div>
+
+                                    <div id="update_parentLastName" class="form-group mb-4">
+                                        <div class="input-group input-group-alternative">
+                                            <input id="update_last-name" class="form-control" placeholder="Last Name" type="text">
+                                        </div>
+                                        <small class="update_lastNameValidation" style="color:#f5365c"></small>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group input-group-alternative">
+                                            <select id="update_role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                <option>Accountant</option>
+                                                <option>Admin</option>
+                                                <option>Messenger</option>
+                                                <option>Customer Representative</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div id="update_parentFileinput" class="form-group">
+                                        <div class="input-group input-group-alternative">
+                                            <input type="file" id="update_fileInput" class="form-control form-control" />
+                                        </div>
+                                        <small class="update_fileinputValidation" style="color:#f5365c"></small>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-primary my-4" id="update-submit">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <!-- Toggler -->
@@ -62,10 +161,14 @@
                             <i class="ni ni-single-02"></i>
                             <span>My profile</span>
                         </a>
-                        <a href="./examples/profile.html" class="dropdown-item">
+
+
+                        <a href="#" data-toggle="modal" data-target="#edit-user" class="dropdown-item">
                             <i class="ni ni-settings-gear-65"></i>
-                            <span>Settings</span>
+                            <span>Update Account</span>
                         </a>
+
+
                         <a href="./examples/profile.html" class="dropdown-item">
                             <i class="ni ni-calendar-grid-58"></i>
                             <span>Activity</span>
@@ -167,16 +270,24 @@
                 <!-- User -->
                 <ul class="navbar-nav align-items-center d-none d-md-flex">
                     <li class="nav-item dropdown">
+
+
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="./assets/img/theme/team-4-800x800.jpg">
+                                    <img alt="Image placeholder" src="../../Images/@HttpContextAccessor.HttpContext.Session.GetString("Image").ToString()">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">Admin</span>
+                                    <span class="mb-0 text-sm  font-weight-bold">
+
+                                        @HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()
+
+                                    </span>
                                 </div>
                             </div>
                         </a>
+
+
                         <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
                             <div class=" dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">Welcome!</h6>
@@ -185,7 +296,7 @@
                                 <i class="ni ni-single-02"></i>
                                 <span>My profile</span>
                             </a>
-                            <a href="./examples/profile.html" class="dropdown-item">
+                            <a href="#"  data-toggle="modal" data-target="#edit-user" class="dropdown-item">
                                 <i class="ni ni-settings-gear-65"></i>
                                 <span>Settings</span>
                             </a>
@@ -198,7 +309,7 @@
                                 <span>Support</span>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#!" class="dropdown-item">
+                            <a asp-action="Logout" asp-controller="Login" class="dropdown-item">
                                 <i class="ni ni-user-run"></i>
                                 <span>Logout</span>
                             </a>
@@ -323,6 +434,105 @@
                 token: "ee6fab19c5a04ac1a32a645abde4613a",
                 application: "argon-dashboard-free"
             });
+
+
+
+           $('#update-submit').click(function () {
+
+        var fileInput = document.getElementById('update_fileInput');
+
+
+        var formdata = new FormData();
+
+        var password = $('#update_password').val();
+        var cpassword = $('#update_cpassword').val();
+        var firstName = $('#update_first-name').val();
+        var lastName = $('#update_last-name').val();
+        var role = $('#update_role').val();
+
+        var email =  '@HttpContextAccessor.HttpContext.Session.GetString("Email").ToString()';
+
+           
+        for (i = 0; i < fileInput.files.length; i++) {
+            formdata.append("Image", fileInput.files[i]);
+                   }
+                 
+
+
+        formdata.append("Email", email);
+        formdata.append("Password", password);
+        formdata.append("FirstName", firstName);
+        formdata.append("ConfirmPassword", cpassword);
+        formdata.append("LastName", lastName);
+        formdata.append("Role", role);
+
+
+        $('#submit').disabled = true;
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/User/UpdateData');
+        xhr.send(formdata);
+
+
+        xhr.onreadystatechange = function () {
+
+
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                if (xhr.responseText.split(',').includes("password_not_match")) {
+                       $('#update_parentPassword').addClass('has-danger');
+                       $('#update_parentCPassword').addClass('has-danger');
+                       $('.update_passwordValidation').html("Please input your password");
+                }
+
+                if (xhr.responseText.split(',').includes("firstname_required")) {
+                         $('#update_parentFirstName').addClass('has-danger');
+                         $('.update_firstNameValidation').html("Please write your first name");
+                }else if (xhr.responseText.split(',').includes("firstname_not_letter")) {
+                         $('#update_parentFirstName').addClass('has-danger');
+                         $('.update_firstNameValidation').html("Invalid character");
+                }else if (xhr.responseText.split(',').includes("firstname_max_letter")) {
+                        $('#update_parentFirstName').addClass('has-danger');
+                        $('.update_firstNameValidation').html("Maximum of 50 characters only");
+                }else {
+                    $('#update_parentFirstName').removeClass("has-danger");
+                    $('#update_parentFirstName').addClass("has-success");
+                    $('.update_firstNameValidation').html("");
+                }
+                if (xhr.responseText.split(',').includes("lastname_required")) {
+                    $('#update_parentLastName').addClass('has-danger');
+                    $('.update_lastNameValidation').html("Please write your last name");
+                }else  if (xhr.responseText.split(',').includes("lastname_not_letter")) {
+                    $('#update_parentLastName').addClass('has-danger');
+                    $('.update_lastNameValidation').html("Invalid character");
+                }else  if (xhr.responseText.split(',').includes("lastname_max_letter")) {
+                    $('#update_parentLastName').addClass('has-danger');
+                    $('.update_lastNameValidation').html("Maximum of 50 characters only");
+                }else {
+                    $('#update_parentLastName').removeClass("has-danger");
+                    $('#update_parentLastName').addClass("has-success");
+                    $('.update_lastNameValidation').html("");
+                }
+
+                if (xhr.responseText == "") {
+                   $('#UpdateForm').hide();
+                    $('#editUser').hide();
+                    $('.modal-backdrop').hide()
+                    
+                    Swal.fire(
+                        'Edited!',
+                        'You clicked the button!',
+                        'success'
+                    );
+                }
+
+            }
+
+        } 
+
+        return false;
+
+    });
+
     </script>
 </body>
 

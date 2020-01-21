@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Messenger_Thesis_1._0.Models;
 using Messenger_Thesis_1._0.Data.Model.Interface;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Http;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
@@ -37,8 +38,19 @@ namespace Messenger_Thesis_1._0.Controllers
             }
         }
 
+      
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString("Email", "");
+            HttpContext.Session.SetString("Image", "");
+            HttpContext.Session.SetString("FullName", "");
+            HttpContext.Session.SetString("Role", "");
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
-        public string Logon(string email, string password)
+        public IActionResult Logon(string email, string password)
         {
 
             List<string> errors = new List<string>();
@@ -54,54 +66,25 @@ namespace Messenger_Thesis_1._0.Controllers
                 encodePassword = util.base64Encode(password);
             }
 
-
             //Check if the password matched
             var user =  userRepo.FindUser(a => a.Email == email && a.Password == encodePassword);
 
-            //validations..
-
-           
-
-            if (email == null || email == "")
-            {
-                errors.Add( "email_required" );
-            }
-            else if (!IsValidEmail(email))
-            {
-                errors.Add("email_error");
-            }
 
          
-
-            if (user == null)
+            if (user != null)
             {
-                errors.Add("error");
+                HttpContext.Session.SetString("Email", user.Email);
+                HttpContext.Session.SetString("FullName", user.FirstName + " " + user.LastName);
+                HttpContext.Session.SetString("Image", user.ImageName);
+                HttpContext.Session.SetString("Role", user.Role);
+                return RedirectToAction("Index", "Admin");
+            }
+            else
+            {
+                return RedirectToAction("Index","Home");
             }
 
-            if (errors.Count == 0)
-            {
-
-
-                if(user.Role == "Admin")
-                RedirectToAction("", "");
-                
-                else if (user.Role == "Messenger")
-                 RedirectToAction("", "");
-
-                else if (user.Role == "Accountant")
-                    RedirectToAction("", "");
-
-                else if (user.Role == "Client")
-                    RedirectToAction("", "");
-
-            }else
-            {
-                string errorList = string.Join(",", errors);
-                return errorList;
-            }
-
-
-            return "";
+          
         }
 
      

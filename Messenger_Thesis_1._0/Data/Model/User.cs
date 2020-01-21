@@ -30,5 +30,16 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public string Role { get; set; }
 
+
+        //MESSENGER THINGS
+
+        public int DeliveryID { get; set; }
+
+        public string DeliveryStatus { get; set; }
+
+        public int SOAToDeliver { get; set; }
+
+        public int TotalNumberOfLetters { get; set; }
+
     }
 }
