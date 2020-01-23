@@ -214,34 +214,74 @@
                         </div>
                     </div>
                 </form>
-                <!-- Navigation -->
-                <ul class="navbar-nav">
-                    <li class="nav-item  class=" active" ">
-                        <a class="nav-link " href="@Url.Action("Index","Admin")">
-                            <i class="ni ni-tv-2 text-primary"></i> Dashboard
-                        </a>
-                    </li>
+                @{
 
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("Index","User")">
-                            <i class="ni ni-single-02 text-yellow"></i> User
-                        </a>
-                    </li>
+                    if (HttpContextAccessor.HttpContext.Session.GetString("Role").ToString() == "Admin")
+                    {
 
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("Index","Project")">
-                            <i class="ni ni-single-02 text-yellow"></i> Project
-                        </a>
-                    </li>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Index","Admin")">
+                                    <i class="ni ni-tv-2 text-primary"></i> Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Index","User")">
+                                    <i class="ni ni-single-02 text-yellow"></i> User
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Index","Project")">
+                                    <i class="ni ni-single-02 text-yellow"></i> Project
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Billings","Billing")">
+                                    <i class="ni ni-bullet-list-67 text-red"></i> Billing
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Index","Feedback")">
+                                    <i class="ni ni-bullet-list-67 text-red"></i> Feedback
+                                </a>
+                            </li>
 
 
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("Index","Feedback")">
-                            <i class="ni ni-bullet-list-67 text-red"></i> Feedback
-                        </a>
-                    </li>
 
-                </ul>
+                        </ul>
+                    }
+                    else if (HttpContextAccessor.HttpContext.Session.GetString("Role").ToString() == "Client")
+                    {
+                      //  Context.Response.Redirect("/Project/Client");
+
+                        <ul class="navbar-nav">
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Client","Billing")">
+                                    <i class="ni ni-single-02 text-yellow"></i> Billings
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Client","Project")">
+                                    <i class="ni ni-single-02 text-yellow"></i> Project
+                                </a>
+                            </li>
+
+
+                        </ul>
+
+                    }
+                    else
+                    {
+                        Context.Response.Redirect("/Home/Index");
+                    }
+
+                }
+
+
+
                 <!-- Divider -->
                 <hr class="my-3">
                 <!-- Heading -->
@@ -275,10 +315,11 @@
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
+                                    <img alt="Image placeholder" src="../../Images/@HttpContextAccessor.HttpContext.Session.GetString("Image").ToString()">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
                                     <span class="mb-0 text-sm  font-weight-bold">
-
+                                        @HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()
 
                                     </span>
                                 </div>
@@ -448,7 +489,7 @@
         var lastName = $('#update_last-name').val();
         var role = $('#update_role').val();
 
-
+           var email =  '@HttpContextAccessor.HttpContext.Session.GetString("Email").ToString()';   
            
         for (i = 0; i < fileInput.files.length; i++) {
             formdata.append("Image", fileInput.files[i]);

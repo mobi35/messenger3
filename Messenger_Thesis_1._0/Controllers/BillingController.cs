@@ -65,6 +65,27 @@ namespace Messenger_Thesis_1._0.Controllers
            
         }
 
+        [HttpPost]
+        public string Deposit(int id, bool action)
+        {
+
+            var project = projectRepo.FindProject(a => a.ProjectID == id);
+
+            if (action)
+            {
+                project.Status = "Paid";
+            }else
+            {
+                project.ImageName = null;
+                project.Status = "Declined";
+            }
+
+            projectRepo.Update(project);
+
+            return "";
+        }
+
+
         public IActionResult Client()
         {
 

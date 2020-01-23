@@ -32,8 +32,8 @@ namespace Messenger_Thesis_1._0
         {
 
             services.AddSession(so => so.IdleTimeout = TimeSpan.FromSeconds(5000));
-            services.AddDbContext<MessengerDBContext>(options => options.UseInMemoryDatabase("MessengerDBContext"));
-      //      services.AddDbContext<MessengerDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
+           // services.AddDbContext<MessengerDBContext>(options => options.UseInMemoryDatabase("MessengerDBContext"));
+         services.AddDbContext<MessengerDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<ILetterRepository, LetterRepository>();

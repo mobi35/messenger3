@@ -62,8 +62,8 @@
                                                             </div>
                                                        
                                                         <div class="text-center">
-                                                            <a asp-action="" asp-controller=" ">Accept</a>
-                                                            <a asp-action="" asp-controller=" ">Decline</a>
+                                                            <a href="#" onclick="Accept()" >Accept</a>
+                                                            <a href="#" onclick="Decline()">Decline</a>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -90,7 +90,7 @@
                                 <th scope="col">Project Name</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Status</th>
-                                <th scope="col"></th>
+                                <th scope="col">Price</th>
 
                                 <th scope="col"></th>
                                 <th scope="col"></th>
@@ -237,16 +237,16 @@
                         '   </td>' +
                         '   <td>' +
                         '     <span class="badge badge-dot mr-4">' +
-                        '    <i class="bg-warning"></i> pending' +
+                        '    <i class="bg-warning"></i> '+ e[key].status+'  ' +
                         '   </span>' +
                         '    </td>' +
                         '   <td>' +
-
+                           e[key].price
                         '   </td>' +
                         ' <td>' +
                         '  <div class="d-flex align-items-center">';
 
-                    if (e[key].imageName != null) {
+                    if (e[key].imageName == null) {
                         t+= '<button type="button"  class="btn btn-block" data-toggle="modal" data-target="#modal-form" onclick="AddUserClick(); GetBilling(' + e[key].projectID + ', \''+ e[key].imageName + '\',' + e[key].price + ')">Show Deposit</button>'
                     }
 
@@ -626,6 +626,49 @@
         $('#project-id').val(projectID);
         $('#price').val('P'+price.toFixed(2));
         $('#deposit-image').html('<img src = "../Images/'+ ImageName +' "  width="300"/> ' );
+    }
+
+
+    function Accept() {
+
+        var id = $('#project-id').val();
+
+        $.ajax({
+            url: '/Billing/Deposit',
+            type: 'POST',
+           data: {id:id , action:true},
+            success: function () {
+
+                  GetAllUser(1);
+
+            }
+
+
+        });
+        alert("xx");
+        return false;
+
+    }
+
+     function Decline() {
+
+        var id = $('#project-id').val();
+
+        $.ajax({
+            url: '/Billing/Deposit',
+            type: 'POST',
+            data: {id:id , action:false},
+            success: function () {
+
+                GetAllUser(1);
+
+            }
+
+
+        });
+        return false;
+
+
     }
 </script>
 

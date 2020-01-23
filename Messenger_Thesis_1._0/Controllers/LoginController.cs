@@ -73,11 +73,18 @@ namespace Messenger_Thesis_1._0.Controllers
          
             if (user != null)
             {
+
                 HttpContext.Session.SetString("Email", user.Email);
                 HttpContext.Session.SetString("FullName", user.FirstName + " " + user.LastName);
                 HttpContext.Session.SetString("Image", user.ImageName);
                 HttpContext.Session.SetString("Role", user.Role);
-                return RedirectToAction("Index", "Admin");
+               if(user.Role == "Admin")
+                    return RedirectToAction("Index", "Admin");
+               else if (user.Role == "Client")
+                    return RedirectToAction("Client", "Project");
+               else
+                    return RedirectToAction("Index", "Home");
+
             }
             else
             {

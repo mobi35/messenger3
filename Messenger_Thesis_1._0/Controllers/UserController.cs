@@ -146,11 +146,12 @@ namespace Messenger_Thesis_1._0.Controllers
             }
                 Utilities util = new Utilities();
                 user.Password = util.base64Encode(user.Password);
-         
+            if(_userRepo.FindUser(a => a.Email == user.Email) == null) { 
                 _userRepo.Create(user);
+            }
 
 
-                return "";
+            return "";
             }
 
 
