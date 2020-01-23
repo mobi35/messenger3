@@ -88,7 +88,7 @@ namespace Messenger_Thesis_1._0.Controllers
             }
 
             project.Status = "pending";
-
+            project.Price = project.Quantity * 5;
             if (errors.Count != 0)
             {
                 string errorList = string.Join(",", errors);
@@ -96,7 +96,6 @@ namespace Messenger_Thesis_1._0.Controllers
             }
 
             projectRepo.Create(project);
-
 
             return "";
         }

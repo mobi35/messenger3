@@ -156,3 +156,5 @@ C:\Users\Administrator\Desktop\Durogpepe\Messenger2\Messenger_Thesis_1._0\obj\De
 C:\Users\Administrator\Desktop\Durogpepe\Messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.csproj.CopyComplete
 C:\Users\Administrator\Desktop\Durogpepe\Messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\Client.cshtml.g.cs
 C:\Users\Administrator\Desktop\Durogpepe\Messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\Admin.cshtml.g.cs
+C:\Users\Administrator\Desktop\Durogpepe\Messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Billing\Billings.cshtml.g.cs
+C:\Users\Administrator\Desktop\Durogpepe\Messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Billing\Client.cshtml.g.cs

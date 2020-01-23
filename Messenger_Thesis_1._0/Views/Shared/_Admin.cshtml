@@ -275,12 +275,10 @@
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="../../Images/@HttpContextAccessor.HttpContext.Session.GetString("Image").ToString()">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
                                     <span class="mb-0 text-sm  font-weight-bold">
 
-                                        @HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()
 
                                     </span>
                                 </div>
@@ -450,7 +448,6 @@
         var lastName = $('#update_last-name').val();
         var role = $('#update_role').val();
 
-        var email =  '@HttpContextAccessor.HttpContext.Session.GetString("Email").ToString()';
 
            
         for (i = 0; i < fileInput.files.length; i++) {
