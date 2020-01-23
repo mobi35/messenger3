@@ -99,9 +99,19 @@ namespace Messenger_Thesis_1._0.Controllers
 
             int count = page * 10;
 
-            var project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
+            var project = projectRepo.GetAll().ToList();
+
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
+            }else
+            {
+               var name = HttpContext.Session.GetString("FullName").ToString();
+                project = projectRepo.GetAll().Where(a => a.ClientName == name).OrderByDescending(a => a.ProjectID).ToList();
+            }
 
 
+            
             List<Project> sortedProject = new List<Project>();
             for (int i = 0; i < project.Count(); i++)
             {

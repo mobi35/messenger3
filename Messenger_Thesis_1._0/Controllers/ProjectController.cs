@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Messenger_Thesis_1._0.Models;
 using Messenger_Thesis_1._0.Data.Model.Interface;
 using Messenger_Thesis_1._0.Data.Model;
+using Microsoft.AspNetCore.Http;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
@@ -51,7 +52,19 @@ namespace Messenger_Thesis_1._0.Controllers
 
             int count = page * 10;
 
-            var project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
+            var project = projectRepo.GetAll().ToList();
+
+
+
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
+            }
+            else
+            {
+                var name = HttpContext.Session.GetString("FullName").ToString();
+                project = projectRepo.GetAll().Where(a => a.ClientName == name).OrderByDescending(a => a.ProjectID).ToList();
+            }
 
 
             List<Project> sortedProject = new List<Project>();
@@ -86,6 +99,8 @@ namespace Messenger_Thesis_1._0.Controllers
             {
                 errors.Add("project_name_required");
             }
+
+            project.ClientName = HttpContext.Session.GetString("FullName").ToString();
 
             project.Status = "pending";
             project.Price = project.Quantity * 5;
