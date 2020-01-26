@@ -214,6 +214,7 @@
     function GetAllUser(page) {
         var t = ""
         var fullTable = "";
+        $('.tableData').html('');
         $.ajax({
 
             url: '/Billing/GetBillingList',
@@ -223,44 +224,89 @@
 
                 for (var key of Object.keys(e)) {
 
-                    $('.tableData').append('       <tr> ' +
-                        '       <th scope="row">' +
-                        '    <div class="media align-items-center">' +
+                    if (e[key].imageName == null ) {
 
-                        '       <div class="media-body">' +
-                        '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
-                        '    </div>' +
-                        '   </div>' +
-                        '   </th>' +
-                        ' <td>' +
-                        '  ' + e[key].quantity + '' +
-                        '   </td>' +
-                        '   <td>' +
-                        '     <span class="badge badge-dot mr-4">' +
-                        '    <i class="bg-warning"></i> ' + e[key].status + '  ' +
-                        '   </span>' +
-                        '    </td>' +
-                        '   <td>' +
-                        e[key].price +
-                        '   </td>' +
-                        ' <td>' +
-                        '  <div class="d-flex align-items-center">' + ' </div>' +
-                        ' </td>' +
-                        ' <td class="text-right">' +
-                        '  <div class="dropdown">' +
-                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                        '   <i class="fas fa-ellipsis-v"></i>' +
-                        '    </a>' +
-                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                        '      <a class="dropdown-item" href="#">Action</a>' +
-                        '       <a class="dropdown-item" href="#">Another action</a>' +
-                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
-                        '      </div>' +
-                        '     </div>' +
-                        '    </td>' +
-                        '  </tr>');
 
-                 
+                        $('.tableData').append('       <tr> ' +
+                            '       <th scope="row">' +
+                            '    <div class="media align-items-center">' +
+
+                            '       <div class="media-body">' +
+                            '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
+                            '    </div>' +
+                            '   </div>' +
+                            '   </th>' +
+                            ' <td>' +
+                            '  ' + e[key].quantity + '' +
+                            '   </td>' +
+                            '   <td>' +
+                            '     <span class="badge badge-dot mr-4">' +
+                            '    <i class="bg-warning"></i> ' + e[key].status + '  ' +
+                            '   </span>' +
+                            '    </td>' +
+                            '   <td>' +
+                            e[key].price +
+                            '   </td>' +
+                            ' <td>' +
+                            '  <div class="d-flex align-items-center">' + ' </div>' +
+                            ' </td>' +
+                            ' <td class="text-right">' +
+                            '  <div class="dropdown">' +
+                            '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '   <i class="fas fa-ellipsis-v"></i>' +
+                            '    </a>' +
+                            '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                            '      <a class="dropdown-item" href="#">Action</a>' +
+                            '       <a class="dropdown-item" href="#">Another action</a>' +
+                            '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                            '      </div>' +
+                            '     </div>' +
+                            '    </td>' +
+                            '  </tr>');
+
+                    } else {
+
+
+                                 $('.tableData').append('       <tr> ' +
+                            '       <th scope="row">' +
+                            '    <div class="media align-items-center">' +
+
+                            '       <div class="media-body">' +
+                            '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
+                            '    </div>' +
+                            '   </div>' +
+                            '   </th>' +
+                            ' <td>' +
+                            '  ' + e[key].quantity + '' +
+                            '   </td>' +
+                            '   <td>' +
+                            '     <span class="badge badge-dot mr-4">' +
+                            '    <i class="bg-warning"></i> ' + e[key].status + '  ' +
+                            '   </span>' +
+                            '    </td>' +
+                            '   <td>' +
+                            e[key].price +
+                            '   </td>' +
+                            ' <td>' +
+                                     '  <div class="d-flex align-items-center">' + 
+                                 '    <button type="button"  class="btn btn-block" data-toggle="modal" data-target="#modal-form" onclick="AddUserClick(); GetBilling(' + e[key].projectID + ', \''+ e[key].imageName + '\',' + e[key].price + ')">Show Deposit</button></div > ' +
+                            ' </td>' +
+                            ' <td class="text-right">' +
+                            '  <div class="dropdown">' +
+                            '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '   <i class="fas fa-ellipsis-v"></i>' +
+                            '    </a>' +
+                            '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                            '      <a class="dropdown-item" href="#">Action</a>' +
+                            '       <a class="dropdown-item" href="#">Another action</a>' +
+                            '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                            '      </div>' +
+                            '     </div>' +
+                            '    </td>' +
+                            '  </tr>');
+
+
+                    }
 
                     $('tr:first').css('background-color', 'red');
 
