@@ -38,7 +38,24 @@ namespace Messenger_Thesis_1._0.Controllers
             }
         }
 
-      
+
+        public IActionResult AccountRecovery()
+        {
+
+            return View();
+        }
+        [HttpGet]
+        public string ValidateLink()
+        {
+
+            return "";
+        }
+
+        [HttpPost]
+        public string CompleteRecovery()
+        {
+            return "";
+        }
 
         public IActionResult Logout()
         {

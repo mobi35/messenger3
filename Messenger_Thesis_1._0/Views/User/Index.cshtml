@@ -485,7 +485,7 @@
                     var t = '       <tr> ' +
                         '       <th scope="row">' +
                         '    <div class="media align-items-center">' +
-                        '      <a href="#" class="avatar rounded-circle mr-3">' +
+                        '      <a onclick="UserProfile('+ e[key].userID + ')" data-toggle="modal" data-target="#user-profile"  href="#" class="avatar rounded-circle mr-3">' +
                         '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
                         '   </a>' +
                         '       <div class="media-body">' +

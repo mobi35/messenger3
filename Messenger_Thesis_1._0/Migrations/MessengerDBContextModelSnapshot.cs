@@ -102,6 +102,8 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Area");
+
                     b.Property<string>("ClientName");
 
                     b.Property<string>("ImageName");
@@ -125,6 +127,8 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address");
+
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<int>("DeliveryID");
@@ -144,6 +148,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("MiddleName");
 
                     b.Property<string>("Password");
+
+                    b.Property<string>("Phonenumber");
 
                     b.Property<string>("Role");
 

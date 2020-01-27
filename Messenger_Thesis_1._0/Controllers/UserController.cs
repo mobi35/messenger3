@@ -52,7 +52,7 @@ namespace Messenger_Thesis_1._0.Controllers
 
             int count = page * 10;
           
-            var users = _userRepo.GetAll().OrderByDescending(a => a.UserID).ToList();
+            var users = _userRepo.GetAll().Where(a => a.Role != "Client").OrderByDescending(a => a.UserID).ToList();
 
            
             List<User> sortedUser = new List<User>();
@@ -70,6 +70,7 @@ namespace Messenger_Thesis_1._0.Controllers
             return Json(sortedUser);
         }
 
+        
 
         public bool IsValidEmail(string emailaddress)
         {
@@ -85,7 +86,27 @@ namespace Messenger_Thesis_1._0.Controllers
             }
         }
 
-            [HttpPost]
+        [HttpGet]
+
+        public JsonResult SessionProfile()
+        {
+            string email = HttpContext.Session.GetString("Email").ToString();
+            var profile = _userRepo.GetAll().Where(a => a.Email == email).ToList();
+
+            return Json(profile);
+        }
+
+        [HttpGet]
+
+        public JsonResult UserProfile(int id)
+        {
+            
+            var profile = _userRepo.GetAll().Where(a => a.UserID == id).ToList();
+
+            return Json(profile);
+        }
+
+        [HttpPost]
 
             public string SendRegisteredData( User user)
             {
@@ -117,11 +138,13 @@ namespace Messenger_Thesis_1._0.Controllers
                 else if (user.LastName.Length > 50)
                     errors.Add("lastname_max_letter");
 
+           
 
-                int birthdayDifference = DateTime.Now.Year - user.BirthDate.Year;
+
+              int birthdayDifference = DateTime.Now.Year - user.BirthDate.Year;
                 if (user.BirthDate.Year == 0001)
                     errors.Add("no_birthdate");
-               else  if (birthdayDifference <= 17 )
+                else  if (birthdayDifference <= 17 )
                     errors.Add("invalid_birthdate");
 
                 if (user.Image == null)
@@ -242,6 +265,12 @@ namespace Messenger_Thesis_1._0.Controllers
             
 
             return "";
+        }
+
+        public IActionResult Profile()
+        {
+
+            return View();
         }
 
 
