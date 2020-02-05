@@ -186,12 +186,20 @@
                                                         </div>
 
 
+                                                        <div id="parentCompanyName" class="form-group mb-4">
+                                                            <div class="input-group input-group-alternative">
 
+                                                                <input id="companyName" class="form-control" placeholder="Company Name" type="text">
+                                                            </div>
+                                                            <small class="companyNameValidation" style="color:#f5365c"></small>
+                                                        </div>
 
 
                                                         <div class="text-center text-muted mb-4">
                                                             <small>Personal information</small>
                                                         </div>
+
+
 
                                                         <div id="parentFirstName" class="form-group mb-4">
                                                             <div class="input-group input-group-alternative">
@@ -255,10 +263,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group input-group-alternative">
                                                                 <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                                                    <option>Accountant</option>
-                                                                    <option>Admin</option>
-                                                                    <option>Messenger</option>
-                                                                    <option>Customer Representative</option>
+
                                                                     <option>Client</option>
 
                                                                 </select>
@@ -352,6 +357,10 @@
     GetAllUser(1);
 
 
+
+
+
+
     document.getElementById('registration').onsubmit = function () {
 
 
@@ -359,6 +368,7 @@
         var formdata = new FormData();
         var fileInput = document.getElementById('fileInput');
         var email = $('#email').val();
+        var companyName = $('#companyName').val();
         var password = $('#password').val();
         var cpassword = $('#cpassword').val();
         var firstName = $('#first-name').val();
@@ -385,6 +395,7 @@
         formdata.append("FirstName", firstName);
         formdata.append("ConfirmPassword", cpassword);
         formdata.append("LastName", lastName);
+        formdata.append("CompanyName", companyName);
         formdata.append("Gender", gender);
         formdata.append("BirthDate", birthDate);
         formdata.append("Role", role);
@@ -400,6 +411,18 @@
 
 
             if (xhr.readyState == 4 && xhr.status == 200) {
+
+
+                if (xhr.responseText.split(',').includes("companyname_required")) {
+                    $('#parentCompanyName').addClass('has-danger');
+                    $('.companyNameValidation').html("Please write your Company Name");
+                } else {
+                    $('#parentCompanyName').removeClass("has-danger");
+                    $('#parentCompanyName').addClass("has-success");
+                    $('.companyNameValidation').html("");
+                }
+
+
 
                 if (xhr.responseText.split(',').includes("no_password")) {
                     $('#parentPassword').addClass('has-danger');
@@ -559,8 +582,7 @@
                         '   </td>' +
                         '   <td>' +
                         '     <span class="badge badge-dot mr-4">' +
-                        '    <i class="bg-warning"></i> ' +
-                        '   </span>' +
+                       e[key].companyName +
                         '    </td>' +
                         '   <td>' +
                         e[key].role +

@@ -35,6 +35,8 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public string Phonenumber { get; set; }
 
+        public string CompanyName { get; set; }
+
 
         //MESSENGER THINGS
 

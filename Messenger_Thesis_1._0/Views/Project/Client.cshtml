@@ -20,7 +20,7 @@
                                 <h3>Update User</h3>
                             </div>
                         </div>
-                        <div class="card-body px-lg-5 py-lg-3">
+                        <div class="card-body px-lg-5 py-lg-3"> 
                             <div class="text-center text-muted mb-4">
                                 <small>Account information</small>
                             </div>
@@ -138,35 +138,24 @@
                                                 </div>
                                                 <div class="card-body px-lg-5 py-lg-3">
                                               
-                                                    <form role="form" id="projectForm" enctype="multipart/form-data">
-
-
-
-
+                                                    <form role="form" asp-controller="Client" asp-action="ReadExcelFileAsync" enctype="multipart/form-data">
 
                                                         <div class="text-center text-muted mb-4">
-                                                            <small>Supply the details.</small>
+                                                            <small>Excel Example</small>
                                                         </div>
 
-                                                        <div id="parent-project-name" class="form-group mb-4">
-                                                            <div class="input-group input-group-alternative">
 
-                                                                <input id="project-name" class="form-control" placeholder="Project Name" type="text">
-                                                            </div>
-                                                            <small class="project-name-validation" style="color:#f5365c"></small>
-                                                        </div>
+                                                        <img src="~/excel.png" style="width:100%;" />
 
+                                                        <br />
+                                                        <br />
                                                         <div id="parent-project-quantity" class="form-group mb-4">
                                                             <div class="input-group input-group-alternative">
-                                                                <input id="project-quantity" class="form-control" placeholder="Quantity" type="number">
+                                                                <input id="project-excel" name="file" class="form-control" type="file">
                                                             </div>
                                                             <small class="project-quantity-validation" style="color:#f5365c"></small>
                                                         </div>
 
-
-
-
-    
 
                                                         <div class="text-center">
                                                             <input type="submit" id="submit" value="Send" class="btn btn-primary my-4" />

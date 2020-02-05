@@ -48,12 +48,8 @@ namespace Messenger_Thesis_1._0.Controllers
         [HttpGet]
         public JsonResult GetUserList(int page = 1 , string query = ""   )
         {
-
-
             int count = page * 10;
-          
             var users = _userRepo.GetAll().Where(a => a.Role != "Client").OrderByDescending(a => a.UserID).ToList();
-
            
             List<User> sortedUser = new List<User>();
             for (int i = 0; i < users.Count();i++)
@@ -192,6 +188,8 @@ namespace Messenger_Thesis_1._0.Controllers
             return user;
         }
 
+
+     
         [HttpPost]
         public string UpdateData(User userModel )
         {
@@ -199,7 +197,7 @@ namespace Messenger_Thesis_1._0.Controllers
 
             List<string> errors = new List<string>();
          
-            if(userModel.Email == null)
+            if(userModel.UserID != 0)
             {
                 user = _userRepo.FindUser(a => a.UserID == userModel.UserID);
             }else
@@ -258,7 +256,7 @@ namespace Messenger_Thesis_1._0.Controllers
                 Utilities util = new Utilities();
                 user.FirstName = userModel.FirstName;
                 user.LastName = userModel.LastName;
-                user.Role = userModel.Role;
+             
 
                 _userRepo.Update(user);
             }

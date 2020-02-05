@@ -11,22 +11,122 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Net.Mail;
+using OfficeOpenXml;
+using System.Net;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
     public class ClientController : Controller
     {
+        private readonly ILetterRepository _letterRepo;
         private readonly IUserRepository _userRepo;
         private readonly IHostingEnvironment _hostingEnvironment;
-        public ClientController(IUserRepository userRepo, IHostingEnvironment hostingEnvironment)
+        private readonly IProjectRepository _projectRepo;
+
+        public ClientController(ILetterRepository letterRepo, IUserRepository userRepo, IHostingEnvironment hostingEnvironment, IProjectRepository projectRepo)
         {
+            _letterRepo = letterRepo;
             _userRepo = userRepo;
             _hostingEnvironment = hostingEnvironment;
+            _projectRepo = projectRepo;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+            [HttpPost]
+        public async Task<IActionResult> ReadExcelFileAsync(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return Content("File Not Selected");
+
+            string fileExtension = Path.GetExtension(file.FileName);
+
+            if (fileExtension == ".xls" || fileExtension == ".xlsx")
+            {
+
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "");
+                var fileName = file.FileName;
+                var filePath = Path.Combine(uploadsFolder, fileName);
+                var fileLocation = new FileInfo(filePath);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+                var DataList = new List<ExcelFormat>();
+                var code = Guid.NewGuid().ToString("N");
+                using (ExcelPackage package = new ExcelPackage(fileLocation))
+                {   
+                    ExcelWorksheet workSheet = package.Workbook.Worksheets["Sheet1"];
+                    //var workSheet = package.Workbook.Worksheets.First();
+                    int totalRows = workSheet.Dimension.Rows;
+
+                    for (int i = 1; i <= totalRows; i++)
+                    {
+                        DataList.Add(new ExcelFormat
+                        {
+                            Name = workSheet.Cells[i, 1].Value.ToString(),
+                            Address = workSheet.Cells[i, 2].Value.ToString(),
+                            Area = workSheet.Cells[i, 3].Value.ToString()
+                        });
+                    }
+
+                
+                    var email = HttpContext.Session.GetString("Email");
+                    var client = _userRepo.FindUser(a => a.Email == email);
+
+                    Project proj = new Project();
+                    proj.ClientName = HttpContext.Session.GetString("FullName");
+                    proj.Email = client.Email;
+                    proj.Quantity = --totalRows;
+                    proj.Price = totalRows * 5;
+                    proj.Status = "pending";
+                    proj.ProjectName = client.CompanyName;
+                    var str =  string.Join(",", DataList.Where(a => a.Area != "Area").Select(a => a.Area).Distinct() );
+                    proj.Area = str;
+                    proj.ProjectCode = code;
+                    _projectRepo.Create(proj);
+
+                 
+
+
+                }
+
+            
+                foreach (var data in DataList)
+                {
+                   
+
+                    Letter letter = new Letter();
+                    letter.ProjectID = _projectRepo.FindProject(a => a.ProjectCode == code).ProjectID;
+                    letter.ReceiverName = data.Name;
+                    letter.LocationOfDelivery = data.Address + " - " + data.Area;
+                    letter.Price = 50;
+               
+                    _letterRepo.Create(letter);
+                    
+
+                }
+
+
+            }
+
+            return UploadSuccess();
+        }
+
+
+        [HttpGet]
+        public ContentResult UploadSuccess()
+        {
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Successfully uploaded'); window.open('../../../../Project/Client','_self')</script></html>"
+            };
         }
 
         public bool IsValidEmail(string emailaddress)
@@ -88,6 +188,10 @@ namespace Messenger_Thesis_1._0.Controllers
             else if (user.ConfirmPassword != user.Password)
                 errors.Add("password_not_match");
 
+
+            if (user.CompanyName == null)
+             errors.Add("companyname_required");
+           
 
             if (user.FirstName == null)
                 errors.Add("firstname_required");

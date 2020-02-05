@@ -85,7 +85,7 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<int>("Price");
 
-                    b.Property<string>("ProjectID");
+                    b.Property<int>("ProjectID");
 
                     b.Property<string>("ReceiverName");
 
@@ -106,9 +106,17 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<string>("ClientName");
 
+                    b.Property<string>("Email");
+
                     b.Property<string>("ImageName");
 
+                    b.Property<DateTime>("InvoiceDate");
+
+                    b.Property<DateTime>("PaymentDate");
+
                     b.Property<float>("Price");
+
+                    b.Property<string>("ProjectCode");
 
                     b.Property<string>("ProjectName");
 
@@ -130,6 +138,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("Address");
 
                     b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("CompanyName");
 
                     b.Property<int>("DeliveryID");
 

@@ -13,6 +13,7 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         [Key]
         public int ProjectID { get; set; }
+        public string ProjectCode { get; set; }
         public string ClientName { get; set; }
         public string Status { get; set; }
 
@@ -24,6 +25,12 @@ namespace Messenger_Thesis_1._0.Data.Model
         public IFormFile DepositImage { get; set; }
 
         public string ImageName { get; set; }
+
+        public string Email { get; set; }
+
+        public DateTime InvoiceDate { get; set; }
+
+        public DateTime PaymentDate { get; set; }
 
     }
 }

@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Project";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+
+
+
+Enter your Name
+<input type="text" id="txtName" />
+<div>
+    <input type="checkbox" id="check1" checked="checked" /> Open Document inside Browser
+</div>
+<input type="submit" value="Generate PDF" class="Button" id="btn1" />
+<script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $('#btn1').click(function () {
+        var checkbox1 = document.getElementById('check1');
+        $.ajax({
+            url: '/Report/ExportToPDF',
+            type: "POST",
+            data: {
+                name : $("#txtName").val()
+            },
+            datatype: "json",
+            success: function (data) {
+                var fileName = JSON.parse(data);
+                var fileUrl = "/Output/" + fileName['file'];
+                if (checkbox1.checked) {
+                    window.open(fileUrl);
+                }
+                else {
+                    var a = document.createElement('a');
+                    a.href = fileUrl;
+                    a.download = fileName['file'];
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                }
+            }
+        });
+    });
+</script>

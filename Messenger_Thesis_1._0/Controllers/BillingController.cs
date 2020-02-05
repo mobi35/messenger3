@@ -74,6 +74,8 @@ namespace Messenger_Thesis_1._0.Controllers
             if (action)
             {
                 project.Status = "Paid";
+                project.PaymentDate = DateTime.Now;
+
             }else
             {
                 project.ImageName = null;

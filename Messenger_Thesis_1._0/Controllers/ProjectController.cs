@@ -15,11 +15,13 @@ namespace Messenger_Thesis_1._0.Controllers
     {
         private readonly IProjectRepository projectRepo;
         private readonly IUserRepository userRepo;
+        private readonly ILetterRepository letterRepo;
 
-        public ProjectController(IProjectRepository projectRepo, IUserRepository userRepo )
+        public ProjectController(IProjectRepository projectRepo, IUserRepository userRepo, ILetterRepository letterRepo )
         {
             this.projectRepo = projectRepo;
             this.userRepo = userRepo;
+            this.letterRepo = letterRepo;
         }
 
         public List<Project> GetProjects()
@@ -43,17 +45,20 @@ namespace Messenger_Thesis_1._0.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpGet]
+        public JsonResult GetLetterProject(int id)
+        {
+            var letterList = letterRepo.GetAll().Where(a => a.ProjectID == id && a.ReceiverName != "Name").ToList();
+            return Json(letterList);
+        }
 
 
         [HttpGet]
         public JsonResult GetProjectList(int page = 1, string query = "")
         {
 
-
             int count = page * 10;
-
             var project = projectRepo.GetAll().ToList();
-
 
 
             if (HttpContext.Session.GetString("Role") == "Admin")
@@ -104,6 +109,7 @@ namespace Messenger_Thesis_1._0.Controllers
 
             project.Status = "pending";
             project.Price = project.Quantity * 5;
+            project.Email = HttpContext.Session.GetString("Email").ToString();
             if (errors.Count != 0)
             {
                 string errorList = string.Join(",", errors);

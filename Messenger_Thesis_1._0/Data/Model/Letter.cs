@@ -10,7 +10,7 @@ namespace Messenger_Thesis_1._0.Data.Model
     {
         [Key]
         public int LetterID { get; set; }
-        public string ProjectID { get; set; }
+        public int ProjectID { get; set; }
         public string ReceiverName { get; set; }
         public string SenderName { get; set; }
         public string LocationOfDelivery { get; set; }

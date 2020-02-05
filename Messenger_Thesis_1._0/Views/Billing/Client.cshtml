@@ -6,7 +6,69 @@
 
 
 
-<div class="container-fluid mt--7">
+    <div class="container-fluid mt--7">
+
+
+
+       <div class="modal fade" id="modal-show" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal-modal-dialog-centered modal-lg" role="document">
+
+            <div class="modal-content">
+                <div id="RegistrationForm">
+                    <div class="modal-body p-0">
+
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-header bg-white pb-3">
+
+                                <div class="btn-wrapper text-center">
+                                    <h3>List of letters</h3>
+
+                                    <br />
+                                    <form asp-action="Invoice" asp-controller="Report">
+                                        <input type="hidden" id="projectId" name="id" />
+                                        <input type="submit" class="btn btn-primary" value="Show Invoice" />
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body px-lg-5 py-lg-3">
+
+
+
+
+                                <div class="table-responsive">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Receiver Name</th>
+                                                <th scope="col">Location</th>
+                                          
+                                            </tr>
+                                        </thead>
+                                        <tbody class="letterData">
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
 
 
     <!-- Table -->
@@ -83,13 +145,14 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Project Name</th>
+                                <th scope="col">Project ID</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Status</th>
                                 <th scope="col"></th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
 
-                                <th scope="col"></th>
-                                <th scope="col"></th>
+                          
                             </tr>
                         </thead>
                         <tbody class="tableData">
@@ -220,7 +283,7 @@
                             '    <div class="media align-items-center">' +
 
                             '       <div class="media-body">' +
-                            '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
+                            '   <span class="mb-0 text-sm">  ' + e[key].projectID + ' </span>' +
                             '    </div>' +
                             '   </div>' +
                             '   </th>' +
@@ -232,13 +295,13 @@
                             '    <i class="bg-warning"></i>  ' + e[key].status + ' ' +
                             '   </span>' +
                             '    </td>' +' <td>' +
-
+            
 
                             '  <div class="d-flex align-items-center">' +
                             '  <button   type="button"  class="btn btn-block" data-toggle="modal" data-target="#modal-form"  onclick="PassDetails(\'' + e[key].projectName + '\',' + e[key].projectID + '); ShowForm();" >settle</button>' +
                             ' </td>' +
                            ' </div>' +
-
+                                '<td> <button class="btn" data-toggle="modal" data-target="#modal-show" onclick="GetClient('+e[key].projectID+')">Show</button>     </td>' +
                             ' <td class="text-right">' +
                             '  <div class="dropdown">' +
                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
@@ -570,6 +633,44 @@
         });
     }
 
+    function GetClient(id) {
+        $('#projectId').val(id);
+        $('.letterData').html('');
+        $.ajax({
+
+            url: '/Project/GetLetterProject',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+             
+                for (var key of Object.keys(e)) {
+
+                   $('.letterData').append('       <tr> ' +
+                            '       <th scope="row">' +
+                            '    <div class="media align-items-center">' +
+
+                            '       <div class="media-body">' +
+                            '   <span class="mb-0 text-sm">  ' + e[key].receiverName + ' </span>' +
+                            '    </div>' +
+                            '   </div>' +
+                       '   </th>' +
+
+                            ' <td>' +
+                            '  ' + e[key].locationOfDelivery + '' +
+                            '   </td>' +
+                           
+                            '  </tr>'
+                        );
+
+                    
+              }
+
+
+            }
+
+        });
+    }
+
 
     function GetUser(id) {
 
@@ -660,5 +761,7 @@
         $('#project-name').val(projectName);
         $('#project-id').val(userId);
     }
+
+ 
 </script>
 

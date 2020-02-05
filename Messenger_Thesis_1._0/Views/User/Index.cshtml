@@ -22,10 +22,10 @@
                     </div>
                     <div class="card-body px-lg-5 py-lg-3">
                         <div class="text-center text-muted mb-4">
-                            <small>Account information</small>
+                            <small>Account information</small>  
                         </div>
                         <form role="form" id="update-registration_admin" enctype="multipart/form-data">
-                            <input type="hidden" id="userId"/>
+                            <input type="hidden"  id="userId"/>
                             <div id="update_parentPassword_admin" class="form-group">
                                 <div class="input-group input-group-alternative">
                                     <div class="input-group-prepend">
@@ -269,7 +269,7 @@
                             <tr>
                                 <th scope="col">Fullname</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Status</th>
+                             
                                 <th scope="col">Role</th>
 
                                 <th scope="col"></th>
@@ -319,6 +319,7 @@
 
 
     document.getElementById('registration').onsubmit = function () {
+
 
 
 
@@ -456,6 +457,21 @@
                         'success'
                     );
                     $('#submit').disabled = false;
+
+                    $('#parentEmail').removeClass("has-success");
+                       $('#parentFileinput').removeClass("has-success");
+                    $('#parentBirthdate').removeClass("has-success");
+                    $('#parentLastName').removeClass("has-success");
+                    $('#parentFirstName').removeClass('has-success');
+                      $('#parentCPassword').removeClass("has-success");
+                    $('#parentPassword').removeClass("has-success");
+                      $('#email').val('');
+                 $('#password').val('');
+                  $('#cpassword').val('');
+                $('#first-name').val('');
+                   $('#last-name').val('');
+                 $('#birth-date').val('');
+
                     GetAllUser();
                 }
 
@@ -493,14 +509,7 @@
                         '    </div>' +
                         '   </div>' +
                         '   </th>' +
-                        ' <td>' +
-                        '  ' + e[key].email + '' +
-                        '   </td>' +
-                        '   <td>' +
-                        '     <span class="badge badge-dot mr-4">' +
-                        '    <i class="bg-warning"></i> ' +
-                        '   </span>' +
-                        '    </td>' +
+                      
                         '   <td>' +
                         e[key].role +
                         '   </td>' +
@@ -795,8 +804,8 @@
 
 
     function GetUser(id) {
-
-        $.ajax({
+              alert(id);
+        $.ajax({    
 
             url: '/User/GetUserDetails',
             type: 'POST',
@@ -806,7 +815,7 @@
              
                 $('#update_first-name').val(e.firstName);
                 $('#update_last-name').val(e.lastName);
-                $('#userId').val(id);
+                $('#update-userId').val(e.userID);
                 $('#update_role').val(e.role);
 
 
@@ -818,6 +827,7 @@
 
     $('#update-submit-admin').click(function () {
 
+        var formdata = new FormData();
         var fileInput = document.getElementById('update_fileInput_admin').file;
 
         var password = $('#update_password_admin').val();
@@ -825,12 +835,27 @@
         var firstName = $('#update_first-name_admin').val();
         var lastName = $('#update_last-name_admin').val();
         var role = $('#update_role_admin').val();
-         var userId = $('#userId_admin').val();
+        var userId = $('#userId_admin').val();
+
+          var fileInput = document.getElementById('fileInput');
+
+        for (i = 0; i < fileInput.files.length; i++) {
+            formdata.append("Image", fileInput.files[i]);
+        }
+
+           formdata.append("UserID", userId);
+        formdata.append("Password", password);
+        formdata.append("FirstName", firstName);
+        formdata.append("ConfirmPassword", cpassword);
+        formdata.append("LastName", lastName);
+  
+
+
         $.ajax({
 
             url: '/User/UpdateData',
             type: 'POST',
-            data: {userId:userId, password:password, cpassword:cpassword,firstName : firstName, lastName : lastName,role:role , fileInput : fileInput },
+            data: {formdata},
             success: function (e) {
                  if (e == "password_not_match") {
                        $('#update_parentPassword_admin').addClass('has-danger');

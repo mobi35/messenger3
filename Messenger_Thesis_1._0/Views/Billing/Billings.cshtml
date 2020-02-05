@@ -223,8 +223,7 @@
             success: function (e) {
 
                 for (var key of Object.keys(e)) {
-
-                    if (e[key].imageName == null ) {
+                    if ( e[key].status != "pending" ) {
 
 
                         $('.tableData').append('       <tr> ' +
