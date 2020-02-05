@@ -50,7 +50,7 @@ namespace Messenger_Thesis_1._0.Controllers
         {
             int count = page * 10;
             var users = _userRepo.GetAll().Where(a => a.Role != "Client").OrderByDescending(a => a.UserID).ToList();
-           
+            
             List<User> sortedUser = new List<User>();
             for (int i = 0; i < users.Count();i++)
             {
