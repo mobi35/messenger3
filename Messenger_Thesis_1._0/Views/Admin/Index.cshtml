@@ -1,5 +1,6 @@
 ﻿@model DashboardViewModel
-
+@using Messenger_Thesis_1._0.Data.Model.Interface
+@inject IUserRepository UserRepository
 @{
 
     Layout = "_Admin";
@@ -18,8 +19,6 @@
                         </div>
                         <div class="col">
                             <ul class="nav nav-pills justify-content-end">
-                           
-                              
                             </ul>
                         </div>
                     </div>
@@ -52,6 +51,8 @@
             </div>
         </div>
     </div>
+
+
     <div class="row mt-5">
         <div class="col-xl-8 mb-5 mb-xl-0">
             <div class="card shadow">
@@ -60,7 +61,7 @@
                         <div class="col">
                             <h3 class="mb-0">New Projects</h3>
                         </div>
-                  
+
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -81,24 +82,24 @@
                                 foreach (var z in Model.Projects)
                                 {
 
-                              
-                                <tr>
-                                    <th scope="row">
-                                     @z.ProjectName
-                                    </th>
-                                    <td>
-                                      @z.ClientName
-                                    </td>
-                                    <td>
-                                        @z.Quantity
-                                    </td>
-                                    <td>
-                                        @z.Price
-                                    </td>
-                                    <td>
-                                        @z.Area
-                                    </td>
-                                </tr>
+
+                                    <tr>
+                                        <th scope="row">
+                                            @z.ProjectName
+                                        </th>
+                                        <td>
+                                            @z.ClientName
+                                        </td>
+                                        <td>
+                                            @z.Quantity
+                                        </td>
+                                        <td>
+                                            @z.Price
+                                        </td>
+                                        <td>
+                                            @z.Area
+                                        </td>
+                                    </tr>
 
 
                                 }
@@ -118,7 +119,7 @@
                         <div class="col">
                             <h3 class="mb-0">Social traffic</h3>
                         </div>
-                      
+
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -140,7 +141,7 @@
 
 
                                         <th scope="row">
-                                          @x.CompanyName
+                                            @x.CompanyName
                                         </th>
                                         <td>
                                             @x.FirstName @x.LastName
@@ -166,8 +167,76 @@
             </div>
         </div>
     </div>
+
+
+    <div class="row mt-5">
+        <div class="col-xl-8 mb-5 mb-xl-0">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Ratings</h3>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!-- Projects table -->
+                    <table class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Promptness</th>
+                                <th scope="col">Quality</th>
+                                <th scope="col">Responsiveness</th>
+                                <th scope="col">Behaviour</th>
+                                <th scope="col">Overall</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+
+                                foreach (var z in Model.Feedbacks)
+                                {
+
+
+                                                        <tr>
+                                                            <th scope="row">
+                                                                @UserRepository.FindUser(a => a.Email == z.Name).FirstName  @UserRepository.FindUser(a => a.Email == z.Name).MiddleName
+                                                                @UserRepository.FindUser(a => a.Email == z.Name).LastName
+                                                            </th>
+                                                            <td>
+                                                                @z.Promptness
+                                                            </td>
+                                                            <td>
+                                                                @z.Quality
+                                                            </td>
+                                                            <td>
+                                                                @z.Responsiveness
+                                                            </td>
+                                                            <td>
+                                                                @z.Behaviour
+                                                            </td>
+                                                            <td>
+                                                                @z.Overall
+                                                            </td>
+                                                        </tr>
+
+
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
     <!-- Footer -->
-  
+
 </div>
 
 <script src="~/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -176,7 +245,7 @@
 <script src="~/assets/js/plugins/chart.js/dist/Chart.extension.js"></script>
 <script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
 <script>
-   
+
     var map, lat, lng, Datepicker = function () {
         var a = $(".datepicker");
         a.length && a.each(function () {

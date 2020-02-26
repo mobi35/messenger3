@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @inject IHttpContextAccessor HttpContextAccessor
+@using Messenger_Thesis_1._0.Data.Model.Interface
+@inject IFeedbackRepository FeedbackRepository
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,9 +9,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-        @{
-            ViewData["Title"] = "Admin Page";
-        }
+
+        @ViewData["Title"]
     </title>
     <!-- Favicon -->
     <link href="~/assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -253,8 +254,8 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link " href="@Url.Action("Index","Feedback")">
-                                    <i class="ni ni-email-83 text-red"></i> Feedback
+                                <a class="nav-link " href="@Url.Action("Admin","Feedback")">
+                                    <i class="ni ni-email-83 text-red"></i> Feedback ( <small style="color:red;"> @FeedbackRepository.GetAll().Where(a => a.Respond == null).Count() </small> )
                                 </a>
                             </li>
 
@@ -277,6 +278,12 @@
                             <li class="nav-item">
                                 <a class="nav-link " href="@Url.Action("Client","Project")">
                                     <i class="ni ni-single-02 text-yellow"></i> Project
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Client","Feedback")">
+                                    <i class="ni ni-single-02 text-yellow"></i> Send feedback
                                 </a>
                             </li>
 
@@ -368,7 +375,7 @@
                 </div>
             </div>
         </div>
-
+        <script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
         @RenderBody()
 
         <footer style="margin-left:20px; margin-right:20px; margin-top:20px;">
@@ -401,17 +408,29 @@
 
     <script src="~/js/sweetalert2.js"></script>
     <!--   Core   -->
-    <script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="~/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script src="~/DataTables-1.10.18/js/dataTables.buttons.min.js"></script>
+    <script src="~/DataTables-1.10.18/js/buttons.print.min.js"></script>
+
+    <script src="~/DataTables-1.10.18/js/pdfmake.min.js"></script>
+    <script src="~/DataTables-1.10.18/js/vfs_fonts.js"></script>
+    <script src="~/DataTables-1.10.18/js/buttons.html5.min.js"></script>
+    <script src="~/DataTables-1.10.18/js/jszip.min.js"></script>
+    <script src="~/DataTables-1.10.18/js/dataTables.responsive.min.js"></script>
+
+
+
+    <link href="~/DataTables-1.10.18/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/DataTables-1.10.18/css/button.css" rel="stylesheet" />
+    <script src="~/DataTables-1.10.18/js/dataTables.bootstrap4.js"></script>
+
+
     <script src="~/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!--   Optional JS   -->
     <script src="~/assets/js/plugins/chart.js/dist/Chart.min.js"></script>
     <script src="~/assets/js/plugins/chart.js/dist/Chart.extension.js"></script>
     <script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <!--   Argon JS   -->
-
-
-
-
 
 
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>

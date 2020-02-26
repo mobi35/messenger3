@@ -56,13 +56,23 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<float>("Behaviour");
+
                     b.Property<DateTime>("DateFeedbacked");
 
                     b.Property<string>("Message");
 
                     b.Property<string>("Name");
 
-                    b.Property<int>("Rating");
+                    b.Property<float>("Overall");
+
+                    b.Property<float>("Promptness");
+
+                    b.Property<float>("Quality");
+
+                    b.Property<string>("Respond");
+
+                    b.Property<float>("Responsiveness");
 
                     b.Property<string>("Subject");
 

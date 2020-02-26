@@ -12,13 +12,14 @@ namespace Messenger_Thesis_1._0.Controllers
 {
     public class AdminController : Controller
     {
-
+        private readonly IFeedbackRepository feedRepo;
         private readonly IProjectRepository projectRepo;
         private readonly IUserRepository userRepo;
         private readonly ILetterRepository letterRepo;
 
-        public AdminController(IProjectRepository projectRepo, IUserRepository userRepo, ILetterRepository letterRepo)
+        public AdminController(IFeedbackRepository feedRepo, IProjectRepository projectRepo, IUserRepository userRepo, ILetterRepository letterRepo)
         {
+            this.feedRepo = feedRepo;
             this.projectRepo = projectRepo;
             this.userRepo = userRepo;
             this.letterRepo = letterRepo;
@@ -167,6 +168,7 @@ namespace Messenger_Thesis_1._0.Controllers
             dashVM.Projects = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).Take(5).ToList();
 
 
+            dashVM.Feedbacks = feedRepo.GetAll().OrderByDescending(a => a.FeedbackID).Take(5).ToList();
 
             return View(dashVM);
         }

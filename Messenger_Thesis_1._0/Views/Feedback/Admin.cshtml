@@ -1,0 +1,177 @@
+﻿@model List<Feedback>
+@{
+ViewData["Title"] = "Admin";
+Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Response to client</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <input id="feedbackID" type="hidden"/>
+                  <textarea id="adminResponse" class="form-control"></textarea>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="adminSendResponse" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col">
+                <div style="padding:1%;" class="card shadow">
+                    <div class="card-header border-0">
+                        <h3 class="mb-0">Feedbacks</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="myTable" class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Message</th>
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                foreach(var m in Model){
+                                                                <tr>
+                                                                    <td>@m.Name</td>
+                                                                    <td>@m.Subject</td>
+                                                                    <td>@m.Message</td>
+                                                                    <td>
+                                                                        @{
+                                                                            if (MathF.Round(m.Overall) == 5)
+                                                                            {
+                                                                                <span>⭐⭐⭐⭐⭐ (@m.Overall)</span>
+                                                                            }
+                                                                            else if (MathF.Round(m.Overall) == 4)
+                                                                            {
+                                                                                <span>⭐⭐⭐⭐ (@m.Overall)</span>
+                                                                            }
+                                                                            else if (MathF.Round(m.Overall) == 3)
+                                                                            {
+                                                                                <span>⭐⭐⭐ (@m.Overall)</span>
+                                                                            }
+                                                                            else if (MathF.Round(m.Overall) == 2)
+                                                                            {
+                                                                                <span>⭐⭐ (@m.Overall)</span>
+                                                                            }
+                                                                            else if (MathF.Round(m.Overall) == 1)
+                                                                            {
+                                                                                <span>⭐(@m.Overall)</span>
+                                                                            }
+                                                                        }
+
+
+                                                                    </td>
+
+                                                                    <td>
+                                                                        @{
+                                                                            if (m.Respond == null)
+                                                                            {
+                                                                                <button onclick="Respond(@m.FeedbackID)" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                                                                    Respond
+                                                                                </button>
+                                                                            }
+
+                                                                        }
+
+                                                                    </td>
+                                                                </tr>
+                                }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        $('#adminSendResponse').click(function () {
+
+            var id = $('#feedbackID').val();
+            var message = $('#adminResponse').val();
+           
+            $.ajax({
+
+                url: '../Feedback/AdminResponse',
+                type: 'POST',
+                data: {id:id,message:message},
+                success: function (e) {
+
+                    alert("Success");
+                    window.open("../Feedback/Admin","_self");
+                }
+
+            });
+            return false;
+        });
+
+        function Respond(feedID) {
+            $('#feedbackID').val(feedID);
+        }
+
+        $(document).ready(function () {
+
+
+
+            var table = $('#myTable').DataTable({
+          "columnDefs": [
+                    { "width": "15%", "targets": 0 },
+                    { "width": "7%", "targets": 3 },
+                     { "width": "7%", "targets": 4 },
+                  { "width": "15%", "targets": 1 }
+  ],
+                dom: 'lBfrtip',
+                buttons: [
+                    {
+                        extend: 'print',
+
+                        customize: function (win) {
+                            $(win.document.body)
+                                .css({ 'font-size': '10pt' })
+                                .prepend(
+                                    '<img style= src="~/logo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                                );
+                        }
+                    }
+                ],
+                drawCallback: function () {
+
+                    var next = $("#myTable_next > a");
+                    next.text('>');
+
+                    var ss = $("#myTable_previous > a");
+                    ss.text('<');
+                }
+
+            });
+            $('.custom-select').removeClass("custom-select");
+        });
+
+
+
+    </script>
+
+
+

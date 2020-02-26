@@ -253,8 +253,8 @@ C:\Users\Administrator\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcor
 C:\Users\Administrator\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\User\Profile.cshtml.g.cs
 C:\Users\Administrator\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Client\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\appsettings.Development.json
-C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\appsettings.json
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Properties\launchSettings.json
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.deps.json
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.runtimeconfig.json
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.runtimeconfig.dev.json
@@ -262,6 +262,7 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.pdb
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.Views.dll
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.Views.pdb
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.csprojAssemblyReference.cache
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.RazorAssemblyInfo.cache
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.RazorAssemblyInfo.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.AssemblyInfoInputs.cache
@@ -273,6 +274,8 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Billing\Billings.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Billing\Client.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Client\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Feedback\Admin.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Feedback\Client.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Feedback\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Home\About.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Home\Contact.cshtml.g.cs
@@ -283,6 +286,8 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\Admin.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\Client.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Report\Index.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Report\Invoice.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_Admin.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
@@ -300,6 +305,3 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.dll
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.pdb
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.csproj.CopyComplete
-C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Report\Index.cshtml.g.cs
-C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Report\Invoice.cshtml.g.cs
-C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.csprojAssemblyReference.cache

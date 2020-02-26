@@ -16,6 +16,8 @@ namespace Messenger_Thesis_1._0.Models
         public List<string> OrderLabel { get; set; }
 
         public List<Project> Projects { get; set; }
+
+        public List<Feedback> Feedbacks { get; set; }
         public List<User> Users { get; set; }
     }
 }
