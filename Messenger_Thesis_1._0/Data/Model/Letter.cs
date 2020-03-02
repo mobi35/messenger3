@@ -14,7 +14,7 @@ namespace Messenger_Thesis_1._0.Data.Model
         public string ReceiverName { get; set; }
         public string SenderName { get; set; }
         public string LocationOfDelivery { get; set; }
-        public int Price { get; set; }
+        public float Price { get; set; }
         public string MessengerName { get; set; }
 
         public DateTime DateOfDelivery { get; set; }
@@ -23,5 +23,6 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public DateTime DateIns { get; set; }
 
+        public int DeliveryID { get; set; }
     }
 }

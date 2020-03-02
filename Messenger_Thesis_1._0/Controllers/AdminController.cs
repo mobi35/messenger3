@@ -103,7 +103,7 @@ namespace Messenger_Thesis_1._0.Controllers
             dateAvailable.Add(dateNow + 3);
             int o1 = 0, o2 = 0, o3 = 0, o4 = 0, o5 = 0, o6 = 0;
 
-            foreach (var o in projectRepo.GetAll().ToList())
+            foreach (var o in projectRepo.GetAll().Where(a => a.Status == "On going" || a.Status == "Paid" || a.Status == "Completed").ToList())
             {
                 if (o.InvoiceDate.Month == dateAvailable.ElementAtOrDefault(0))
                     o1++;

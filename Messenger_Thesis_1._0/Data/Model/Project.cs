@@ -38,6 +38,10 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public int TotalLettersPerMonth { get; set; }
 
+        public string TypeOfTask { get; set; }
 
+        public int  ContractID { get; set; }
+
+        public string Messenger  { get; set; }
     }
 }

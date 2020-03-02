@@ -18,5 +18,7 @@ namespace Messenger_Thesis_1._0.Data
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Letter> Letters { get; set; }
+
+        public DbSet<Contract> Contracts { get; set; }
     }
 }

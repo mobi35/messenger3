@@ -44,6 +44,7 @@ Layout = "~/Views/Shared/_Admin.cshtml";
                                     <th scope="col">Message</th>
                                     <th scope="col">Rate</th>
                                     <th scope="col">Action</th>
+                                    <th scope="col">Transaction # </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,6 +93,10 @@ Layout = "~/Views/Shared/_Admin.cshtml";
                                                                         }
 
                                                                     </td>
+                                                                 
+                                                                    @{string v = String.Format("{0:D6}", m.ProjectID);
+                                                                    }
+                                                                    <td>@v</td>
                                                                 </tr>
                                 }
                                 }

@@ -259,6 +259,12 @@
                                 </a>
                             </li>
 
+                            <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Index","Contract")">
+                                    <i class="ni ni-email-83 text-red"></i> Contract
+                                </a>
+                            </li>
+
 
 
                         </ul>
@@ -276,6 +282,13 @@
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link " href="@Url.Action("Client","Contract")">
+                                    <i class="ni ni-single-02 text-yellow"></i> My Contract
+                                </a>
+                            </li>
+
+
+                            <li class="nav-item">
                                 <a class="nav-link " href="@Url.Action("Client","Project")">
                                     <i class="ni ni-single-02 text-yellow"></i> Project
                                 </a>
@@ -289,6 +302,22 @@
 
 
                         </ul>
+
+                    }
+                    else if (HttpContextAccessor.HttpContext.Session.GetString("Role").ToString() == "Messenger")
+                    {
+                        //  Context.Response.Redirect("/Project/Client");
+
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="@Url.Action("Messenger","Project")">
+                                <i class="ni ni-single-02 text-black"></i> Project
+                            </a>
+                        </li>
+
+
+                    </ul>
 
                     }
                     else
@@ -376,6 +405,7 @@
             </div>
         </div>
         <script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+     
         @RenderBody()
 
         <footer style="margin-left:20px; margin-right:20px; margin-top:20px;">
@@ -430,7 +460,7 @@
     <!--   Optional JS   -->
     <script src="~/assets/js/plugins/chart.js/dist/Chart.min.js"></script>
     <script src="~/assets/js/plugins/chart.js/dist/Chart.extension.js"></script>
-    <script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
 
 
     <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
@@ -688,3 +718,5 @@
 </body>
 
 </html>
+
+

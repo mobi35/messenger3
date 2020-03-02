@@ -1,0 +1,297 @@
+﻿@model List<Contract>
+
+@using Messenger_Thesis_1._0.Data.Model.Interface
+@inject IUserRepository UserRepository
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+    <form id="add_contract">
+        <!-- Modal -->
+        <div class="modal fade" id="AddContractModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Contract</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <select id="company_name" class="form-control">
+                            @{
+                                foreach (var m in UserRepository.GetAll().Where(a => a.Role == "Client"))
+                                {
+                                    <option value="@m.CompanyName">@m.CompanyName</option>
+                                }
+                            }
+
+                        </select>
+
+                        <label>Quantity</label>
+                        <input required tye="number" id="quantity" class="form-control" />
+
+                        <label>Price Per Quantity</label>
+                        <input required tye="number" id="price_per_quantity" class="form-control" />
+
+                        <label>Contract Start</label>
+                        <div id="parentBirthdate" class="form-group">
+                            <div class="input-group  input-group-alternative   ">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                </div>
+                                <input required id="contract_start" autocomplete="off" class="form-control datepicker" placeholder="Contract Start" type="text">
+                            </div>
+                            <small class="birthdateValidation" style="color:#f5365c"></small>
+                        </div>
+
+
+
+                        <label>Contract Duration</label>
+                        <select id="duration" class="form-control">
+                            <option value="1">1 year</option>
+                            <option value="2">2 years</option>
+                            <option value="3">3 years</option>
+                            <option value="4">4 years</option>
+                            <option value="5">5 years</option>
+                        </select>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" id="contract_submit" class="btn btn-primary"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div style="padding:1%;" class="card shadow">
+                <button style="width:15%;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#AddContractModal">
+                    Add Contract
+                </button>
+                <div class="card-header border-0">
+
+                    <h3 class="mb-0">Contracts</h3>
+                </div>
+                <div class="table-responsive">
+
+                    <table id="myTable" class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Contract ID </th>
+                                <th scope="col">Company Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price Per Quantity</th>
+                                <th scope="col">Duration</th>
+
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            @{
+                                foreach (var m in Model)
+                                {
+                                                        <tr>
+                                                            <td>@m.ContractID</td>
+                                                            <td>@m.CompanyName</td>
+                                                            <td>@m.Quantity</td>
+
+                                                            <td>@m.PricePerQuantity</td>
+                                                            <td>
+                                                                @m.StartDuration.ToShortDateString() - @m.EndDuration.ToShortDateString()
+                                                            </td>
+                                                        </tr>
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    document.getElementById('add_contract').onsubmit = function () {
+        
+
+        var form = new FormData();
+
+        form.append("CompanyName", $('#company_name').val());
+        form.append("Quantity", $('#quantity').val());
+        form.append("PricePerQuantity", $('#price_per_quantity').val());
+        form.append("YearsOfDuration", $('#duration').val());
+        form.append("StartDuration", $('#contract_start').val() );
+    
+        var XML = new XMLHttpRequest();
+
+        XML.open("POST", "/Contract/Add");
+        XML.send(form);
+
+         XML.onreadystatechange = function (e) {
+
+             if (XML.readyState == 4 && XML.status == 200) {
+
+                 Swal.fire({
+                     title: 'Success!',
+                     text: "Contract Added",
+                     icon: 'success',
+                     confirmButtonText: 'Okay'
+                 }).then((result) => {
+                     if (result.value) {
+
+                         window.open("/Contract", "_self");
+
+
+                     }
+                 });
+
+                  $(".modal-backdrop").hide();
+                 $("#AddContractModal").hide();
+                
+             }
+
+        }
+
+
+        return false;
+    }
+
+    $(document).ready(function () {
+        var table = $('#myTable').DataTable({
+       order : [[ 0, "desc" ]],
+            responsive: true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(
+                                '<img style= src="~/logo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#myTable_next > a");
+                next.text('>');
+
+                var ss = $("#myTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+    $("#contract_form").submit(function (e) {
+
+        e.preventDefault();
+
+        var rating = 2;
+        var subject = $('#subject').val();
+        var message = $('#message').val();
+
+        if (rating == undefined || subject == "" || message == "") {
+            $('#validation').html('<div class="alert alert-warning"><strong>Warning!</strong> Please complete the fields below</div>');
+            return false;
+        } else {
+            $('#validation').html("");
+        }
+
+
+
+        var feedbackModel = new FormData();
+
+        feedbackModel.append("Rating", rating);
+        feedbackModel.append("Subject", subject);
+        feedbackModel.append("Message", message);
+
+        feedbackModel.append("Behaviour", $('.third-rating').text());
+        feedbackModel.append("Promptness", $('.second-rating').text());
+        feedbackModel.append("Quality", $('.first-rating').text());
+        feedbackModel.append("Responsiveness", $('.fourth-rating').text());
+
+
+        var sender = new XMLHttpRequest();
+        sender.open("POST", "/Feedback/MemberFeedback");
+        sender.send(feedbackModel);
+        sender.onreadystatechange = function () {
+            if (sender.readyState == 4 && sender.status == 200) {
+                $(".first").starRating('setRating', 0);
+                $(".second").starRating('setRating', 0);
+                $(".third").starRating('setRating', 0);
+                $(".fourth").starRating('setRating', 0);
+
+                $('#subject').val("");
+                $('#message').val("");
+                $('#validation').html('<div class="alert alert-success"><strong>Success</strong> Your feedback has been submitted</div>');
+            }
+        }
+
+
+
+    });
+</script>
+<script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="~/rate.js"></script>
+<script>
+    $(document).ready(function () {
+    
+    var dateToday = new Date(); 
+    $('.datepicker').datepicker({
+        startDate : dateToday
+    });
+
+        });
+
+
+</script>
+
+
+

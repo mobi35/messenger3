@@ -35,7 +35,20 @@ namespace Messenger_Thesis_1._0.Controllers
         
         public IActionResult Billings()
         {
-            return View();
+            var project = projectRepo.GetAll().ToList();
+
+            if (HttpContext.Session.GetString("Role") == "Admin")
+            {
+                project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
+            }
+            else
+            {
+                var name = HttpContext.Session.GetString("FullName").ToString();
+                project = projectRepo.GetAll().Where(a => a.ClientName == name).OrderByDescending(a => a.ProjectID).ToList();
+            }
+
+
+            return View(project);
         }
 
         [HttpPost]
@@ -59,10 +72,6 @@ namespace Messenger_Thesis_1._0.Controllers
             {
                 return "no_image";
             }
-
-
-
-
 
 
            
@@ -117,45 +126,14 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Client()
         {
+            var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
+            var getUser = _userRepo.FindUser(a => a.UserID == userID);
 
-            return View();
+
+            return View(projectRepo.GetAll().Where(a => a.Email == getUser.Email));
         }
 
-        [HttpGet]
-        public JsonResult GetBillingList(int page = 1, string query = "")
-        {
-
-
-            int count = page * 10;
-
-            var project = projectRepo.GetAll().ToList();
-
-            if (HttpContext.Session.GetString("Role") == "Admin")
-            {
-                project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
-            }else
-            {
-               var name = HttpContext.Session.GetString("FullName").ToString();
-                project = projectRepo.GetAll().Where(a => a.ClientName == name).OrderByDescending(a => a.ProjectID).ToList();
-            }
-
-
-            
-            List<Project> sortedProject = new List<Project>();
-            for (int i = 0; i < project.Count(); i++)
-            {
-                if (page == 1 && i < 10)
-                {
-                    sortedProject.Add(project[i]);
-                }
-                else if (i > (count - 10) && count >= i)
-                {
-                    sortedProject.Add(project[i]);
-                }
-            }
-
-            return Json(sortedProject);
-        }
+       
 
 
 

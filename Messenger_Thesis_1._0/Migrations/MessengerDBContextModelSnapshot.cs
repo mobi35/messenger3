@@ -50,6 +50,31 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("Messenger_Thesis_1._0.Data.Model.Contract", b =>
+                {
+                    b.Property<int>("ContractID")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientID");
+
+                    b.Property<string>("CompanyName");
+
+                    b.Property<DateTime>("EndDuration");
+
+                    b.Property<float>("PricePerQuantity");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<DateTime>("StartDuration");
+
+                    b.Property<int>("YearsOfDuration");
+
+                    b.HasKey("ContractID");
+
+                    b.ToTable("Contracts");
+                });
+
             modelBuilder.Entity("Messenger_Thesis_1._0.Data.Model.Feedback", b =>
                 {
                     b.Property<int>("FeedbackID")
@@ -65,6 +90,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("Name");
 
                     b.Property<float>("Overall");
+
+                    b.Property<int>("ProjectID");
 
                     b.Property<float>("Promptness");
 
@@ -91,13 +118,15 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<DateTime>("DateOfDelivery");
 
+                    b.Property<int>("DeliveryID");
+
                     b.Property<string>("LocationOfDelivery");
 
                     b.Property<string>("MessengerName");
 
                     b.Property<DateTime>("PaymentDate");
 
-                    b.Property<int>("Price");
+                    b.Property<float>("Price");
 
                     b.Property<int>("ProjectID");
 
@@ -120,6 +149,8 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<string>("ClientName");
 
+                    b.Property<int>("ContractID");
+
                     b.Property<DateTime>("CurrentDateStart");
 
                     b.Property<string>("Email");
@@ -129,6 +160,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<DateTime>("InvoiceDate");
 
                     b.Property<DateTime>("LastPaymentDate");
+
+                    b.Property<string>("Messenger");
 
                     b.Property<string>("PaymentTerms");
 
@@ -143,6 +176,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("Status");
 
                     b.Property<int>("TotalLettersPerMonth");
+
+                    b.Property<string>("TypeOfTask");
 
                     b.HasKey("ProjectID");
 

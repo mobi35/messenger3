@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<Project>
 @{
     ViewData["Title"] = "Billings";
     Layout = "~/Views/Shared/_Admin.cshtml";
@@ -6,11 +6,11 @@
 
 
 
-    <div class="container-fluid mt--7">
+<div class="container-fluid mt--7">
 
 
 
-       <div class="modal fade" id="modal-show" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal fade" id="modal-show" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
         <div class="modal-dialog modal-modal-dialog-centered modal-lg" role="document">
 
             <div class="modal-content">
@@ -41,7 +41,7 @@
                                             <tr>
                                                 <th scope="col">Receiver Name</th>
                                                 <th scope="col">Location</th>
-                                          
+
                                             </tr>
                                         </thead>
                                         <tbody class="letterData">
@@ -78,7 +78,7 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <div class="col-md-3">
-                        
+
                         <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
                             <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
 
@@ -97,15 +97,15 @@
 
                                                     <form role="form" id="deposit-form" enctype="multipart/form-data">
 
-                                                        <input type="hidden"  id="project-id" />
+                                                        <input type="hidden" id="project-id" />
 
 
-                                                        <div  class="form-group mb-4">
+                                                        <div class="form-group mb-4">
                                                             <div class="input-group input-group-alternative">
 
                                                                 <input id="project-name" class="form-control" disabled type="text">
                                                             </div>
-                                                           
+
                                                         </div>
 
 
@@ -141,49 +141,49 @@
                     </div>
 
                 </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
+                <div style="padding:1%;" class="table-responsive">
+                    <h3>Billings</h3>
+                    <table id="billingTable" class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
-                                <th scope="col">Project ID</th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Company Name</th>
                                 <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
                                 <th scope="col">Status</th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
-                                <th scope="col"></th>
 
-                          
+                                <th scope="col">Action</th>
+
                             </tr>
                         </thead>
-                        <tbody class="tableData">
+                        <tbody>
+                            @{
+                                foreach (var m in Model)
+                                {
+                                                        <tr>
+                                                            <td>@m.ProjectID</td>
+                                                            <td>@m.ProjectName</td>
+                                                            <td>@m.Quantity</td>
+                                                            <td>@m.Price</td>
+                                                            <td>@m.Status</td>
+                                                            <td>
+                                                                @{
+                                                                    if (m.ImageName == null)
+                                                                    {
+                                                                        <button type="button" class="btn btn-block" data-toggle="modal" data-target="#modal-form" onclick="PassDetails(' @m.ProjectName ',' @m.ProjectID '); ShowForm();">settle</button>
+
+                                                                    }
+                                                                }
+
+                                                            </td>
+
+                                                        </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer py-4">
-                    <nav aria-label="...">
-                        <ul class="pagination justify-content-end mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">
-                                    <i class="fas fa-angle-left"></i>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a onclick="Page1()" class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a onclick="Page2()" class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li onclick="Page3()" class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class="fas fa-angle-right"></i>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+          
             </div>
         </div>
     </div>
@@ -192,9 +192,46 @@
 
 
 <script>
+    $(document).ready(function () {
+        var table = $('#billingTable').DataTable({
+
+    order : [[ 0, "desc" ]],
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend('<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#billingTable_next > a");
+                next.text('>');
+
+                var ss = $("#billingTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
 
 
-    GetAllUser(1);
+</script>
+
+
+
+
+<script>
+
+
+
 
 
     document.getElementById('deposit-form').onsubmit = function () {
@@ -203,7 +240,7 @@
 
         var formdata = new FormData();
 
-      
+
         var projectId = $('#project-id').val();
 
         var fileInput = document.getElementById('fileInput');
@@ -213,7 +250,7 @@
 
 
         formdata.append("ProjectID", projectId);
-    
+
 
 
         $('#submit').disabled = true;
@@ -228,13 +265,13 @@
             if (xhr.readyState == 4 && xhr.status == 200) {
                 if (xhr.responseText == "no_image") {
                     alert(xhr.responseText);
-                     $('.fileinputValidation').html('You need to upload your deposit slip');
+                    $('.fileinputValidation').html('You need to upload your deposit slip');
 
-                    }
-               
+                }
+
                 if (xhr.responseText == "") {
 
-                   
+
 
                     $('#RegistrationForm').hide();
 
@@ -246,15 +283,15 @@
                         'success'
                     );
                     $('#submit').disabled = false;
-                      $('.fileinputValidation').html('');
+                    $('.fileinputValidation').html('');
                     GetAllUser(1);
                 }
 
             }
         }
 
-     
-            
+
+
         return false;
     }
 
@@ -274,11 +311,11 @@
             success: function (e) {
 
                 for (var key of Object.keys(e)) {
-                 
-                  
+
+
                     if (e[key].imageName == null) {
 
-                        var str = "" +  e[key].projectID
+                        var str = "" + e[key].projectID
                         var pad = "00000"
                         var ans = pad.substring(0, pad.length - str.length) + str
 
@@ -298,14 +335,14 @@
                             '     <span class="badge badge-dot mr-4">' +
                             '    <i class="bg-warning"></i>  ' + e[key].status + ' ' +
                             '   </span>' +
-                            '    </td>' +' <td>' +
-            
+                            '    </td>' + ' <td>' +
+
 
                             '  <div class="d-flex align-items-center">' +
                             '  <button   type="button"  class="btn btn-block" data-toggle="modal" data-target="#modal-form"  onclick="PassDetails(\'' + e[key].projectName + '\',' + e[key].projectID + '); ShowForm();" >settle</button>' +
                             ' </td>' +
-                           ' </div>' +
-                                '<td> <button class="btn" data-toggle="modal" data-target="#modal-show" onclick="GetClient('+e[key].projectID+')">Show</button>     </td>' +
+                            ' </div>' +
+                            '<td> <button class="btn" data-toggle="modal" data-target="#modal-show" onclick="GetClient(' + e[key].projectID + ')">Show</button>     </td>' +
                             ' <td class="text-right">' +
                             '  <div class="dropdown">' +
                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
@@ -322,12 +359,12 @@
                         );
 
                     } else {
-                          var str = "" +  e[key].projectID
+                        var str = "" + e[key].projectID
                         var pad = "00000"
                         var ans = pad.substring(0, pad.length - str.length) + str
 
-                        
-                                $('.tableData').append('       <tr> ' +
+
+                        $('.tableData').append('       <tr> ' +
                             '       <th scope="row">' +
                             '    <div class="media align-items-center">' +
 
@@ -343,14 +380,14 @@
                             '     <span class="badge badge-dot mr-4">' +
                             '    <i class="bg-warning"></i>  ' + e[key].status + ' ' +
                             '   </span>' +
-                            '    </td>' +' <td>' +
-            
+                            '    </td>' + ' <td>' +
+
 
                             '  <div class="d-flex align-items-center">' +
-                      
+
                             ' </td>' +
-                           ' </div>' +
-                                '<td> <button class="btn" data-toggle="modal" data-target="#modal-show" onclick="GetClient('+e[key].projectID+')">Show</button>     </td>' +
+                            ' </div>' +
+                            '<td> <button class="btn" data-toggle="modal" data-target="#modal-show" onclick="GetClient(' + e[key].projectID + ')">Show</button>     </td>' +
                             ' <td class="text-right">' +
                             '  <div class="dropdown">' +
                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
@@ -367,18 +404,18 @@
                         );
 
 
-               
+
 
 
 
                     }
-                  //  fullTable += t;
+                    //  fullTable += t;
 
                     $('tr:first').css('background-color', 'red');
 
                 }
 
-             //   $('.tableData').html(fullTable);
+                //   $('.tableData').html(fullTable);
 
             }
 
@@ -648,28 +685,28 @@
             type: 'GET',
             data: { id: id },
             success: function (e) {
-             
+
                 for (var key of Object.keys(e)) {
 
-                   $('.letterData').append('       <tr> ' +
-                            '       <th scope="row">' +
-                            '    <div class="media align-items-center">' +
+                    $('.letterData').append('       <tr> ' +
+                        '       <th scope="row">' +
+                        '    <div class="media align-items-center">' +
 
-                            '       <div class="media-body">' +
-                            '   <span class="mb-0 text-sm">  ' + e[key].receiverName + ' </span>' +
-                            '    </div>' +
-                            '   </div>' +
-                       '   </th>' +
+                        '       <div class="media-body">' +
+                        '   <span class="mb-0 text-sm">  ' + e[key].receiverName + ' </span>' +
+                        '    </div>' +
+                        '   </div>' +
+                        '   </th>' +
 
-                            ' <td>' +
-                            '  ' + e[key].locationOfDelivery + '' +
-                            '   </td>' +
-                           
-                            '  </tr>'
-                        );
+                        ' <td>' +
+                        '  ' + e[key].locationOfDelivery + '' +
+                        '   </td>' +
 
-                    
-              }
+                        '  </tr>'
+                    );
+
+
+                }
 
 
             }
@@ -684,7 +721,7 @@
 
             url: '/User/GetUserDetails',
             type: 'POST',
-            data: { id : id },
+            data: { id: id },
             success: function (e) {
 
 
@@ -709,29 +746,29 @@
         var firstName = $('#update_first-name_admin').val();
         var lastName = $('#update_last-name_admin').val();
         var role = $('#update_role_admin').val();
-         var userId = $('#userId_admin').val();
+        var userId = $('#userId_admin').val();
         $.ajax({
 
             url: '/User/UpdateData',
             type: 'POST',
-            data: {userId:userId, password:password, cpassword:cpassword,firstName : firstName, lastName : lastName,role:role , fileInput : fileInput },
+            data: { userId: userId, password: password, cpassword: cpassword, firstName: firstName, lastName: lastName, role: role, fileInput: fileInput },
             success: function (e) {
-                 if (e == "password_not_match") {
-                       $('#update_parentPassword_admin').addClass('has-danger');
-                       $('#update_parentCPassword_admin').addClass('has-danger');
-                       $('.update_passwordValidation_admin').html("Please input your password");
+                if (e == "password_not_match") {
+                    $('#update_parentPassword_admin').addClass('has-danger');
+                    $('#update_parentCPassword_admin').addClass('has-danger');
+                    $('.update_passwordValidation_admin').html("Please input your password");
                 }
 
                 if (e == "firstname_required") {
-                         $('#update_parentFirstName_admin').addClass('has-danger');
-                         $('.update_firstNameValidation_admin').html("Please write your first name");
-                }else if (e == "firstname_not_letter") {
-                         $('#update_parentFirstName_admin').addClass('has-danger');
-                         $('.update_firstNameValidation_admin').html("Invalid character");
-                }else if (e == "firstname_max_letter") {
-                        $('#update_parentFirstName_admin').addClass('has-danger');
-                        $('.update_firstNameValidation_admin').html("Maximum of 50 characters only");
-                }else {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Please write your first name");
+                } else if (e == "firstname_not_letter") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Invalid character");
+                } else if (e == "firstname_max_letter") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Maximum of 50 characters only");
+                } else {
                     $('#update_parentFirstName_admin').removeClass("has-danger");
                     $('#update_parentFirstName_admin').addClass("has-success");
                     $('.update_firstNameValidation_admin').html("");
@@ -740,13 +777,13 @@
                 if (e == "lastname_required") {
                     $('#update_parentLastName_admin').addClass('has-danger');
                     $('.update_lastNameValidation_admin').html("Please write your last name");
-                }else  if (e == "lastname_not_letter") {
+                } else if (e == "lastname_not_letter") {
                     $('#update_parentLastName_admin').addClass('has-danger');
                     $('.update_lastNameValidation_admin').html("Invalid character");
-                }else  if (e == "lastname_max_letter") {
+                } else if (e == "lastname_max_letter") {
                     $('#update_parentLastName_admin').addClass('has-danger');
                     $('.update_lastNameValidation_admin').html("Maximum of 50 characters only");
-                }else {
+                } else {
                     $('#update_parentLastName_admin').removeClass("has-danger");
                     $('#update_parentLastName_admin').addClass("has-success");
                     $('.update_lastNameValidation_admin').html("");
@@ -768,6 +805,6 @@
         $('#project-id').val(userId);
     }
 
- 
+
 </script>
 

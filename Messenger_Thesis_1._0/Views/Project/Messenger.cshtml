@@ -1,0 +1,187 @@
+﻿@model List<Project>
+
+@using Messenger_Thesis_1._0.Data.Model.Interface
+@inject IContractRepository ContractRepository
+@inject IUserRepository UserRepository
+@{
+    ViewData["Title"] = "Project";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+
+
+<div class="container-fluid mt--7">
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <br />
+                <div class="col-md-3">
+
+             
+
+
+                </div>
+                <div class="card-header border-0">
+                    <h3 class="mb-0">Projects</h3>
+                </div>
+                <div style="padding:2%;" class="table-responsive">
+                    <table id="projectTable" class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">ProjectName</th>
+
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Type  </th>
+                                <th scope="col">Status  </th>
+
+                                <th scope="col">Date  </th>
+                                <th scope="col">Action  </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                foreach (var project in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @project.ProjectName
+                                        </td>
+
+                                        <td>
+                                            @project.Quantity
+                                        </td>
+
+                                        <td>
+                                            @project.TypeOfTask
+                                        </td>
+
+                                        <td>
+                                            @project.Status
+                                        </td>
+                                        <td>
+                                            @project.CurrentDateStart.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (project.Status == "On-going" && project.TypeOfTask == "Pick-up")
+                                                {
+                                                    <button type="button" onclick="Done(@project.ProjectID)" class="btn btn-block">Done</button>
+                                                }
+
+                                                if (project.Status == "On-going" && project.TypeOfTask == "Delivery")
+                                                {
+                                                    <button type="button" onclick="DoneDelivery(@project.ProjectID)" class="btn btn-block">Done</button>
+                                                }
+
+                                            }
+
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Dark table -->
+
+
+</div>
+
+
+
+<script>
+
+
+    $(document).ready(function () {
+        var table = $('#projectTable').DataTable({
+
+            order: [[4, "desc"]],
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend('<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#projectTable_next > a");
+                next.text('>');
+
+                var ss = $("#projectTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
+
+
+
+    function Done(id) {
+
+        var conf = confirm("are you sure?");
+
+        if (conf) {
+
+        $.ajax({
+
+            url: '../Project/FinishedPickup',
+            type: 'POST',
+            data: {id : id},
+            success: function (e) {
+               Swal.fire(
+                        'Good job!',
+                        'Pickup Completed!',
+                        'success'
+                    );
+            }
+
+        });
+            }
+    }
+
+     function DoneDelivery(id) {
+
+        var conf = confirm("are you sure?");
+
+        if (conf) {
+
+        $.ajax({
+
+            url: '../Project/FinishedDelivery',
+            type: 'POST',
+            data: {id : id},
+            success: function (e) {
+               Swal.fire(
+                        'Good job!',
+                        'Delivery Completed!',
+                        'success'
+                    );
+            }
+
+        });
+            }
+    }
+
+</script>

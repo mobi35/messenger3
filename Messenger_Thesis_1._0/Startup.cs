@@ -39,6 +39,7 @@ namespace Messenger_Thesis_1._0
             services.AddScoped<ILetterRepository, LetterRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IClientRepository, ClientRepository>();
+            services.AddScoped<IContractRepository, ContractRepository>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
       
 

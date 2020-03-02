@@ -237,9 +237,9 @@
                             <td class="no">@String.Format("{0:D5}", Model.Projects.ProjectID)</td>
                             <td class="text-left"><h3> @Model.Projects.Area </h3></td>
                             <td class="text-left"><h3> @Model.Projects.Quantity </h3></td>
-                            <td class="unit">P @Model.Projects.Price </td>
+                            <td class="unit">P @Model.Projects.Price.ToString("N") </td>
 
-                            <td class="total">P @Model.Projects.Price</td>
+                            <td class="total">P @Model.Projects.Price.ToString("N")</td>
                         </tr>
 
 
@@ -250,7 +250,7 @@
                         <tr>
                             <td colspan="2"></td>
                             <td colspan="2">GRAND TOTAL</td>
-                            <td>P @Model.Projects.Price</td>
+                            <td>P @Model.Projects.Price.ToString("N")</td>
                         </tr>
                     </tfoot>
                 </table>

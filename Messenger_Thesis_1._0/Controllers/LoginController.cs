@@ -65,6 +65,7 @@ namespace Messenger_Thesis_1._0.Controllers
             HttpContext.Session.SetString("Image", "");
             HttpContext.Session.SetString("FullName", "");
             HttpContext.Session.SetString("Role", "");
+            HttpContext.Session.SetString("UserID", "");
             return RedirectToAction("Index", "Home");
         }
 
@@ -97,7 +98,7 @@ namespace Messenger_Thesis_1._0.Controllers
                 HttpContext.Session.SetString("FullName", user.FirstName + " " + user.LastName);
                 HttpContext.Session.SetString("Image", user.ImageName);
                 HttpContext.Session.SetString("Role", user.Role);
-
+                HttpContext.Session.SetString("UserID", user.UserID.ToString());
                 var project = projectRepo.GetAll().Where(a => a.Email == user.Email && a.Status == "Paid").ToList();
 
                 foreach (var p in project)
@@ -124,7 +125,9 @@ namespace Messenger_Thesis_1._0.Controllers
                     return RedirectToAction("Index", "Admin");
                else if (user.Role == "Client")
                     return RedirectToAction("Client", "Project");
-               else
+                else if (user.Role == "Messenger")
+                    return RedirectToAction("Index", "Admin");
+                else
                     return RedirectToAction("Index", "Home");
 
             }

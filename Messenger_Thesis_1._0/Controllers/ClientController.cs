@@ -18,13 +18,15 @@ namespace Messenger_Thesis_1._0.Controllers
 {
     public class ClientController : Controller
     {
+        private readonly IContractRepository contractRepo;
         private readonly ILetterRepository _letterRepo;
         private readonly IUserRepository _userRepo;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IProjectRepository _projectRepo;
 
-        public ClientController(ILetterRepository letterRepo, IUserRepository userRepo, IHostingEnvironment hostingEnvironment, IProjectRepository projectRepo)
+        public ClientController(IContractRepository contractRepo, ILetterRepository letterRepo, IUserRepository userRepo, IHostingEnvironment hostingEnvironment, IProjectRepository projectRepo)
         {
+            this.contractRepo = contractRepo;
             _letterRepo = letterRepo;
             _userRepo = userRepo;
             _hostingEnvironment = hostingEnvironment;
@@ -38,28 +40,105 @@ namespace Messenger_Thesis_1._0.Controllers
 
 
         [HttpPost]
-        public IActionResult NewProject(int totalenvelope, string terms)
+        public async Task<IActionResult> NewProject(Project project)
         {
             var email = HttpContext.Session.GetString("Email");
             var client = _userRepo.FindUser(a => a.Email == email);
             var code = Guid.NewGuid().ToString("N");
 
             Project proj = new Project();
+            proj.ContractID = project.ContractID;
             proj.ClientName = HttpContext.Session.GetString("FullName");
+            proj.CurrentDateStart = project.CurrentDateStart;
             proj.Email = client.Email;
             proj.Status = "Pending";
-            proj.TotalLettersPerMonth = totalenvelope;
-            proj.PaymentTerms = terms;
+            proj.TypeOfTask = "Pick-up";
+
             proj.InvoiceDate = DateTime.Now;
 
             proj.ProjectName = client.CompanyName;
             proj.ProjectCode = code;
-            proj.Price = totalenvelope * 5;
-
-
 
             _projectRepo.Create(proj);
 
+
+            if (project.DepositImage == null || project.DepositImage.Length == 0)
+                return Content("File Not Selected");
+
+            string fileExtension = Path.GetExtension(project.DepositImage.FileName);
+
+            if (fileExtension == ".xls" || fileExtension == ".xlsx")
+            {
+
+                string uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "");
+                var fileName = project.DepositImage.FileName;
+                var filePath = Path.Combine(uploadsFolder, fileName);
+                var fileLocation = new FileInfo(filePath);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await project.DepositImage.CopyToAsync(fileStream);
+                }
+                var DataList = new List<ExcelFormat>();
+              
+                using (ExcelPackage package = new ExcelPackage(fileLocation))
+                {
+                    ExcelWorksheet workSheet = package.Workbook.Worksheets["Sheet1"];
+                    //var workSheet = package.Workbook.Worksheets.First();
+                    int totalRows = workSheet.Dimension.Rows;
+
+                    for (int i = 1; i <= totalRows; i++)
+                    {
+                        if (i == 1)
+                            continue;
+                        DataList.Add(new ExcelFormat
+                        {
+                            Name = workSheet.Cells[i, 1].Value.ToString(),
+                            Address = workSheet.Cells[i, 2].Value.ToString(),
+                            Area = workSheet.Cells[i, 3].Value.ToString()
+                        });
+                    }
+                }
+                var contractModel = contractRepo.FindContract(a => a.ContractID == project.ContractID);
+                int count = 0;
+                foreach (var data in DataList)
+                {
+
+                    count++;
+                    Letter letter = new Letter();
+                    letter.ProjectID = _projectRepo.GetAll().OrderBy(a => a.ProjectID).LastOrDefault().ProjectID;
+                    letter.ReceiverName = data.Name;
+                    letter.LocationOfDelivery = data.Address + " - " + data.Area;
+                    letter.Price =contractModel.PricePerQuantity / contractModel.Quantity ;
+                    _letterRepo.Create(letter);
+
+
+                }
+               
+             
+                var defQuantity =  contractModel.Quantity;
+                var defPrice = contractModel.PricePerQuantity;
+                float price = 0;
+                if (count <= defQuantity)
+                {
+                    price = defPrice;
+                }else
+                {
+                    var roundedValue = count / defQuantity;
+                    price += roundedValue * defPrice;
+                }
+
+                var projID = _projectRepo.GetAll().OrderBy(a => a.ProjectID).LastOrDefault().ProjectID;
+                var projectModel = _projectRepo.FindProject(a => a.ProjectID == projID);
+                projectModel.Price = price;
+                projectModel.Quantity = count;
+
+
+                _projectRepo.Update(projectModel);
+
+
+                return UploadSuccess();
+            }
             return UploadSuccess();
         }
 
@@ -117,15 +196,11 @@ namespace Messenger_Thesis_1._0.Controllers
                     letter.ReceiverName = data.Name;
                     letter.LocationOfDelivery = data.Address + " - " + data.Area;
                     letter.Price = 5;
-               
+                    
                     _letterRepo.Create(letter);
                     
 
                 }
-
-               var proj = _projectRepo.FindProject(a => a.ProjectID == projectid);
-                proj.Quantity += count;
-                _projectRepo.Update(proj);
 
             }
 

@@ -1,4 +1,8 @@
 ﻿@model List<Feedback>
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@using Messenger_Thesis_1._0.Data.Model.Interface
+@inject IProjectRepository ProjectRepository
 @{
 
     Layout = "~/Views/Shared/_Admin.cshtml";
@@ -8,43 +12,43 @@
 
 <style>
     .jq-stars {
-  display: inline-block;
-}
+        display: inline-block;
+    }
 
-.jq-rating-label {
-  font-size: 22px;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-  font-family: helvetica, arial, verdana;
-}
+    .jq-rating-label {
+        font-size: 22px;
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+        font-family: helvetica, arial, verdana;
+    }
 
-.jq-star {
-  width: 100px;
-  height: 100px;
-  display: inline-block;
-  cursor: pointer;
-}
+    .jq-star {
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+        cursor: pointer;
+    }
 
-.jq-star-svg {
-  padding-left: 3px;
-  width: 100%;
-  height: 100% ;
-}
+    .jq-star-svg {
+        padding-left: 3px;
+        width: 100%;
+        height: 100%;
+    }
 
-.jq-star:hover .fs-star-svg path {
-}
+    .jq-star:hover .fs-star-svg path {
+    }
 
-.jq-star-svg path {
-  /* stroke: #000; */
-  stroke-linejoin: round;
-}
+    .jq-star-svg path {
+        /* stroke: #000; */
+        stroke-linejoin: round;
+    }
 
-/* un-used */
-.jq-shadow {
-  -webkit-filter: drop-shadow( -2px -2px 2px #888 );
-  filter: drop-shadow( -2px -2px 2px #888 );
-}
+    /* un-used */
+    .jq-shadow {
+        -webkit-filter: drop-shadow( -2px -2px 2px #888 );
+        filter: drop-shadow( -2px -2px 2px #888 );
+    }
 </style>
 <div class="container-fluid mt--7">
     <div class="row">
@@ -57,7 +61,23 @@
 
                     <div id="validation"></div>
                     <div class="row">
+                     
 
+                        <div class="form-group mb-4 col-md-7">
+                            <label>Project ID </label>
+                            <select class="form-control" id="projectID">
+                                @{
+                                    var email = HttpContextAccessor.HttpContext.Session.GetString("Email").ToString();
+                                    foreach (var m in ProjectRepository.GetAll().Where(a => a.Email == email).ToList())
+                                    {
+                                        string v = String.Format("{0:D6}", m.ProjectID);
+                                        <option value="@m.ProjectID">@v</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                    
 
                         <div class="form-group mb-4 col-md-6">
 
@@ -95,7 +115,7 @@
                             <span class="fourth-rating"></span>
                         </div>
 
-                   
+
 
                     </div>
 
@@ -131,45 +151,49 @@
                                 <th scope="col">Message</th>
                                 <th scope="col">Rate</th>
                                 <th scope="col">Answer</th>
+                                <th scope="col">Transaction #</th>
                             </tr>
                         </thead>
                         <tbody>
                             @{
                                 foreach (var m in Model)
                                 {
-                                    <tr>
+                                                        <tr>
 
-                                        <td>@m.Subject</td>
-                                        <td>@m.Message</td>
-                                        <td>
-                                            @{
-                                                if ( MathF.Round(m.Overall) == 5)
-                                                {
-                                        <span>⭐⭐⭐⭐⭐ (@m.Overall)</span>
-                                                }
-                                                else if (MathF.Round(m.Overall) == 4)
-                                                {
-                                        <span>⭐⭐⭐⭐ (@m.Overall)</span>
-                                                }
-                                                else if (MathF.Round(m.Overall) == 3)
-                                                {
-                                        <span>⭐⭐⭐ (@m.Overall)</span>
-                                                }
-                                                else if (MathF.Round(m.Overall) == 2)
-                                                {
-                                        <span>⭐⭐ (@m.Overall)</span>
-                                                }
-                                                else if (MathF.Round(m.Overall) == 1)
-                                                {
-                                        <span>⭐(@m.Overall)</span>
-                                                }
-                                            }
+                                                            <td>@m.Subject</td>
+                                                            <td>@m.Message</td>
+                                                            <td>
+                                                                @{
+                                                                    if (MathF.Round(m.Overall) == 5)
+                                                                    {
+                                                                        <span>⭐⭐⭐⭐⭐ (@m.Overall)</span>
+                                                                    }
+                                                                    else if (MathF.Round(m.Overall) == 4)
+                                                                    {
+                                                                        <span>⭐⭐⭐⭐ (@m.Overall)</span>
+                                                                    }
+                                                                    else if (MathF.Round(m.Overall) == 3)
+                                                                    {
+                                                                        <span>⭐⭐⭐ (@m.Overall)</span>
+                                                                    }
+                                                                    else if (MathF.Round(m.Overall) == 2)
+                                                                    {
+                                                                        <span>⭐⭐ (@m.Overall)</span>
+                                                                    }
+                                                                    else if (MathF.Round(m.Overall) == 1)
+                                                                    {
+                                                                        <span>⭐(@m.Overall)</span>
+                                                                    }
+                                                                }
 
 
-                                        </td>
+                                                            </td>
 
-                                        <td>@m.Respond</td>
-                                    </tr>
+                                                            <td>@m.Respond</td>
+                                                            @{string v = String.Format("{0:D6}", m.ProjectID); 
+                                                            }
+                                                            <td>@v</td>
+                                                        </tr>
                                 }
                             }
 
@@ -248,13 +272,13 @@
 <script>
 
     $("#feedback_form").submit(function (e) {
-        
+
         e.preventDefault();
 
         var rating = 2;
         var subject = $('#subject').val();
         var message = $('#message').val();
-
+         var projectID = $('#projectID').val();
         if (rating == undefined || subject == "" || message == "") {
             $('#validation').html('<div class="alert alert-warning"><strong>Warning!</strong> Please complete the fields below</div>');
             return false;
@@ -262,19 +286,18 @@
             $('#validation').html("");
         }
 
-        
+
 
         var feedbackModel = new FormData();
 
         feedbackModel.append("Rating", rating);
         feedbackModel.append("Subject", subject);
         feedbackModel.append("Message", message);
-
-        feedbackModel.append("Behaviour", $('.third-rating').text() );
-        feedbackModel.append("Promptness", $('.second-rating').text() );
-        feedbackModel.append("Quality", $('.first-rating').text() );
-        feedbackModel.append("Responsiveness", $('.fourth-rating').text() );
-
+         feedbackModel.append("ProjectID", projectID);
+        feedbackModel.append("Behaviour", $('.third-rating').text());
+        feedbackModel.append("Promptness", $('.second-rating').text());
+        feedbackModel.append("Quality", $('.first-rating').text());
+        feedbackModel.append("Responsiveness", $('.fourth-rating').text());
 
         var sender = new XMLHttpRequest();
         sender.open("POST", "/Feedback/MemberFeedback");
@@ -311,7 +334,7 @@
         }
     });
 
-       $(".second").starRating({
+    $(".second").starRating({
         initialRating: 0,
         disableAfterRate: false,
         onHover: function (currentIndex, currentRating, $el) {
@@ -320,9 +343,9 @@
         onLeave: function (currentIndex, currentRating, $el) {
             $('.second-rating').text(currentRating);
         }
-       });
+    });
 
-       $(".third").starRating({
+    $(".third").starRating({
         initialRating: 0,
         disableAfterRate: false,
         onHover: function (currentIndex, currentRating, $el) {
@@ -331,9 +354,9 @@
         onLeave: function (currentIndex, currentRating, $el) {
             $('.third-rating').text(currentRating);
         }
-       });
+    });
 
-       $(".fourth").starRating({
+    $(".fourth").starRating({
         initialRating: 0,
         disableAfterRate: false,
         onHover: function (currentIndex, currentRating, $el) {
@@ -343,6 +366,6 @@
             $('.fourth-rating').text(currentRating);
         }
     });
-  
+
 </script>
 

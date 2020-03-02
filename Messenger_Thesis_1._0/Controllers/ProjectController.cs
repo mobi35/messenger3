@@ -52,42 +52,52 @@ namespace Messenger_Thesis_1._0.Controllers
             return Json(letterList);
         }
 
-
         [HttpGet]
-        public JsonResult GetProjectList(int page = 1, string query = "")
+        public JsonResult GetLetterDelivery(int id)
         {
-
-            int count = page * 10;
-            var project = projectRepo.GetAll().ToList();
-
-
-            if (HttpContext.Session.GetString("Role") == "Admin")
-            {
-                project = projectRepo.GetAll().OrderByDescending(a => a.ProjectID).ToList();
-            }
-            else
-            {
-                var name = HttpContext.Session.GetString("FullName").ToString();
-                project = projectRepo.GetAll().Where(a => a.ClientName == name).OrderByDescending(a => a.ProjectID).ToList();
-            }
-
-
-            List<Project> sortedProject = new List<Project>();
-            for (int i = 0; i < project.Count(); i++)
-            {
-                if (page == 1 && i < 10)
-                {
-                    sortedProject.Add(project[i]);
-                }
-                else if (i > (count - 10) && count >= i)
-                {
-                    sortedProject.Add(project[i]);
-                }
-            }
-
-            return Json(sortedProject);
+            var letterList = letterRepo.GetAll().Where(a => a.DeliveryID == id && a.ReceiverName != "Name").ToList();
+            return Json(letterList);
         }
 
+        public IActionResult Delete(int id)
+        {
+            projectRepo.Delete(projectRepo.FindProject(a => a.ProjectID == id));
+
+            var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
+            var getCompanyName = userRepo.FindUser(a => a.UserID == userID);
+            var project = projectRepo.GetAll().Where(a => a.ProjectName == getCompanyName.CompanyName).ToList();
+            return View("Client", project);
+        }
+      
+        public string PickUp(Project project)
+        {
+
+            var projectModel = projectRepo.FindProject(a => a.ProjectID == project.ProjectID);
+            projectModel.Status = "On-going";
+            projectModel.Messenger = project.Messenger;
+            projectModel.Area = project.Area;
+            projectRepo.Update(projectModel);
+
+          
+
+            return "";
+
+        }
+
+
+
+        public string Delivery(Project project)
+        {
+
+            var projectModel = projectRepo.FindProject(a => a.ProjectID == project.ProjectID);
+            projectModel.Status = "On-going";
+            projectModel.CurrentDateStart = DateTime.Now.AddDays(2);
+            projectModel.Messenger = project.Messenger;
+            projectModel.Area = project.Area;
+            projectRepo.Update(projectModel);
+
+            return "";
+        }
 
         [HttpPost]
         public string SendNewDelivery(Project project)
@@ -123,8 +133,10 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Client()
         {
-
-            return View();
+           var userID = int.Parse( HttpContext.Session.GetString("UserID").ToString() );
+            var getCompanyName = userRepo.FindUser(a => a.UserID == userID);
+            var project = projectRepo.GetAll().Where(a => a.ProjectName == getCompanyName.CompanyName).ToList();
+            return View(project);
         }
 
         public IActionResult Admin()
@@ -133,7 +145,58 @@ namespace Messenger_Thesis_1._0.Controllers
             return View(user);
         }
 
-   
+        public IActionResult Messenger()
+        {
+            var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
+            var getUser = userRepo.FindUser(a => a.UserID == userID);
+            var project = projectRepo.GetAll().Where(a => a.Messenger == getUser.UserID.ToString()).ToList();
+            return View(project);
+          
+        }
+
+        public string FinishedPickup(int id)
+        {
+            var project = projectRepo.FindProject(a => a.ProjectID == id);
+            project.Status = "Completed";
+            projectRepo.Update(project);
+
+
+            var code = Guid.NewGuid().ToString("N");
+
+            Project proj = new Project();
+            proj.ContractID = project.ContractID;
+            proj.ClientName = project.ClientName;
+            proj.Email = project.Email;
+            proj.Status = "Pending";
+            proj.TypeOfTask = "Delivery";
+            proj.InvoiceDate = DateTime.Now;
+            proj.Quantity = project.Quantity;
+            proj.Price = project.Price;
+            proj.ProjectName = project.ProjectName;
+            proj.ProjectCode = code;
+
+            projectRepo.Create(proj);
+
+            var projID = projectRepo.GetAll().OrderBy(a => a.ProjectID).LastOrDefault().ProjectID;
+
+            foreach (var m in letterRepo.GetAll().Where(a => a.ProjectID == project.ProjectID).ToList())
+            {
+                m.DeliveryID = projID;
+                letterRepo.Update(m);
+            }
+
+
+            return "";
+        }
+
+        public string FinishedDelivery(int id)
+        {
+            var project = projectRepo.FindProject(a => a.ProjectID == id);
+            project.Status = "Completed";
+            projectRepo.Update(project);
+            return "";
+        }
+
 
     }
 }

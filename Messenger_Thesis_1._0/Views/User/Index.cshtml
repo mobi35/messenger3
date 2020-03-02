@@ -7,97 +7,97 @@
 
 
 <div class="modal fade" id="edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
-<div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
 
-    <div class="modal-content">
-        <div id="UpdateForm">
-            <div class="modal-body p-0">
+        <div class="modal-content">
+            <div id="UpdateForm">
+                <div class="modal-body p-0">
 
-                <div class="card bg-secondary shadow border-0">
-                    <div class="card-header bg-white pb-3">
+                    <div class="card bg-secondary shadow border-0">
+                        <div class="card-header bg-white pb-3">
 
-                        <div class="btn-wrapper text-center">
-                            <h3>Update User</h3>
-                        </div>
-                    </div>
-                    <div class="card-body px-lg-5 py-lg-3">
-                        <div class="text-center text-muted mb-4">
-                            <small>Account information</small>  
-                        </div>
-                        <form role="form" id="update-registration_admin" enctype="multipart/form-data">
-                            <input type="hidden"  id="userId"/>
-                            <div id="update_parentPassword_admin" class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                    </div>
-                                    <input id="update_password_admin" class="form-control" placeholder="Password" type="password">
-                                </div>
+                            <div class="btn-wrapper text-center">
+                                <h3>Update User</h3>
                             </div>
-
-                            <div id="update_parentCPassword_admin" class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                    </div>
-                                    <input id="update_cpassword_admin" class="form-control" placeholder="Confirm password" type="password">
-                                </div>
-
-                                <small class="update_passwordValidation_admin" style="color:#f5365c"></small>
-                            </div>
-
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-3">
                             <div class="text-center text-muted mb-4">
-                                <small>Personal information</small>
+                                <small>Account information</small>
                             </div>
-
-                            <div id="update_parentFirstName_admin" class="form-group mb-4">
-                                <div class="input-group input-group-alternative">
-
-                                    <input id="update_first-name_admin" class="form-control" placeholder="First Name" type="text">
+                            <form role="form" id="update-registration_admin" enctype="multipart/form-data">
+                                <input type="hidden" id="userId" />
+                                <div id="update_parentPassword_admin" class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input id="update_password_admin" class="form-control" placeholder="Password" type="password">
+                                    </div>
                                 </div>
-                                <small class="update_firstNameValidation_admin" style="color:#f5365c"></small>
-                            </div>
 
-                            <div id="update_parentLastName_admin" class="form-group mb-4">
-                                <div class="input-group input-group-alternative">
-                                    <input id="update_last-name_admin" class="form-control" placeholder="Last Name" type="text">
+                                <div id="update_parentCPassword_admin" class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input id="update_cpassword_admin" class="form-control" placeholder="Confirm password" type="password">
+                                    </div>
+
+                                    <small class="update_passwordValidation_admin" style="color:#f5365c"></small>
                                 </div>
-                                <small class="update_lastNameValidation_admin" style="color:#f5365c"></small>
-                            </div>
 
-                            <div class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <select id="update_role_admin" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                        <option>Accountant</option>
-                                        <option>Admin</option>
-                                        <option>Messenger</option>
-                                        <option>Customer Representative</option>
-                                        <option>Client</option>
-
-                                    </select>
+                                <div class="text-center text-muted mb-4">
+                                    <small>Personal information</small>
                                 </div>
-                            </div>
 
-                            <div id="update_parentFileinput" class="form-group">
-                                <div class="input-group input-group-alternative">
-                                    <input type="file" id="update_fileInput_admin" class="form-control form-control" />
+                                <div id="update_parentFirstName_admin" class="form-group mb-4">
+                                    <div class="input-group input-group-alternative">
+
+                                        <input id="update_first-name_admin" class="form-control" placeholder="First Name" type="text">
+                                    </div>
+                                    <small class="update_firstNameValidation_admin" style="color:#f5365c"></small>
                                 </div>
-                                <small class="update_fileinputValidation_admin" style="color:#f5365c"></small>
-                            </div>
+
+                                <div id="update_parentLastName_admin" class="form-group mb-4">
+                                    <div class="input-group input-group-alternative">
+                                        <input id="update_last-name_admin" class="form-control" placeholder="Last Name" type="text">
+                                    </div>
+                                    <small class="update_lastNameValidation_admin" style="color:#f5365c"></small>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <select id="update_role_admin" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                            <option>Accountant</option>
+                                            <option>Admin</option>
+                                            <option>Messenger</option>
+                                            <option>Customer Representative</option>
+                                            <option>Client</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="update_parentFileinput" class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <input type="file" id="update_fileInput_admin" class="form-control form-control" />
+                                    </div>
+                                    <small class="update_fileinputValidation_admin" style="color:#f5365c"></small>
+                                </div>
 
 
-                            <div class="text-center">
-                                <button  class="btn btn-primary my-4" id="update-submit-admin"></button>
-                            </div>
-                        </form>
+                                <div class="text-center">
+                                    <button class="btn btn-primary my-4" id="update-submit-admin"></button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
 </div>
- </div>
 
 
 
@@ -269,7 +269,7 @@
                             <tr>
                                 <th scope="col">Fullname</th>
                                 <th scope="col">Email</th>
-                             
+
                                 <th scope="col">Role</th>
 
                                 <th scope="col"></th>
@@ -309,11 +309,12 @@
         </div>
     </div>
 </div>
-<script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+
+<script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 
 <script>
-
+    $('.datepicker').datepicker();
 
     GetAllUser(1);
 
@@ -459,18 +460,18 @@
                     $('#submit').disabled = false;
 
                     $('#parentEmail').removeClass("has-success");
-                       $('#parentFileinput').removeClass("has-success");
+                    $('#parentFileinput').removeClass("has-success");
                     $('#parentBirthdate').removeClass("has-success");
                     $('#parentLastName').removeClass("has-success");
                     $('#parentFirstName').removeClass('has-success');
-                      $('#parentCPassword').removeClass("has-success");
+                    $('#parentCPassword').removeClass("has-success");
                     $('#parentPassword').removeClass("has-success");
-                      $('#email').val('');
-                 $('#password').val('');
-                  $('#cpassword').val('');
-                $('#first-name').val('');
-                   $('#last-name').val('');
-                 $('#birth-date').val('');
+                    $('#email').val('');
+                    $('#password').val('');
+                    $('#cpassword').val('');
+                    $('#first-name').val('');
+                    $('#last-name').val('');
+                    $('#birth-date').val('');
 
                     GetAllUser();
                 }
@@ -501,7 +502,7 @@
                     var t = '       <tr> ' +
                         '       <th scope="row">' +
                         '    <div class="media align-items-center">' +
-                        '      <a onclick="UserProfile('+ e[key].userID + ')" data-toggle="modal" data-target="#user-profile"  href="#" class="avatar rounded-circle mr-3">' +
+                        '      <a onclick="UserProfile(' + e[key].userID + ')" data-toggle="modal" data-target="#user-profile"  href="#" class="avatar rounded-circle mr-3">' +
                         '     <img alt="Image placeholder" style="height:50px;" src="../Images/' + e[key].imageName + '   ">' +
                         '   </a>' +
                         '       <div class="media-body">' +
@@ -509,7 +510,7 @@
                         '    </div>' +
                         '   </div>' +
                         '   </th>' +
-                      
+
                         '   <td>' +
                         e[key].role +
                         '   </td>' +
@@ -804,15 +805,15 @@
 
 
     function GetUser(id) {
-              alert(id);
-        $.ajax({    
+        alert(id);
+        $.ajax({
 
             url: '/User/GetUserDetails',
             type: 'POST',
-            data: { id : id },
+            data: { id: id },
             success: function (e) {
 
-             
+
                 $('#update_first-name').val(e.firstName);
                 $('#update_last-name').val(e.lastName);
                 $('#update-userId').val(e.userID);
@@ -837,42 +838,42 @@
         var role = $('#update_role_admin').val();
         var userId = $('#userId_admin').val();
 
-          var fileInput = document.getElementById('fileInput');
+        var fileInput = document.getElementById('fileInput');
 
         for (i = 0; i < fileInput.files.length; i++) {
             formdata.append("Image", fileInput.files[i]);
         }
 
-           formdata.append("UserID", userId);
+        formdata.append("UserID", userId);
         formdata.append("Password", password);
         formdata.append("FirstName", firstName);
         formdata.append("ConfirmPassword", cpassword);
         formdata.append("LastName", lastName);
-  
+
 
 
         $.ajax({
 
             url: '/User/UpdateData',
             type: 'POST',
-            data: {formdata},
+            data: { formdata },
             success: function (e) {
-                 if (e == "password_not_match") {
-                       $('#update_parentPassword_admin').addClass('has-danger');
-                       $('#update_parentCPassword_admin').addClass('has-danger');
-                       $('.update_passwordValidation_admin').html("Please input your password");
+                if (e == "password_not_match") {
+                    $('#update_parentPassword_admin').addClass('has-danger');
+                    $('#update_parentCPassword_admin').addClass('has-danger');
+                    $('.update_passwordValidation_admin').html("Please input your password");
                 }
 
                 if (e == "firstname_required") {
-                         $('#update_parentFirstName_admin').addClass('has-danger');
-                         $('.update_firstNameValidation_admin').html("Please write your first name");
-                }else if (e == "firstname_not_letter") {
-                         $('#update_parentFirstName_admin').addClass('has-danger');
-                         $('.update_firstNameValidation_admin').html("Invalid character");
-                }else if (e == "firstname_max_letter") {
-                        $('#update_parentFirstName_admin').addClass('has-danger');
-                        $('.update_firstNameValidation_admin').html("Maximum of 50 characters only");
-                }else {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Please write your first name");
+                } else if (e == "firstname_not_letter") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Invalid character");
+                } else if (e == "firstname_max_letter") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Maximum of 50 characters only");
+                } else {
                     $('#update_parentFirstName_admin').removeClass("has-danger");
                     $('#update_parentFirstName_admin').addClass("has-success");
                     $('.update_firstNameValidation_admin').html("");
@@ -881,13 +882,13 @@
                 if (e == "lastname_required") {
                     $('#update_parentLastName_admin').addClass('has-danger');
                     $('.update_lastNameValidation_admin').html("Please write your last name");
-                }else  if (e == "lastname_not_letter") {
+                } else if (e == "lastname_not_letter") {
                     $('#update_parentLastName_admin').addClass('has-danger');
                     $('.update_lastNameValidation_admin').html("Invalid character");
-                }else  if (e == "lastname_max_letter") {
+                } else if (e == "lastname_max_letter") {
                     $('#update_parentLastName_admin').addClass('has-danger');
                     $('.update_lastNameValidation_admin').html("Maximum of 50 characters only");
-                }else {
+                } else {
                     $('#update_parentLastName_admin').removeClass("has-danger");
                     $('#update_parentLastName_admin').addClass("has-success");
                     $('.update_lastNameValidation_admin').html("");

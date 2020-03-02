@@ -21,6 +21,8 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public float Promptness { get; set; }
 
+        public int ProjectID { get; set; }
+
         public float Behaviour { get; set; }
 
         public float Responsiveness { get; set; }
