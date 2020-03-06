@@ -262,7 +262,6 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.pdb
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.Views.dll
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\bin\Debug\netcoreapp2.2\Messenger_Thesis_1._0.Views.pdb
-C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.csprojAssemblyReference.cache
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.RazorAssemblyInfo.cache
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.RazorAssemblyInfo.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.AssemblyInfoInputs.cache
@@ -308,3 +307,4 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Contract\Index.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Contract\Client.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\Messenger.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Messenger_Thesis_1._0.csprojAssemblyReference.cache

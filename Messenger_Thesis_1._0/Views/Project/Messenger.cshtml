@@ -10,6 +10,70 @@
 
 
 
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+
+
+            <div class="modal-content">
+                <div id="RegistrationForm">
+                    <div class="modal-body p-0">
+
+
+                        <div class="card bg-secondary shadow border-0">
+                            <div class="card-header bg-white pb-3">
+
+                                <div class="btn-wrapper text-center">
+                                    <h3>List Of SOA</h3>
+
+                                </div>
+                                <form asp-action="Invoice" asp-controller="Report">
+                                    <input type="hidden" id="projectId" name="id" />
+                                    <input type="submit" class="btn btn-primary" value="Show Invoice" />
+                                </form>
+                            </div>
+                            <div class="card-body px-lg-5 py-lg-3">
+
+                                <form role="form" asp-controller="Client" asp-action="ReadExcelFileAsync" enctype="multipart/form-data">
+
+
+
+                                    <div class="table-responsive">
+                                        <table id="soaTable" class="table align-items-center table-flush">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th scope="col">Receiver Name</th>
+                                                    <th scope="col">Location</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="letterData">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+
+                                    <br />
+                                    <br />
+
+
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
 
 <div class="container-fluid mt--7">
     <!-- Table -->
@@ -19,9 +83,6 @@
                 <br />
                 <div class="col-md-3">
 
-             
-
-
                 </div>
                 <div class="card-header border-0">
                     <h3 class="mb-0">Projects</h3>
@@ -30,6 +91,7 @@
                     <table id="projectTable" class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
+                                <th scope="col">Project ID</th>
                                 <th scope="col">ProjectName</th>
 
                                 <th scope="col">Quantity</th>
@@ -38,6 +100,7 @@
 
                                 <th scope="col">Date  </th>
                                 <th scope="col">Action  </th>
+                                <th scope="col">View  </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,43 +108,62 @@
                             @{
                                 foreach (var project in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            @project.ProjectName
-                                        </td>
+                                                        <tr>
+                                                            <td>
+                                                                @project.ProjectID
+                                                            </td>
+                                                            <td>
+                                                                @project.ProjectName
+                                                            </td>
 
-                                        <td>
-                                            @project.Quantity
-                                        </td>
+                                                            <td>
+                                                                @project.Quantity
+                                                            </td>
 
-                                        <td>
-                                            @project.TypeOfTask
-                                        </td>
+                                                            <td>
+                                                                @project.TypeOfTask
+                                                            </td>
 
-                                        <td>
-                                            @project.Status
-                                        </td>
-                                        <td>
-                                            @project.CurrentDateStart.ToShortDateString()
-                                        </td>
-                                        <td>
-                                            @{
-                                                if (project.Status == "On-going" && project.TypeOfTask == "Pick-up")
-                                                {
-                                                    <button type="button" onclick="Done(@project.ProjectID)" class="btn btn-block">Done</button>
-                                                }
+                                                            <td>
+                                                                @project.Status
+                                                            </td>
+                                                            <td>
+                                                                @project.CurrentDateStart.ToShortDateString()
+                                                            </td>
+                                                            <td>
+                                                                @{
+                                                                    if (project.Status == "On-going" && project.TypeOfTask == "Pick-up")
+                                                                    {
+                                                                        <button type="button" onclick="Done(@project.ProjectID)" class="btn btn-block">Done</button>
+                                                                    }
 
-                                                if (project.Status == "On-going" && project.TypeOfTask == "Delivery")
-                                                {
-                                                    <button type="button" onclick="DoneDelivery(@project.ProjectID)" class="btn btn-block">Done</button>
-                                                }
+                                                                    if (project.Status == "On-going" && project.TypeOfTask == "Delivery")
+                                                                    {
+                                                                        <button type="button" onclick="DoneDelivery(@project.ProjectID)" class="btn btn-block">Done</button>
+                                                                    }
 
-                                            }
+                                                                }
 
 
-                                        </td>
+                                                            </td>
 
-                                    </tr>
+                                                            <td>
+
+                                                                @{
+
+                                                                    if (project.TypeOfTask == "Delivery")
+                                                                    {
+                                                                        <button data-toggle="modal" data-target="#modal-form" onclick="GetLetterDelivery(@project.ProjectID)" class="btn btn-primary">View</button>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <button data-toggle="modal" data-target="#modal-form" onclick="GetClient(@project.ProjectID)" class="btn btn-primary">View</button>
+                                                                    }
+                                                                }
+
+                                                            </td>
+
+                                                        </tr>
 
                                 }
 
@@ -105,11 +187,79 @@
 
 <script>
 
+    
+
+    function GetClient(id) {
+        var table = $('#soaTable').DataTable();
+     
+        $('#projectId').val(id);
+        $('.letterData').html('');
+
+           table.clear().draw();
+        $.ajax({
+
+            url: '/Project/GetLetterProject',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    table.row.add([ 
+
+                        e[key].receiverName, e[key].locationOfDelivery
+                        ]
+                    ).draw();
+
+
+                }
+
+
+            }
+
+        });
+    }
+
+
+
+     function GetLetterDelivery(id) {
+        var table = $('#soaTable').DataTable();
+        
+        $('#projectId').val(id);
+         $('.letterData').html('');
+            table.clear().draw();
+        $.ajax({
+
+            url: '/Project/GetLetterDelivery',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    table.row.add([ 
+
+                        e[key].receiverName, e[key].locationOfDelivery
+                        ]
+                    ).draw();
+
+                }
+
+
+            }
+
+        });
+    }
+
+
+
+
+
 
     $(document).ready(function () {
         var table = $('#projectTable').DataTable({
 
-            order: [[4, "desc"]],
+            order: [[0, "desc"]],
             dom: 'lBfrtip',
             buttons: [
                 {

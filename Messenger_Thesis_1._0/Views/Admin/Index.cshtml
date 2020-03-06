@@ -45,7 +45,7 @@
                 <div class="card-body">
                     <!-- Chart -->
                     <div class="chart">
-                        <canvas id="chart-orders" class="chart-canvas"></canvas>
+                        <canvas id="chart-new-order" class="chart-canvas"></canvas>
                     </div>
                 </div>
             </div>
@@ -198,27 +198,27 @@
                                 {
 
 
-                                                        <tr>
-                                                            <th scope="row">
-                                                                @UserRepository.FindUser(a => a.Email == z.Name).FirstName  @UserRepository.FindUser(a => a.Email == z.Name).MiddleName
-                                                                @UserRepository.FindUser(a => a.Email == z.Name).LastName
-                                                            </th>
-                                                            <td>
-                                                                @z.Promptness
-                                                            </td>
-                                                            <td>
-                                                                @z.Quality
-                                                            </td>
-                                                            <td>
-                                                                @z.Responsiveness
-                                                            </td>
-                                                            <td>
-                                                                @z.Behaviour
-                                                            </td>
-                                                            <td>
-                                                                @z.Overall
-                                                            </td>
-                                                        </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            @UserRepository.FindUser(a => a.Email == z.Name).FirstName  @UserRepository.FindUser(a => a.Email == z.Name).MiddleName
+                                            @UserRepository.FindUser(a => a.Email == z.Name).LastName
+                                        </th>
+                                        <td>
+                                            @z.Promptness
+                                        </td>
+                                        <td>
+                                            @z.Quality
+                                        </td>
+                                        <td>
+                                            @z.Responsiveness
+                                        </td>
+                                        <td>
+                                            @z.Behaviour
+                                        </td>
+                                        <td>
+                                            @z.Overall
+                                        </td>
+                                    </tr>
 
 
                                 }
@@ -229,8 +229,37 @@
                         </tbody>
                     </table>
                 </div>
+
+
+
+
+
+
+
             </div>
         </div>
+
+        <div class="col-xl-4">
+            <div class="card shadow">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3 class="mb-0">Rating</h3>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Chart -->
+                    <div class="chart">
+                        <canvas id="chart-rate" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
     </div>
     <!-- Footer -->
@@ -744,5 +773,65 @@
                 }
             }), a.data("chart", e))
         }();
+
+
+
+
+ 
+
+
+var chartdata = {
+   
+        type: 'bar',
+        data: {
+          labels: JSON.parse('@Html.Raw(Json.Serialize(Model.OrderLabel))'),
+          // labels: month,
+          datasets: [
+            {
+              label: 'Orders',
+              backgroundColor: '#26B99A',
+              data: JSON.parse('@Html.Raw(Json.Serialize(Model.Order))')
+            }
+          ]
+        }
+    
+    };
+
+
+
+
+var ctx = document.getElementById('chart-new-order').getContext('2d');
+    new Chart(ctx, chartdata);
+
+
+
+
+    var rateChart = {
+   
+        type: 'bar',
+        data: {
+          labels: ["1+","2+","3+","4+","5+"],
+          // labels: month,
+          datasets: [
+            {
+              label: 'Orders',
+              backgroundColor: '#F7CA18',
+                  data: ['@Html.Raw(Model.RatingModel.Rate1)','@Html.Raw(Model.RatingModel.Rate2)','@Html.Raw(Model.RatingModel.Rate3)','@Html.Raw(Model.RatingModel.Rate4)','@Html.Raw(Model.RatingModel.Rate5)'] 
+            }
+          ]
+        }
+    
+    };
+
+
+
+
+var rate = document.getElementById('chart-rate').getContext('2d');
+    new Chart(rate, rateChart);
+
+
+
+
 </script>
+
 

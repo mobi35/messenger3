@@ -48,15 +48,35 @@ namespace Messenger_Thesis_1._0.Controllers
         [HttpGet]
         public JsonResult GetLetterProject(int id)
         {
+
+            if (HttpContext.Session.GetString("Role").ToString() == "Messenger")
+            {
+                var userID = int.Parse( HttpContext.Session.GetString("UserID").ToString() );
+            var letterList = letterRepo.GetAll().Where(a => a.ProjectID == id && a.ReceiverName != "Name" && a.MessengerID == userID).ToList();
+            return Json(letterList);
+            } else { 
             var letterList = letterRepo.GetAll().Where(a => a.ProjectID == id && a.ReceiverName != "Name").ToList();
             return Json(letterList);
+            }
+
         }
 
         [HttpGet]
         public JsonResult GetLetterDelivery(int id)
         {
-            var letterList = letterRepo.GetAll().Where(a => a.DeliveryID == id && a.ReceiverName != "Name").ToList();
-            return Json(letterList);
+            if (HttpContext.Session.GetString("Role").ToString() == "Messenger")
+            {
+                var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
+                var letterList = letterRepo.GetAll().Where(a => a.DeliveryID == id && a.ReceiverName != "Name" && a.MessengerID == userID).ToList();
+                return Json(letterList);
+            }
+            else
+            {
+                var letterList = letterRepo.GetAll().Where(a => a.DeliveryID == id && a.ReceiverName != "Name").ToList();
+                return Json(letterList);
+            }
+
+
         }
 
         public IActionResult Delete(int id)
@@ -78,8 +98,6 @@ namespace Messenger_Thesis_1._0.Controllers
             projectModel.Area = project.Area;
             projectRepo.Update(projectModel);
 
-          
-
             return "";
 
         }
@@ -91,8 +109,67 @@ namespace Messenger_Thesis_1._0.Controllers
 
             var projectModel = projectRepo.FindProject(a => a.ProjectID == project.ProjectID);
             projectModel.Status = "On-going";
+
+            var getArea = letterRepo.GetAll().GroupBy(a => a.Area).Select(a => new { 
+            Key = a.Key,
+            Area = a.FirstOrDefault().Area
+            }).ToList();
+
+            var getLetter = letterRepo.GetAll().Where(a => a.DeliveryID == project.ProjectID).ToList();
+
+            //GET ALL MESSENGER
+
+            var getMessenger = projectRepo.GetAll().Where(a => a.Status == "On-going" && a.Messenger != 0).GroupBy(a => a.Messenger).Select(a => new
+            {
+                Customer = a.Key,
+                Count = a.Count(),
+                Messenger =  a.FirstOrDefault().Messenger
+            }).OrderByDescending(a => a.Count).ToList();
+
+            List<User> userList = new List<User>();
+
+            foreach (var getM in getMessenger)
+            {
+                userList.Add(userRepo.FindUser(a => a.UserID == getM.Messenger));
+            }
+            foreach (var user in userRepo.GetAll().Where(a => a.Role == "Messenger").ToList())
+            {
+                foreach (var mess in getMessenger)
+                {
+                    if (user.UserID != mess.Messenger)
+                        userList.Add(user);
+                }
+            }
+
+          
+
+
+            int count = 0;
+            while(getArea.Count() > userList.Count())
+            {
+                userList.Add(userList[count]);
+                count++;
+            }
+
+            var messengerCount = 0;
+            foreach (var a in getArea)
+            {
+                foreach(var l in getLetter)
+                {
+                    if (a.Area == l.Area)
+                    {
+                        l.MessengerID = userList[messengerCount].UserID;
+                        letterRepo.Update(l);
+                    }
+                }
+                messengerCount++;
+            }
+
             projectModel.CurrentDateStart = DateTime.Now.AddDays(2);
+
             projectModel.Messenger = project.Messenger;
+
+
             projectModel.Area = project.Area;
             projectRepo.Update(projectModel);
 
@@ -147,10 +224,23 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Messenger()
         {
+           
+
             var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
-            var getUser = userRepo.FindUser(a => a.UserID == userID);
-            var project = projectRepo.GetAll().Where(a => a.Messenger == getUser.UserID.ToString()).ToList();
-            return View(project);
+            List<Project> proj = new List<Project>();
+            foreach (var l in projectRepo.GetAll().ToList())
+            {
+                if(l.ListOfMessenger != null) { 
+                foreach (var s in l.ListOfMessenger.Split(","))
+                {
+                    if (s == userID.ToString())
+                    {
+                        proj.Add(l);
+                    }
+                }
+                }
+            }
+            return View(proj);
           
         }
 
@@ -192,8 +282,35 @@ namespace Messenger_Thesis_1._0.Controllers
         public string FinishedDelivery(int id)
         {
             var project = projectRepo.FindProject(a => a.ProjectID == id);
-            project.Status = "Completed";
-            projectRepo.Update(project);
+           
+            var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
+            foreach (var letter in letterRepo.GetAll().Where(a => a.DeliveryID == id && a.MessengerID == userID).ToList())
+            {
+                letter.DateOfDelivery = DateTime.Now;
+                letter.Status = "Delivered";
+                letterRepo.Update(letter);
+            }
+
+            var count = letterRepo.GetAll().Where(a => a.DeliveryID == id).ToList().Count();
+            var tryCount = 0;
+            foreach (var letter in letterRepo.GetAll().Where(a => a.DeliveryID == id ).ToList())
+            {
+                if(letter.Status == null )
+                {
+                    break;
+                }else
+                {
+                    tryCount++;
+                }
+            }
+
+            if(count == tryCount)
+            {
+                project.Status = "Completed";
+                projectRepo.Update(project);
+            }
+
+           
             return "";
         }
 

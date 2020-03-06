@@ -35,7 +35,8 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var users = _userRepo.GetAll().Where(a => a.Role == "Client").OrderByDescending(a => a.UserID).ToList();
+            return View(users);
         }
 
 
@@ -49,7 +50,16 @@ namespace Messenger_Thesis_1._0.Controllers
             Project proj = new Project();
             proj.ContractID = project.ContractID;
             proj.ClientName = HttpContext.Session.GetString("FullName");
-            proj.CurrentDateStart = project.CurrentDateStart;
+
+            DateTime dt = new DateTime(DateTime.Now.Year, DateTime.Now.Month, client.PickupDay);
+            if (dt <= DateTime.Now.Date)
+            {
+                proj.CurrentDateStart = dt;
+            }else
+            {
+               proj.CurrentDateStart =  dt.AddDays(15);
+            }
+
             proj.Email = client.Email;
             proj.Status = "Pending";
             proj.TypeOfTask = "Pick-up";
@@ -109,6 +119,7 @@ namespace Messenger_Thesis_1._0.Controllers
                     letter.ProjectID = _projectRepo.GetAll().OrderBy(a => a.ProjectID).LastOrDefault().ProjectID;
                     letter.ReceiverName = data.Name;
                     letter.LocationOfDelivery = data.Address + " - " + data.Area;
+                    letter.Area = data.Area;
                     letter.Price =contractModel.PricePerQuantity / contractModel.Quantity ;
                     _letterRepo.Create(letter);
 
@@ -206,7 +217,35 @@ namespace Messenger_Thesis_1._0.Controllers
 
             return UploadSuccess();
         }
+        public IActionResult ActivateAccount(int id)
+        {
 
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.AccountStatus = "Activated";
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Account Activated'); window.open('../../../../User/Index','_self')</script></html>"
+            };
+        }
+        public IActionResult DisableAccount(int id)
+        {
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.AccountStatus = "Disabled";
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Account Disabled'); window.open('../../../../User/Index','_self')</script></html>"
+            };
+        }
 
         [HttpGet]
         public ContentResult UploadSuccess()
@@ -305,12 +344,7 @@ namespace Messenger_Thesis_1._0.Controllers
             if (user.Address == null)
                 errors.Add("address_required");
 
-            int birthdayDifference = DateTime.Now.Year - user.BirthDate.Year;
-            if (user.BirthDate.Year == 0001)
-                errors.Add("no_birthdate");
-            else if (birthdayDifference <= 17)
-                errors.Add("invalid_birthdate");
-
+       
             if (user.Image == null)
                 errors.Add("no_picture");
 
@@ -336,6 +370,29 @@ namespace Messenger_Thesis_1._0.Controllers
             if (_userRepo.FindUser(a => a.Email == user.Email) == null)
             {
                 _userRepo.Create(user);
+            }
+
+            try
+            {
+
+                EmailClass.GmailUsername = "payoneeers2093@gmail.com";
+                EmailClass.GmailPassword = "Asakaboi35";
+                EmailClass mailer = new EmailClass();
+
+                mailer.ToEmail = user.Email;
+                mailer.Subject = "You are now part of Mail Expert Messengerial";
+                mailer.Body += "Hi " + user.FirstName + " " + user.LastName;
+                mailer.Body += "<br> Here's your username : " + user.Email;
+                mailer.Body += "<br> Here's your password : " + user.Password;
+
+                mailer.Body += "<br> Click here to activate your account. https://localhost:44379/User/EmailActivate/" + user.UserID;
+                mailer.IsHtml = true;
+                mailer.Send();
+            }
+            catch (Exception e)
+            {
+
+
             }
 
 

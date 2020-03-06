@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using System.Net.Mail;
+using System.Net;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
@@ -35,8 +36,6 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Index()
         {
-
-
             return View(Users());
         }
 
@@ -66,7 +65,53 @@ namespace Messenger_Thesis_1._0.Controllers
             return Json(sortedUser);
         }
 
-        
+
+        public IActionResult EmailActivate(int id)
+        {
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.AccountStatus = "Activated";
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Account Activated'); window.open('../../../../Home/Index','_self')</script></html>"
+            };
+        }
+
+
+        public IActionResult ActivateAccount(int id)
+        {
+
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.AccountStatus = "Activated";
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Account Activated'); window.open('../../../../User/Index','_self')</script></html>"
+            };
+        }
+        public IActionResult DisableAccount(int id)
+        {
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.AccountStatus = "Disabled";
+            _userRepo.Update(user);
+            
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Account Disabled'); window.open('../../../../User/Index','_self')</script></html>"
+            };
+        }
+
 
         public bool IsValidEmail(string emailaddress)
         {
@@ -137,12 +182,7 @@ namespace Messenger_Thesis_1._0.Controllers
            
 
 
-              int birthdayDifference = DateTime.Now.Year - user.BirthDate.Year;
-                if (user.BirthDate.Year == 0001)
-                    errors.Add("no_birthdate");
-                else  if (birthdayDifference <= 17 )
-                    errors.Add("invalid_birthdate");
-
+       
                 if (user.Image == null)
                     errors.Add("no_picture");
 
@@ -169,6 +209,28 @@ namespace Messenger_Thesis_1._0.Controllers
                 _userRepo.Create(user);
             }
 
+            try
+            {
+
+                EmailClass.GmailUsername = "payoneeers2093@gmail.com";
+                EmailClass.GmailPassword = "Asakaboi35";
+                EmailClass mailer = new EmailClass();
+
+                mailer.ToEmail = user.Email;
+                mailer.Subject = "You are now part of Mail Expert Messengerial <br>";
+                mailer.Body += "Hi " + user.FirstName + " " + user.LastName;
+                mailer.Body += "<br> Here's your username : " + user.Email;
+                mailer.Body += "<br> Here's your password : " + user.Password;
+
+                mailer.Body += "<br> Click here to activate your account. https://localhost:44379/User/EmailActivate/"+user.UserID;
+                mailer.IsHtml = true;
+                mailer.Send();
+            }
+            catch (Exception e)
+            {
+
+
+            }
 
             return "";
             }

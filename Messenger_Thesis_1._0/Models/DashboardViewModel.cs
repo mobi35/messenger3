@@ -19,5 +19,7 @@ namespace Messenger_Thesis_1._0.Models
 
         public List<Feedback> Feedbacks { get; set; }
         public List<User> Users { get; set; }
+
+        public RatingModel RatingModel { get; set; }
     }
 }

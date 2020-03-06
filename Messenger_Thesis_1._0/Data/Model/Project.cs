@@ -42,6 +42,8 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public int  ContractID { get; set; }
 
-        public string Messenger  { get; set; }
+        public int Messenger  { get; set; }
+
+        public string ListOfMessenger { get; set; }
     }
 }

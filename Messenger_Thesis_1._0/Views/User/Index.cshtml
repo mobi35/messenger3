@@ -1,4 +1,4 @@
-﻿
+﻿@model List<User>
 
 @{
     ViewData["Title"] = "list";
@@ -68,12 +68,8 @@
                                 <div class="form-group">
                                     <div class="input-group input-group-alternative">
                                         <select id="update_role_admin" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                            <option>Accountant</option>
                                             <option>Admin</option>
                                             <option>Messenger</option>
-                                            <option>Customer Representative</option>
-                                            <option>Client</option>
-
                                         </select>
                                     </div>
                                 </div>
@@ -122,7 +118,7 @@
                     <div class="col-md-3">
                         <button type="button" onclick="AddUserClick()" class="btn btn-block" data-toggle="modal" data-target="#modal-form">Add user</button>
                         <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
-                            <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
 
 
                                 <div class="modal-content">
@@ -143,91 +139,131 @@
                                                         <small>Account information</small>
                                                     </div>
                                                     <form role="form" id="registration" enctype="multipart/form-data">
-                                                        <div id="parentEmail" class="form-group mb-3">
-                                                            <div class="input-group input-group-alternative">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div id="parentEmail" class="form-group mb-3">
+                                                                    <div class="input-group input-group-alternative">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                                                        </div>
+                                                                        <input id="email" class="form-control" placeholder="Email" type="email">
+                                                                    </div>
+
+                                                                    <small class="emailValidation" style="color:#f5365c"></small>
                                                                 </div>
-                                                                <input id="email" class="form-control" placeholder="Email" type="email">
                                                             </div>
 
-                                                            <small class="emailValidation" style="color:#f5365c"></small>
-                                                        </div>
-                                                        <div id="parentPassword" class="form-group">
-                                                            <div class="input-group input-group-alternative">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                                                </div>
-                                                                <input id="password" class="form-control" placeholder="Password" type="password">
-                                                            </div>
-                                                        </div>
+                                                            <div class="col-md-6">
+                                                                <div id="parentCompanyName" class="form-group mb-4">
+                                                                    <div class="input-group input-group-alternative">
 
-                                                        <div id="parentCPassword" class="form-group">
-                                                            <div class="input-group input-group-alternative">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                        <input id="companyName" class="form-control" placeholder="Company Name" type="text">
+                                                                    </div>
+                                                                    <small class="companyNameValidation" style="color:#f5365c"></small>
                                                                 </div>
-                                                                <input id="cpassword" class="form-control" placeholder="Confirm password" type="password">
                                                             </div>
 
-                                                            <small class="passwordValidation" style="color:#f5365c"></small>
+                                                            <div class="col-md-6">
+                                                                <div id="parentPassword" class="form-group">
+                                                                    <div class="input-group input-group-alternative">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                        </div>
+                                                                        <input id="password" class="form-control" placeholder="Password" type="password">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-6">
+                                                                <div id="parentCPassword" class="form-group">
+                                                                    <div class="input-group input-group-alternative">
+                                                                        <div class="input-group-prepend">
+                                                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                                                        </div>
+                                                                        <input id="cpassword" class="form-control" placeholder="Confirm password" type="password">
+                                                                    </div>
+
+                                                                    <small class="passwordValidation" style="color:#f5365c"></small>
+                                                                </div>
+                                                            </div>
+
+
+
+
+
+
+
+
                                                         </div>
-
-
-
-
 
                                                         <div class="text-center text-muted mb-4">
                                                             <small>Personal information</small>
                                                         </div>
 
-                                                        <div id="parentFirstName" class="form-group mb-4">
-                                                            <div class="input-group input-group-alternative">
+                                                        <div class="row">
 
-                                                                <input id="first-name" class="form-control" placeholder="First Name" type="text">
-                                                            </div>
-                                                            <small class="firstNameValidation" style="color:#f5365c"></small>
-                                                        </div>
+                                                            <div class="col-md-6">
+                                                                <div id="parentFirstName" class="form-group mb-4">
+                                                                    <div class="input-group input-group-alternative">
 
-                                                        <div id="parentLastName" class="form-group mb-4">
-                                                            <div class="input-group input-group-alternative">
-                                                                <input id="last-name" class="form-control" placeholder="Last Name" type="text">
-                                                            </div>
-                                                            <small class="lastNameValidation" style="color:#f5365c"></small>
-                                                        </div>
-
-                                                        <div id="parentBirthdate" class="form-group">
-                                                            <div class="input-group  input-group-alternative   ">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                                                        <input id="first-name" class="form-control" placeholder="First Name" type="text">
+                                                                    </div>
+                                                                    <small class="firstNameValidation" style="color:#f5365c"></small>
                                                                 </div>
-                                                                <input id="birth-date" class="form-control datepicker" placeholder="Birthdate" type="text">
                                                             </div>
-                                                            <small class="birthdateValidation" style="color:#f5365c"></small>
-                                                        </div>
 
 
-                                                        <div class="custom-control custom-radio mb-3">
-                                                            <input name="custom-radio-1" class="custom-control-input" id="customRadio1" checked="" value="male" type="radio">
-                                                            <label class="custom-control-label" for="customRadio1">Male</label>
-                                                        </div>
-                                                        <div class="custom-control custom-radio mb-3">
-                                                            <input name="custom-radio-1" class="custom-control-input" id="customRadio2" value="female" type="radio">
-                                                            <label class="custom-control-label" for="customRadio2">Female</label>
-                                                        </div>
+                                                            <div class="col-md-6">
+                                                                <div id="parentLastName" class="form-group mb-4">
+                                                                    <div class="input-group input-group-alternative">
+                                                                        <input id="last-name" class="form-control" placeholder="Last Name" type="text">
+                                                                    </div>
+                                                                    <small class="lastNameValidation" style="color:#f5365c"></small>
+                                                                </div>
+                                                            </div>
 
+
+
+
+
+                                                            <div class="col-md-12">
+                                                                <div id="parentPhonenumber" class="form-group mb-4">
+                                                                    <div class="input-group input-group-alternative">
+
+                                                                        <input id="phonenumber" class="form-control" placeholder="Number" type="text">
+                                                                    </div>
+                                                                    <small class="phonenumberValidation" style="color:#f5365c"></small>
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                            <div class="col-md-12">
+                                                                <div id="parentAddress" class="form-group mb-4">
+                                                                    <div class="input-group input-group-alternative">
+
+                                                                        <input id="address" class="form-control" placeholder="Address" type="text">
+                                                                    </div>
+                                                                    <small class="addressValidation" style="color:#f5365c"></small>
+                                                                </div>
+                                                            </div>
+
+
+
+
+                                                        </div>
 
 
                                                         <div class="form-group">
-                                                            <div class="input-group input-group-alternative">
-                                                                <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
-                                                                    <option>Accountant</option>
-                                                                    <option>Admin</option>
-                                                                    <option>Messenger</option>
-                                                                    <option>Customer Representative</option>
-                                                                    <option>Client</option>
-
-                                                                </select>
+                                                            <div class="form-group">
+                                                                <div class="input-group input-group-alternative">
+                                                                    <select id="role" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                                                        <option>Admin</option>
+                                                                        <option>Messenger</option>
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
 
@@ -244,6 +280,7 @@
 
                                                         <div class="text-center">
                                                             <input type="submit" id="submit" value="Save" class="btn btn-primary my-4" />
+                                                            <button data-dismiss="modal" class="btn btn-secondary m-4">Close</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -263,10 +300,11 @@
                     </div>
 
                 </div>
-                <div class="table-responsive">
-                    <table class="table align-items-center table-flush">
+                <div style="padding:1%;" class="table-responsive">
+                    <table class="table align-items-center table-flush" id="myTable">
                         <thead class="thead-light">
                             <tr>
+                                <th scope="col">Image</th>
                                 <th scope="col">Fullname</th>
                                 <th scope="col">Email</th>
 
@@ -274,46 +312,103 @@
 
                                 <th scope="col"></th>
                                 <th scope="col"></th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="tableData">
+
+                        <tbody>
+                            @{
+
+                                foreach (var m in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        <a onclick="UserProfile(@m.UserID)" data-toggle="modal" data-target="#user-profile" href="#" class="avatar rounded-circle mr-3">
+                                            <img alt="Image placeholder" style="height:50px;" src="../Images/@m.ImageName ">
+                                        </a>
+                                    </td>
+                                    <td>@m.FirstName @m.LastName</td>
+                                    <td>@m.Email</td>
+                                    <td>@m.Role</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        @{
+                                            if (m.AccountStatus == "Disabled" || m.AccountStatus == null)
+                                            {
+                                                <a asp-controller="User" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
+                                            }
+                                            else
+                                            {
+                                                <a asp-controller="User" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
+                                            }
+
+                                        }
+
+
+
+                                    </td>
+                                </tr>
+                                }
+
+                            }
                         </tbody>
                     </table>
                 </div>
-                <div class="card-footer py-4">
-                    <nav aria-label="...">
-                        <ul class="pagination justify-content-end mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">
-                                    <i class="fas fa-angle-left"></i>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a onclick="Page1()" class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a onclick="Page2()" class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li onclick="Page3()" class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class="fas fa-angle-right"></i>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+         
             </div>
         </div>
     </div>
 </div>
 
 <script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+   <script> 
+ $(document).ready(function () {
+
+
+
+        var table = $('#myTable').DataTable({
+
+            "columnDefs": [
+                { "width": "15%", "targets": 0 },
+                { "width": "30%", "targets": 3 },
+                { "width": "15%", "targets": 2 }
+            ],
+            responsive: true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(  '<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#myTable_next > a");
+                next.text('>');
+
+                var ss = $("#myTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
+
+
+
+</script>
 
 
 <script>
+
+
     $('.datepicker').datepicker();
 
     GetAllUser(1);
@@ -331,7 +426,7 @@
         var cpassword = $('#cpassword').val();
         var firstName = $('#first-name').val();
         var lastName = $('#last-name').val();
-        var birthDate = $('#birth-date').val();
+
         var role = $('#role').val();
 
         var gender = "";
@@ -352,7 +447,7 @@
         formdata.append("ConfirmPassword", cpassword);
         formdata.append("LastName", lastName);
         formdata.append("Gender", gender);
-        formdata.append("BirthDate", birthDate);
+
         formdata.append("Role", role);
         $('#submit').disabled = true;
         var xhr = new XMLHttpRequest();
@@ -412,17 +507,7 @@
                 }
 
 
-                if (xhr.responseText.split(',').includes("no_birthdate")) {
-                    $('#parentBirthdate').addClass('has-danger');
-                    $('.birthdateValidation').html("Please choose your birthdate");
-                } else if (xhr.responseText.split(',').includes("invalid_birthdate")) {
-                    $('#parentBirthdate').addClass('has-danger');
-                    $('.birthdateValidation').html("You should be 18 years old to register");
-                } else {
-                    $('#parentBirthdate').removeClass("has-danger");
-                    $('#parentBirthdate').addClass("has-success");
-                    $('.birthdateValidation').html("");
-                }
+
 
                 if (xhr.responseText.split(',').includes("no_picture")) {
                     $('#parentFileinput').addClass('has-danger');

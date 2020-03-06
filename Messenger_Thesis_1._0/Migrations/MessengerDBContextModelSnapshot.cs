@@ -114,6 +114,8 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Area");
+
                     b.Property<DateTime>("DateIns");
 
                     b.Property<DateTime>("DateOfDelivery");
@@ -122,7 +124,7 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<string>("LocationOfDelivery");
 
-                    b.Property<string>("MessengerName");
+                    b.Property<int>("MessengerID");
 
                     b.Property<DateTime>("PaymentDate");
 
@@ -133,6 +135,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("ReceiverName");
 
                     b.Property<string>("SenderName");
+
+                    b.Property<string>("Status");
 
                     b.HasKey("LetterID");
 
@@ -161,7 +165,9 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<DateTime>("LastPaymentDate");
 
-                    b.Property<string>("Messenger");
+                    b.Property<string>("ListOfMessenger");
+
+                    b.Property<int>("Messenger");
 
                     b.Property<string>("PaymentTerms");
 
@@ -190,6 +196,8 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("AccountStatus");
+
                     b.Property<string>("Address");
 
                     b.Property<DateTime>("BirthDate");
@@ -215,6 +223,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("Password");
 
                     b.Property<string>("Phonenumber");
+
+                    b.Property<int>("PickupDay");
 
                     b.Property<string>("Role");
 

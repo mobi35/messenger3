@@ -244,16 +244,7 @@
 
                                                         <br />
 
-                                                        <div id="parentBirthdate" class="form-group">
-                                                            <div class="input-group  input-group-alternative   ">
-                                                                <div class="input-group-prepend">
-                                                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                                                                </div>
-                                                                <input name="CurrentDateStart" id="pickup_sched" class="form-control datepicker" placeholder="Pick Up Schedule" type="text">
-                                                            </div>
-                                                            <small class="birthdateValidation" style="color:#f5365c"></small>
-                                                        </div>
-
+                                                      
                                                         <br />
 
                                                         <label>Upload your SOA's here using EXCEL (.xlsx)</label>
@@ -262,7 +253,7 @@
                                                         <br />
 
                                                         <div class="text-center">
-                                                            <input type="submit" id="submit" value="Send" class="btn btn-primary my-4" />
+                                                            <input onclick="return Validate()" type="submit" id="submit" value="Send" class="btn btn-primary my-4" />
                                                         </div>
                                                     </form>
 
@@ -346,11 +337,7 @@
                                                                     {
                                                                         <button data-toggle="modal" data-target="#modal-form" onclick="GetClient(@m.ProjectID)" class="btn btn-primary">View</button>
                                                                     }
-
                                                                 }
-
-
-
 
                                                             </td>
                                                             <td><a asp-action="Delete" asp-controller="Project" onclick="return confirm('are you sure ?')" asp-route-id="@m.ProjectID">Delete</a></td>
@@ -370,7 +357,12 @@
 
 
 <script>
-
+    function Validate() {
+        if ( $('#contract_id').val() == "" || $('#contract_id').val() == null ) {
+            alert("Please fill choose a contract. If you don't have contract you have to make one first.");
+            return false;
+        }
+    }
 
     $(document).ready(function () {
         var table = $('#myTable').DataTable({
@@ -415,23 +407,15 @@
 
 <script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <script src="~/rate.js"></script>
-<script>
-    $(document).ready(function () {
 
-        var dateToday = new Date();
-        $('.datepicker').datepicker({
-            startDate: dateToday
-        });
-
-    });
-
-</script>
 
 <script> 
     $(document).ready(function () {
+
+        
+
         var table = $('#soaTable').DataTable({
 
-             
             dom: 'lBfrtip',
             buttons: [
                 {

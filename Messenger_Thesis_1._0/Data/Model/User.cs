@@ -48,5 +48,9 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public int TotalNumberOfLetters { get; set; }
 
+        public string AccountStatus { get; set; }
+
+        public int PickupDay { get; set; }
+
     }
 }

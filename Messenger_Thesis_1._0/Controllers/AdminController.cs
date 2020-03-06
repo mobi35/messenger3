@@ -170,6 +170,46 @@ namespace Messenger_Thesis_1._0.Controllers
 
             dashVM.Feedbacks = feedRepo.GetAll().OrderByDescending(a => a.FeedbackID).Take(5).ToList();
 
+            int c1 = 0, c2 = 0, c3 = 0, c4 = 0, c5 = 0;
+            foreach (var m in feedRepo.GetAll())
+            {
+                if (m.Overall <= 1)
+                {
+                    c1++;
+                }
+
+                if (m.Overall >= 1 && m.Overall <= 2.5)
+                {
+                    c2++;
+                }
+
+                if (m.Overall >= 2.5 && m.Overall <= 3.5)
+                {
+                    c3++;
+                }
+
+                if (m.Overall >= 3.5 && m.Overall <= 4.5)
+                {
+                    c4++;
+                }
+
+                if (m.Overall >= 4.5 && m.Overall <= 5)
+                {
+                    c5++;
+                }
+
+            }
+
+            var ratingModel = new RatingModel();
+
+            ratingModel.Rate1 = c1;
+            ratingModel.Rate2 = c2;
+            ratingModel.Rate3 = c3;
+            ratingModel.Rate4 = c4;
+            ratingModel.Rate5 = c5;
+
+            dashVM.RatingModel = ratingModel;
+
             return View(dashVM);
         }
         

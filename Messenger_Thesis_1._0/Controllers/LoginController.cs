@@ -87,7 +87,7 @@ namespace Messenger_Thesis_1._0.Controllers
             }
 
             //Check if the password matched
-            var user =  userRepo.FindUser(a => a.Email == email && a.Password == encodePassword);
+            var user =  userRepo.FindUser(a => a.Email == email && a.Password == encodePassword && a.AccountStatus == "Activated");
 
 
          
