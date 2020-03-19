@@ -19,5 +19,9 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public DateTime DateOfDelivery { get; set; }
 
+        public DateTime PaymentDate { get; set; }
+
+        public DateTime DateIns { get; set; }
+
     }
 }

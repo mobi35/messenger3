@@ -30,7 +30,14 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public DateTime InvoiceDate { get; set; }
 
-        public DateTime PaymentDate { get; set; }
+        public DateTime LastPaymentDate { get; set; }
+
+        public DateTime CurrentDateStart { get; set; }
+
+        public string PaymentTerms { get; set; }
+
+        public int TotalLettersPerMonth { get; set; }
+
 
     }
 }

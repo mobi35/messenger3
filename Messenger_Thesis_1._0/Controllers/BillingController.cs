@@ -18,13 +18,14 @@ namespace Messenger_Thesis_1._0.Controllers
 {
     public class BillingController : Controller
     {
-
+        private readonly ILetterRepository letterRepo;
         private readonly IUserRepository _userRepo;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IProjectRepository projectRepo;
 
-        public BillingController(IUserRepository userRepo, IHostingEnvironment hostingEnvironment, IProjectRepository projectRepo)
+        public BillingController(ILetterRepository letterRepo, IUserRepository userRepo, IHostingEnvironment hostingEnvironment, IProjectRepository projectRepo)
         {
+            this.letterRepo = letterRepo;
             _userRepo = userRepo;
             _hostingEnvironment = hostingEnvironment;
             this.projectRepo = projectRepo;
@@ -37,9 +38,11 @@ namespace Messenger_Thesis_1._0.Controllers
             return View();
         }
 
+        [HttpPost]
         public string SendDeposit(Project p)
         {
             var project = projectRepo.FindProject(a => a.ProjectID == p.ProjectID);
+
 
             if (p.DepositImage != null)
             {
@@ -71,10 +74,34 @@ namespace Messenger_Thesis_1._0.Controllers
 
             var project = projectRepo.FindProject(a => a.ProjectID == id);
 
+
+
+            var date = DateTime.Now;
+
+            if(project.PaymentTerms == "semi")
+            {
+               date = project.InvoiceDate.AddDays(15);
+            }
+            else
+            {
+                date = project.InvoiceDate.AddMonths(1);
+            }
+
+
+
+            var letters = letterRepo.GetAll().Where(a => a.ProjectID == id && a.DateIns <= date).ToList();
+
+
+
             if (action)
             {
+                foreach (var l in letters)
+                {
+                    l.PaymentDate = DateTime.Now;
+                    letterRepo.Update(l);
+                }
                 project.Status = "Paid";
-                project.PaymentDate = DateTime.Now;
+                project.LastPaymentDate = DateTime.Now;
 
             }else
             {

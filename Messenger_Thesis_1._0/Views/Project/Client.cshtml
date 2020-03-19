@@ -118,7 +118,7 @@
 
 
                     <div class="col-md-3">
-                        <button type="button" onclick="AddUserClick()" class="btn btn-block" data-toggle="modal" data-target="#modal-form">Add New Delivery</button>
+                     
                         <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
                             <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
 
@@ -132,12 +132,12 @@
                                                 <div class="card-header bg-white pb-3">
 
                                                     <div class="btn-wrapper text-center">
-                                                        <h3>Add new delivery</h3>
+                                                        <h3>Add new letter</h3>
 
                                                     </div>
                                                 </div>
                                                 <div class="card-body px-lg-5 py-lg-3">
-                                              
+
                                                     <form role="form" asp-controller="Client" asp-action="ReadExcelFileAsync" enctype="multipart/form-data">
 
                                                         <div class="text-center text-muted mb-4">
@@ -145,6 +145,7 @@
                                                         </div>
 
 
+                                                        <input type="hidden" name="projectid" id="project-id" />
                                                         <img src="~/excel.png" style="width:100%;" />
 
                                                         <br />
@@ -176,6 +177,77 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+
+
+                    <div class="col-md-3">
+                        <button type="button" onclick="AddUserClick()" class="btn btn-block" data-toggle="modal" data-target="#modal-project">Add New project</button>
+                        <div class="modal fade" id="modal-project" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+
+
+                                <div class="modal-content">
+                                    <div id="RegistrationForm">
+                                        <div class="modal-body p-0">
+
+
+                                            <div class="card bg-secondary shadow border-0">
+                                                <div class="card-header bg-white pb-3">
+
+                                                    <div class="btn-wrapper text-center">
+                                                        <h3>Add new project</h3>
+
+                                                    </div>
+                                                </div>
+                                                <div class="card-body px-lg-5 py-lg-3">
+
+                                                    <form role="form" asp-controller="Client" asp-action="NewProject" enctype="multipart/form-data">
+
+
+
+                                                        <br />
+                                                        <select name="totalenvelope" class="form-control">
+                                                            <option value="100">100 / Month</option>
+                                                            <option value="1000">1000 / Month</option>
+                                                            <option value="10000">10000 / Month</option>
+                                                            <option value="100000">100000 / Month</option>
+                                                            <option value="1000000">1000000 / Month</option>
+                                                        </select>
+                                                        <br />
+
+                                                        <select name="terms" class="form-control">
+                                                            <option value="semi">Semi-Monthly</option>
+                                                            <option value="monthly">Monthly</option>
+                                                        </select>
+
+                                                        <br />
+
+
+                                                        <div class="text-center">
+                                                            <input type="submit" id="submit" value="Send" class="btn btn-primary my-4" />
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
 
                 </div>
                 <div class="table-responsive">
@@ -307,10 +379,10 @@
 
 
     function GetAllUser(page) {
-
+            var t = "";
         var fullTable = "";
         $.ajax({
-
+        
             url: '/Project/GetProjectList',
             type: 'GET',
             data: { param: 1 },
@@ -318,45 +390,92 @@
 
                 for (var key of Object.keys(e)) {
 
-                    var t = '       <tr> ' +
-                        '       <th scope="row">' +
-                        '    <div class="media align-items-center">' +
+                    if (e[key].status == "Pending") {
+
+                        t = '       <tr> ' +
+                            '       <th scope="row">' +
+                            '    <div class="media align-items-center">' +
+
+                            '       <div class="media-body">' +
+                            '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
+                            '    </div>' +
+                            '   </div>' +
+                            '   </th>' +
+                            ' <td>' +
+                            '  ' + e[key].quantity + ' / ' + e[key].totalLettersPerMonth +
+                            '   </td>' +
+                            '   <td>' +
+                            '     <span class="badge badge-dot mr-4">' +
+                            '    <i class="bg-warning"></i>  ' + e[key].status + '' +
+                            '   </span>' +
+                            '    </td>' +
+                            '   <td>' +
+
+                            '   </td>' +
+                            ' <td>' +
+                            '  <div class="d-flex align-items-center">' +
+
+
+                            ' </div>' +
+                            ' </td>' +
+                            ' <td class="text-right">' +
+                            '  <div class="dropdown">' +
+                            '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '   <i class="fas fa-ellipsis-v"></i>' +
+                            '    </a>' +
+                            '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                            '      <a class="dropdown-item" href="#">Action</a>' +
+                            '       <a class="dropdown-item" href="#">Another action</a>' +
+                            '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                            '      </div>' +
+                            '     </div>' +
+                            '    </td>' +
+                            '  </tr>';
+
+                    } else {
                         
-                        '       <div class="media-body">' +
-                        '   <span class="mb-0 text-sm">  ' + e[key].projectName  + ' </span>' +
-                        '    </div>' +
-                        '   </div>' +
-                        '   </th>' +
-                        ' <td>' +
-                        '  ' + e[key].quantity   + '' +
-                        '   </td>' +
-                        '   <td>' +
-                        '     <span class="badge badge-dot mr-4">' +
-                        '    <i class="bg-warning"></i>  ' + e[key].status   + '' +
-                        '   </span>' +
-                        '    </td>' +
-                        '   <td>' +
-                    
-                        '   </td>' +
-                        ' <td>' +
-                        '  <div class="d-flex align-items-center">' +
-                     
-                     
-                        ' </div>' +
-                        ' </td>' +
-                        ' <td class="text-right">' +
-                        '  <div class="dropdown">' +
-                        '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-                        '   <i class="fas fa-ellipsis-v"></i>' +
-                        '    </a>' +
-                        '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
-                        '      <a class="dropdown-item" href="#">Action</a>' +
-                        '       <a class="dropdown-item" href="#">Another action</a>' +
-                        '         <a class="dropdown-item" href="#">Something else here</a> ' +
-                        '      </div>' +
-                        '     </div>' +
-                        '    </td>' +
-                        '  </tr>';
+                        t = '       <tr> ' +
+                            '       <th scope="row">' +
+                            '    <div class="media align-items-center">' +
+
+                            '       <div class="media-body">' +
+                            '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
+                            '    </div>' +
+                            '   </div>' +
+                            '   </th>' +
+                            ' <td>' +
+                            '  ' + e[key].quantity + ' / ' + e[key].totalLettersPerMonth +
+                            '   </td>' +
+                            '   <td>' +
+                            '     <span class="badge badge-dot mr-4">' +
+                            '    <i class="bg-warning"></i>  ' + e[key].status + '' +
+                            '   </span>' +
+                            '    </td>' +
+                            '   <td>   <button type="button" onclick="SendProjectID('+e[key].projectID+')" class="btn btn-block" data-toggle="modal" data-target="#modal-form">Add New Letter</button>' +
+
+                            '   </td>' +
+                            ' <td>' +
+                            '  <div class="d-flex align-items-center">' +
+
+
+                            ' </div>' +
+                            ' </td>' +
+                            ' <td class="text-right">' +
+                            '  <div class="dropdown">' +
+                            '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                            '   <i class="fas fa-ellipsis-v"></i>' +
+                            '    </a>' +
+                            '   <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">' +
+                            '      <a class="dropdown-item" href="#">Action</a>' +
+                            '       <a class="dropdown-item" href="#">Another action</a>' +
+                            '         <a class="dropdown-item" href="#">Something else here</a> ' +
+                            '      </div>' +
+                            '     </div>' +
+                            '    </td>' +
+                            '  </tr>';
+
+                    }
+
 
                     fullTable += t;
 
@@ -625,6 +744,9 @@
         });
     }
 
+    function SendProjectID(id) {
+        $('#project-id').val(id);
+    }
 
     function GetUser(id) {
 

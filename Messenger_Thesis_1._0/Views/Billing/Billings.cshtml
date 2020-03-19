@@ -223,7 +223,7 @@
             success: function (e) {
 
                 for (var key of Object.keys(e)) {
-                    if ( e[key].status != "pending" ) {
+                    if ( e[key].status != "Pending" ) {
 
 
                         $('.tableData').append('       <tr> ' +
@@ -236,7 +236,7 @@
                             '   </div>' +
                             '   </th>' +
                             ' <td>' +
-                            '  ' + e[key].quantity + '' +
+                           '  ' + e[key].quantity   + ' / ' + e[key].totalLettersPerMonth +
                             '   </td>' +
                             '   <td>' +
                             '     <span class="badge badge-dot mr-4">' +
@@ -276,7 +276,7 @@
                             '   </div>' +
                             '   </th>' +
                             ' <td>' +
-                            '  ' + e[key].quantity + '' +
+                           '  ' + e[key].quantity   + ' / ' + e[key].totalLettersPerMonth +
                             '   </td>' +
                             '   <td>' +
                             '     <span class="badge badge-dot mr-4">' +
@@ -678,14 +678,14 @@
             type: 'POST',
            data: {id:id , action:true},
             success: function () {
-
+                $('#RegistrationForm').hide();
                   GetAllUser(1);
 
             }
 
 
         });
-        alert("xx");
+      
         return false;
 
     }
@@ -699,7 +699,7 @@
             type: 'POST',
             data: {id:id , action:false},
             success: function () {
-
+                  $('#RegistrationForm').hide();
                 GetAllUser(1);
 
             }

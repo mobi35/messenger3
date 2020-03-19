@@ -247,13 +247,13 @@
                     );
                     $('#submit').disabled = false;
                       $('.fileinputValidation').html('');
-                    GetAllUser();
+                    GetAllUser(1);
                 }
 
             }
         }
 
-        $('#deposit-form').preventDoubleSubmission();
+     
             
         return false;
     }
@@ -278,17 +278,21 @@
                   
                     if (e[key].imageName == null) {
 
+                        var str = "" +  e[key].projectID
+                        var pad = "00000"
+                        var ans = pad.substring(0, pad.length - str.length) + str
+
                         $('.tableData').append('       <tr> ' +
                             '       <th scope="row">' +
                             '    <div class="media align-items-center">' +
 
                             '       <div class="media-body">' +
-                            '   <span class="mb-0 text-sm">  ' + e[key].projectID + ' </span>' +
+                            '   <span class="mb-0 text-sm">  ' + ans + ' </span>' +
                             '    </div>' +
                             '   </div>' +
                             '   </th>' +
                             ' <td>' +
-                            '  ' + e[key].quantity + '' +
+                            '  ' + e[key].quantity + ' / ' + e[key].totalLettersPerMonth +
                             '   </td>' +
                             '   <td>' +
                             '     <span class="badge badge-dot mr-4">' +
@@ -318,33 +322,35 @@
                         );
 
                     } else {
-
+                          var str = "" +  e[key].projectID
+                        var pad = "00000"
+                        var ans = pad.substring(0, pad.length - str.length) + str
 
                         
-                        $('.tableData').append('       <tr> ' +
+                                $('.tableData').append('       <tr> ' +
                             '       <th scope="row">' +
                             '    <div class="media align-items-center">' +
 
                             '       <div class="media-body">' +
-                            '   <span class="mb-0 text-sm">  ' + e[key].projectName + ' </span>' +
+                            '   <span class="mb-0 text-sm">  ' + ans + ' </span>' +
                             '    </div>' +
                             '   </div>' +
                             '   </th>' +
                             ' <td>' +
-                            '  ' + e[key].quantity + '' +
+                            '  ' + e[key].quantity + ' / ' + e[key].totalLettersPerMonth +
                             '   </td>' +
                             '   <td>' +
                             '     <span class="badge badge-dot mr-4">' +
                             '    <i class="bg-warning"></i>  ' + e[key].status + ' ' +
                             '   </span>' +
                             '    </td>' +' <td>' +
-
+            
 
                             '  <div class="d-flex align-items-center">' +
-                          
+                      
                             ' </td>' +
-                            ' </div>' +
-
+                           ' </div>' +
+                                '<td> <button class="btn" data-toggle="modal" data-target="#modal-show" onclick="GetClient('+e[key].projectID+')">Show</button>     </td>' +
                             ' <td class="text-right">' +
                             '  <div class="dropdown">' +
                             '   <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +

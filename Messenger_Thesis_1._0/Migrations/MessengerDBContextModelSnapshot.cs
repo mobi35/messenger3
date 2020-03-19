@@ -77,11 +77,15 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("DateIns");
+
                     b.Property<DateTime>("DateOfDelivery");
 
                     b.Property<string>("LocationOfDelivery");
 
                     b.Property<string>("MessengerName");
+
+                    b.Property<DateTime>("PaymentDate");
 
                     b.Property<int>("Price");
 
@@ -106,13 +110,17 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<string>("ClientName");
 
+                    b.Property<DateTime>("CurrentDateStart");
+
                     b.Property<string>("Email");
 
                     b.Property<string>("ImageName");
 
                     b.Property<DateTime>("InvoiceDate");
 
-                    b.Property<DateTime>("PaymentDate");
+                    b.Property<DateTime>("LastPaymentDate");
+
+                    b.Property<string>("PaymentTerms");
 
                     b.Property<float>("Price");
 
@@ -123,6 +131,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<int>("Quantity");
 
                     b.Property<string>("Status");
+
+                    b.Property<int>("TotalLettersPerMonth");
 
                     b.HasKey("ProjectID");
 

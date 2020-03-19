@@ -36,8 +36,37 @@ namespace Messenger_Thesis_1._0.Controllers
             return View();
         }
 
+
+        [HttpPost]
+        public IActionResult NewProject(int totalenvelope, string terms)
+        {
+            var email = HttpContext.Session.GetString("Email");
+            var client = _userRepo.FindUser(a => a.Email == email);
+            var code = Guid.NewGuid().ToString("N");
+
+            Project proj = new Project();
+            proj.ClientName = HttpContext.Session.GetString("FullName");
+            proj.Email = client.Email;
+            proj.Status = "Pending";
+            proj.TotalLettersPerMonth = totalenvelope;
+            proj.PaymentTerms = terms;
+            proj.InvoiceDate = DateTime.Now;
+
+            proj.ProjectName = client.CompanyName;
+            proj.ProjectCode = code;
+            proj.Price = totalenvelope * 5;
+
+
+
+            _projectRepo.Create(proj);
+
+            return UploadSuccess();
+        }
+
+
+
             [HttpPost]
-        public async Task<IActionResult> ReadExcelFileAsync(IFormFile file)
+        public async Task<IActionResult> ReadExcelFileAsync(int projectid, IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return Content("File Not Selected");
@@ -74,43 +103,29 @@ namespace Messenger_Thesis_1._0.Controllers
                         });
                     }
 
-                
-                    var email = HttpContext.Session.GetString("Email");
-                    var client = _userRepo.FindUser(a => a.Email == email);
-
-                    Project proj = new Project();
-                    proj.ClientName = HttpContext.Session.GetString("FullName");
-                    proj.Email = client.Email;
-                    proj.Quantity = --totalRows;
-                    proj.Price = totalRows * 5;
-                    proj.Status = "pending";
-                    proj.ProjectName = client.CompanyName;
-                    var str =  string.Join(",", DataList.Where(a => a.Area != "Area").Select(a => a.Area).Distinct() );
-                    proj.Area = str;
-                    proj.ProjectCode = code;
-                    _projectRepo.Create(proj);
-
-                 
-
+             
 
                 }
 
-            
+                int count = 0;
                 foreach (var data in DataList)
                 {
-                   
 
+                    count++;
                     Letter letter = new Letter();
-                    letter.ProjectID = _projectRepo.FindProject(a => a.ProjectCode == code).ProjectID;
+                    letter.ProjectID = projectid;
                     letter.ReceiverName = data.Name;
                     letter.LocationOfDelivery = data.Address + " - " + data.Area;
-                    letter.Price = 50;
+                    letter.Price = 5;
                
                     _letterRepo.Create(letter);
                     
 
                 }
 
+               var proj = _projectRepo.FindProject(a => a.ProjectID == projectid);
+                proj.Quantity += count;
+                _projectRepo.Update(proj);
 
             }
 

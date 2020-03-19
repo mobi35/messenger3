@@ -14,10 +14,12 @@ namespace Messenger_Thesis_1._0.Controllers
     public class LoginController : Controller
     {
         private readonly IUserRepository userRepo;
+        private readonly IProjectRepository projectRepo;
 
-        public LoginController(IUserRepository userRepo)
+        public LoginController(IUserRepository userRepo, IProjectRepository projectRepo)
         {
             this.userRepo = userRepo;
+            this.projectRepo = projectRepo;
         }
         public IActionResult Index()
         {
@@ -95,7 +97,30 @@ namespace Messenger_Thesis_1._0.Controllers
                 HttpContext.Session.SetString("FullName", user.FirstName + " " + user.LastName);
                 HttpContext.Session.SetString("Image", user.ImageName);
                 HttpContext.Session.SetString("Role", user.Role);
-               if(user.Role == "Admin")
+
+                var project = projectRepo.GetAll().Where(a => a.Email == user.Email && a.Status == "Paid").ToList();
+
+                foreach (var p in project)
+                {
+
+                    var paidLastmonth = DateTime.Now;
+
+                    if(p.PaymentTerms == "semi")
+                        paidLastmonth = p.LastPaymentDate.AddDays(15);
+                    else
+                        paidLastmonth = p.LastPaymentDate.AddMonths(1);
+
+                    if (paidLastmonth < DateTime.Now)
+                    {
+                        p.Status = "Pending";
+                        projectRepo.Update(p);
+                    }
+
+                }
+
+
+
+               if (user.Role == "Admin")
                     return RedirectToAction("Index", "Admin");
                else if (user.Role == "Client")
                     return RedirectToAction("Client", "Project");
