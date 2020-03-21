@@ -196,12 +196,19 @@
 
                                 foreach (var z in Model.Feedbacks)
                                 {
-
-
                                     <tr>
                                         <th scope="row">
-                                            @UserRepository.FindUser(a => a.Email == z.Name).FirstName  @UserRepository.FindUser(a => a.Email == z.Name).MiddleName
-                                            @UserRepository.FindUser(a => a.Email == z.Name).LastName
+                                            @{
+                                                if (z.Promptness != 0 && z.Quality == 0)
+                                                {
+                                                    @UserRepository.FindUser(a => a.Email == z.Name).FirstName @UserRepository.FindUser(a => a.Email == z.Name).MiddleName
+                                                    @UserRepository.FindUser(a => a.Email == z.Name).LastName
+                                                }else
+                                                {
+                                                    @z.Name
+                                                }
+                                            }
+
                                         </th>
                                         <td>
                                             @z.Promptness

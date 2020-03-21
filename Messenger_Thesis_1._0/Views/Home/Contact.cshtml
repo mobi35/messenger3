@@ -35,7 +35,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <input class="form-control"  id="subject" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" placeholder="Enter Subject">
+                                <input class="form-control"  id="subject" type="number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Project ID'" placeholder="Enter Project ID">
                             </div>
                         </div>
                         <div class="col-12">
@@ -101,8 +101,7 @@
     var email = $('#email').val();
     var message = $('#message').val();
     var subject = $('#subject').val();  
-
-        alert(name);
+       
 
         if (name == ""
            && email == ""
@@ -114,12 +113,18 @@
             url: '/Feedback/SendMessage',
             type: 'POST',
             data: { name: name, email: email, message: message, subject: subject },
-            success: function () {
+            success: function (e) {
               
+                if (e == "error") {
+                       alert("We cant found your project ID. Please check it");
+                }
+                else if (e == "") {
+                         alert("Message sent successfully");
+                }
             }
 
         });
-        alert("Message sent successfully");
+   
         $('#name').val('');
    $('#email').val('');
    $('#message').val('');

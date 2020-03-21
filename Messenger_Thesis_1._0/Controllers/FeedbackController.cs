@@ -13,10 +13,12 @@ namespace Messenger_Thesis_1._0.Controllers
 {
     public class FeedbackController : Controller
     {
+        private readonly IProjectRepository projectRepo;
         private readonly IFeedbackRepository feedRepo;
 
-        public FeedbackController(IFeedbackRepository feedRepo)
+        public FeedbackController(IProjectRepository projectRepo, IFeedbackRepository feedRepo)
         {
+            this.projectRepo = projectRepo;
             this.feedRepo = feedRepo;
         }
 
@@ -45,8 +47,17 @@ namespace Messenger_Thesis_1._0.Controllers
 
     
         [HttpPost]
-        public IActionResult SendMessage(string subject, string name, string message, string email )
+        public string SendMessage(string subject, string name, string message, string email )
         {
+            var projectID = int.Parse(subject);
+
+            var checkProject = projectRepo.FindProject(a => a.ProjectID == projectID);
+
+            if(checkProject == null)
+            {
+                return "error";
+            }
+
             Feedback feedback = new Feedback();
             feedback.Subject = subject;
             feedback.Name = name;
@@ -54,7 +65,7 @@ namespace Messenger_Thesis_1._0.Controllers
 
             feedRepo.Create(feedback);
          
-            return View();
+            return "";
         }
 
         public IActionResult Services()

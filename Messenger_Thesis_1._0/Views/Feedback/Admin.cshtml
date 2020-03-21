@@ -93,10 +93,29 @@ Layout = "~/Views/Shared/_Admin.cshtml";
                                                                         }
 
                                                                     </td>
-                                                                 
-                                                                    @{string v = String.Format("{0:D6}", m.ProjectID);
+                                                                    @{
+                                                                        if (m.Overall == 0)
+                                                                        {
+                                                                            var ints = int.Parse(m.Subject);
+                                                                            string v = String.Format("{0:D6}", ints);
+                                                                            <td>@v</td>
+
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            string v = String.Format("{0:D6}", m.ProjectID);
+                                                                            <td>@v</td>
+
+                                                                        }
+
                                                                     }
-                                                                    <td>@v</td>
+
+                                                                    }
+
+
+
+
                                                                 </tr>
                                 }
                                 }
