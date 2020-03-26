@@ -8,6 +8,7 @@ using Messenger_Thesis_1._0.Models;
 using Messenger_Thesis_1._0.Data.Model.Interface;
 using System.Net.Mail;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
@@ -86,10 +87,22 @@ namespace Messenger_Thesis_1._0.Controllers
                 encodePassword = util.base64Encode(password);
             }
 
+          
             //Check if the password matched
             var user =  userRepo.FindUser(a => a.Email == email && a.Password == encodePassword && a.AccountStatus == "Activated");
 
+            if (user == null )
+            {
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<html><script>alert('Invalid Account'); window.open('../../../../Home/Index','_self')</script></html>"
+                };
+            }
 
+
+        
          
             if (user != null)
             {

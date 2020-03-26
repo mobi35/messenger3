@@ -96,6 +96,7 @@ namespace Messenger_Thesis_1._0.Controllers
             projectModel.Status = "On-going";
             projectModel.Messenger = project.Messenger;
             projectModel.Area = project.Area;
+            projectModel.CurrentDateStart = DateTime.Now.AddDays(2);
             projectRepo.Update(projectModel);
 
             return "";
@@ -238,6 +239,12 @@ namespace Messenger_Thesis_1._0.Controllers
                         proj.Add(l);
                     }
                 }
+                }else
+                {
+                    if (l.Messenger == userID)
+                    {
+                        proj.Add(l);
+                    }
                 }
             }
             return View(proj);
