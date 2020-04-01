@@ -590,7 +590,7 @@
                                         </td>
                                         <td>
                                             @{
-                                                if (project.Status != "On-going" && project.TypeOfTask == "Pick-up")
+                                                if (project.Status != "Completed" && project.Status != "On-going" && project.TypeOfTask == "Pick-up")
                                                 {
                                                     <button type="button" onclick="PickUp(@project.ProjectID, @project.Quantity, '@UserRepository.FindUser(a => a.Email == project.Email).Address' )" class="btn btn-block" data-toggle="modal" data-target="#modal-project">Set pick-up</button>
                                                 }

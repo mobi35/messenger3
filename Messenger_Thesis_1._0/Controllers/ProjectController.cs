@@ -168,8 +168,14 @@ namespace Messenger_Thesis_1._0.Controllers
 
             projectModel.CurrentDateStart = DateTime.Now.AddDays(2);
 
-            projectModel.Messenger = project.Messenger;
+            var messengerStr = "";
 
+            foreach (var l in getLetter.GroupBy(a => a.MessengerID).Select(a => a.FirstOrDefault().MessengerID).ToList())
+            {
+                messengerStr += l + ",";
+            }
+
+            projectModel.ListOfMessenger = messengerStr;
 
             projectModel.Area = project.Area;
             projectRepo.Update(projectModel);
