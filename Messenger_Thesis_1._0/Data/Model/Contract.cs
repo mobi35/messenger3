@@ -19,5 +19,9 @@ namespace Messenger_Thesis_1._0.Data.Model
         public float PricePerQuantity { get; set; }
         public string ClientID { get; set; }
 
+        public bool Archived { get; set; }
+
+        public bool UserArchive { get; set; }
+
     }
 }

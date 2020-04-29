@@ -84,6 +84,7 @@
                                     <div class="input-group input-group-alternative">
                                         <input type="file" id="update_fileInput_admin" class="form-control form-control" />
                                     </div>
+                                    <label for="update_fileInput_admin">Select file Image file only</label>
                                     <small class="update_fileinputValidation_admin" style="color:#f5365c"></small>
                                 </div>
 
@@ -278,8 +279,6 @@
 
 
 
-
-
                                                             <div class="col-md-12">
                                                                 <div id="parentPhonenumber" class="form-group mb-4">
                                                                     <div class="input-group input-group-alternative">
@@ -288,24 +287,17 @@
                                                                     </div>
                                                                     <small class="phonenumberValidation" style="color:#f5365c"></small>
                                                                 </div>
-
                                                             </div>
 
-
-
-                                                            <div class="col-md-12">
+                                                            <div style="display:none;" class="col-md-12">
                                                                 <div id="parentAddress" class="form-group mb-4">
                                                                     <div class="input-group input-group-alternative">
 
-                                                                        <input id="address" class="form-control" placeholder="Address" type="text">
+                                                                        <input id="address" value="blank" class="form-control" placeholder="Address" type="text">
                                                                     </div>
                                                                     <small class="addressValidation" style="color:#f5365c"></small>
                                                                 </div>
                                                             </div>
-
-
-
-
 
 
                                                         </div>
@@ -322,6 +314,7 @@
                                                             <div class="input-group input-group-alternative">
                                                                 <input type="file" id="fileInput" class="form-control form-control" />
                                                             </div>
+                                                            <label for="fileInput">Select file Image file only</label>
                                                             <small class="fileinputValidation" style="color:#f5365c"></small>
                                                         </div>
 
@@ -464,6 +457,48 @@
 
 
 <script>
+
+
+
+ var file = document.getElementById('fileInput');
+
+file.onchange = function(e) {
+  var ext = this.value.match(/\.([^\.]+)$/)[1];
+  switch (ext) {
+    case 'jpg':
+    case 'bmp':
+    case 'png':
+    case 'tif':
+     
+      break;
+      default:
+          alert('This file is not allowed. Please choose image file only.');
+          this.value = '';
+          return false;
+    }
+   
+};
+
+
+     var fileUpdate = document.getElementById('update_fileInput_admin');
+
+fileUpdate.onchange = function(e) {
+  var extUpdate = this.value.match(/\.([^\.]+)$/)[1];
+  switch (extUpdate) {
+    case 'jpg':
+    case 'bmp':
+    case 'png':
+    case 'tif':
+     
+      break;
+      default:
+          alert('This file is not allowed. Please choose image file only.');
+          this.value = '';
+          return false;
+    }
+   
+};
+
 
 
     GetAllUser(1);
@@ -1001,6 +1036,9 @@
 
         });
     }
+
+
+
 
 
     $('#update-submit-admin').click(function () {

@@ -1,0 +1,108 @@
+﻿@model List<Contract>
+@{
+    ViewData["Title"] = "Client";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div style="padding:1%;" class="card shadow">
+             
+                <div class="card-header border-0">
+
+                    <h3 class="mb-0">Contract of Client</h3>   <br />
+                    <a asp-action="Client" asp-controller="Contract" style="width:10%;" class="btn btn-block"> Archive Projects </a>
+                </div>
+                <div class="table-responsive">
+
+                    <table id="myTable" class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Company Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price Per Quantity</th>
+                                <th scope="col">Duration</th>
+                                <th>Archive</th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            @{
+                                foreach (var m in Model)
+                                {
+                                    string v = String.Format("{0:D6}", m.ContractID);
+                                                        <tr>
+
+                                                            <td>@Html.Raw("MM")@v</td>
+                                                            <td>@m.Quantity</td>
+                                                            <td>
+                                                                @m.StartDuration.ToShortDateString() - @m.EndDuration.ToShortDateString()
+                                                            </td>
+                                                            <td>@m.PricePerQuantity</td>
+                                                            <td>
+                                                                @{
+
+
+                                                                    if (@m.EndDuration <= DateTime.Now)
+                                                                    {
+                                                                        <a class="btn btn-block" asp-action="ClientUnArchived" asp-controller="Contract" asp-route-id="@m.ContractID"> UnArchive</a>
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    
+
+    $(document).ready(function () {
+        var table = $('#myTable').DataTable({
+             order : [[ 0, "desc" ]],
+            responsive: true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(
+                                '<img style= src="~/logo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#myTable_next > a");
+                next.text('>');
+
+                var ss = $("#myTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
+
+
+</script>
+
+

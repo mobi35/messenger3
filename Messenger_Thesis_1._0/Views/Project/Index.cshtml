@@ -544,6 +544,138 @@
                 </div>
                 <div class="card-header border-0">
                     <h3 class="mb-0">Projects</h3>
+                    <br />
+                    <a asp-action="AdminArchivePage" asp-controller="Project" style="width:10%;" class="btn btn-block"> Archive Projects </a>
+
+
+
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+                    <input type="text" style="width:20%;" name="datefilter" id="dateRange" class="form-control" placeholder="Choose Date" value="" />
+
+                    <button style="width:20%;" class="btn btn-block" id="projectDateFilter">Filter</button>
+                    @using Microsoft.AspNetCore.Http;
+                    @inject IHttpContextAccessor HttpContextAccessor
+                    <script type="text/javascript">
+
+                        $("#projectDateFilter").click(function () {
+
+                            var start = $('#dateRange').val().substr(0, 10);
+                            var end = $('#dateRange').val().substr(13, 20);
+                            var name = '@HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()';
+
+                            $('#projectTable').DataTable().clear().destroy();
+
+                            if (start != "") {
+
+                                var table = $('#projectTable').DataTable({
+
+
+                                order: [[0, "desc"]],
+                                dom: 'lBfrtip',
+                                buttons: [
+                                    {
+                                        extend: 'print',
+
+                                        customize: function (win) {
+                                            $(win.document.body)
+                                                .css({ 'font-size': '10pt' })
+                                                .prepend('<center> <img src = "https://i.ibb.co/nzTJbJF/logo.png" /> <h1> Mail Expert Messengerial & Gen. Services, Inc. </h1>  <br> <h3> Project Report</h3> <br> '
+
+                                                    + start + ' - ' + end + '</center>'
+                                            ).append(
+                                                '<center><br> Created by '+ name +' </center>'
+                                            );
+                                        }
+                                    }
+                                ],
+                                drawCallback: function () {
+
+                                    var next = $("#projectTable_next > a");
+                                    next.text('>');
+
+                                    var ss = $("#projectTable_previous > a");
+                                    ss.text('<');
+                                }
+
+                            });
+                            $('.custom-select').removeClass("custom-select");
+
+
+
+
+
+                                $.ajax({
+
+                                    url: 'Project/DateFilter',
+                                    data: { startDate: start, endDate: end },
+                                    type: 'GET',
+                                    success: function (e) {
+
+                                        for (var key in Object.keys(e)) {
+                                            table.row.add( {
+                                            "0":      e[key].projectID,
+                                            "1":    e[key].projectName,
+                                            "2":      e[key].quantity,
+                                            "3":  e[key].typeOfTask,
+                                            "4":      e[key].status,
+                                                "5": e[key].currentDateStart.substr(0,10),
+
+
+
+                                                "6": "",
+
+
+
+
+
+
+                                            "7" : ""
+                                        } ).draw();
+                                        }
+                                    }
+
+
+                                });
+
+
+
+
+
+                            }
+
+
+
+
+
+                        });
+
+
+                        $(function () {
+
+                            $('input[name="datefilter"]').daterangepicker({
+                                autoUpdateInput: false,
+                                locale: {
+                                    cancelLabel: 'Clear'
+                                }
+                            });
+
+                            $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+                                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                            });
+
+                            $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+                                $(this).val('');
+                            });
+
+                        });
+                    </script>
+
+
                 </div>
                 <div style="padding:2%;" class="table-responsive">
                     <table id="projectTable" class="table align-items-center table-flush">
@@ -598,6 +730,11 @@
                                                 if (project.Status == "Pending" && project.TypeOfTask == "Delivery")
                                                 {
                                                     <button type="button" onclick="Delivery(@project.ProjectID, @project.Quantity )" class="btn btn-block" data-toggle="modal" data-target="#modal-delivery">Set Delivery</button>
+                                                }
+
+                                                if(project.Status == "Completed")
+                                                {
+                                                    <a class="btn btn-block" asp-action="AdminArchived" asp-controller="Project" asp-route-id="@project.ProjectID"  onclick="return confirm('Are you sure you want to archive this project?')"> Archive </a>
                                                 }
 
                                             }
@@ -792,10 +929,15 @@
 
 
     $(document).ready(function () {
+
+          var start = $('#dateRange').val().substr(0, 10);
+        var end = $('#dateRange').val().substr(13, 20);
+     
         var table = $('#projectTable').DataTable({
+     
 
             order: [[0, "desc"]],
-            dom: 'lBfrtip',
+            dom: 'lBfrtip', 
             buttons: [
                 {
                     extend: 'print',
@@ -803,7 +945,9 @@
                     customize: function (win) {
                         $(win.document.body)
                             .css({ 'font-size': '10pt' })
-                            .prepend('<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            .prepend('<center> <h1> Project Report</h1> <br> '
+
+                                + start + ' - ' + end + '</center>'
                             );
                     }
                 }
@@ -819,6 +963,8 @@
 
         });
         $('.custom-select').removeClass("custom-select");
+
+
     });
 
 

@@ -8,66 +8,78 @@
 }
 
 
-    <form id="add_contract">
-        <!-- Modal -->
-        <div class="modal fade" id="AddContractModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Contract</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
+<form id="add_contract">
+    <!-- Modal -->
+    <div class="modal fade" id="AddContractModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Contract</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
-                        <select id="company_name" class="form-control">
-                            @{
-                                foreach (var m in UserRepository.GetAll().Where(a => a.Role == "Client"))
-                                {
-                                    <option value="@m.CompanyName">@m.CompanyName</option>
-                                }
+                    <select id="company_name" class="form-control">
+                        @{
+                            foreach (var m in UserRepository.GetAll().Where(a => a.Role == "Client"))
+                            {
+                                <option value="@m.CompanyName">@m.CompanyName</option>
                             }
+                        }
 
-                        </select>
+                    </select>
 
-                        <label>Quantity</label>
-                        <input required tye="number" id="quantity" class="form-control" />
+                    <label>Quantity</label>
+                    <input required tye="number" id="quantity" class="form-control" />
 
-                        <label>Price Per Quantity</label>
-                        <input required tye="number" id="price_per_quantity" class="form-control" />
+                    <label>Price Per Quantity</label>
+                    <input required tye="number" id="price_per_quantity" class="form-control" />
 
-                        <label>Contract Start</label>
-                        <div id="parentBirthdate" class="form-group">
-                            <div class="input-group  input-group-alternative   ">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                                </div>
-                                <input required id="contract_start" autocomplete="off" class="form-control datepicker" placeholder="Contract Start" type="text">
-                            </div>
-                            <small class="birthdateValidation" style="color:#f5365c"></small>
-                        </div>
+                    <label>Contract Period</label>
 
 
 
-                        <label>Contract Duration</label>
-                        <select id="duration" class="form-control">
-                            <option value="1">1 year</option>
-                            <option value="2">2 years</option>
-                            <option value="3">3 years</option>
-                            <option value="4">4 years</option>
-                            <option value="5">5 years</option>
-                        </select>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <input type="submit" id="contract_submit" class="btn btn-primary"  />
-                    </div>
+
+                    <input type="text"  name="datefilter" id="dateRange" class="form-control" placeholder="Choose Date" value="" />
+
+                    <script>
+
+                         $(function () {
+
+                            $('input[name="datefilter"]').daterangepicker({
+                                autoUpdateInput: false,
+                                locale: {
+                                    cancelLabel: 'Clear'
+                                }
+                            });
+
+                            $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+                                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                            });
+
+                            $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+                                $(this).val('');
+                            });
+
+                        });
+                    </script>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" id="contract_submit" class="btn btn-primary" />
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 
 
 <br />
@@ -89,6 +101,9 @@
                 <div class="card-header border-0">
 
                     <h3 class="mb-0">Contracts</h3>
+
+                    <br />
+                    <a asp-action="AdminArchivePage" asp-controller="Contract" style="width:10%;" class="btn btn-block">  Projects </a>
                 </div>
                 <div class="table-responsive">
 
@@ -100,7 +115,7 @@
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Price Per Quantity</th>
                                 <th scope="col">Duration</th>
-
+                                <th>Archive</th>
                             </tr>
                         </thead>
 
@@ -109,16 +124,27 @@
                             @{
                                 foreach (var m in Model)
                                 {
-                                                        <tr>
-                                                            <td>@m.ContractID</td>
-                                                            <td>@m.CompanyName</td>
-                                                            <td>@m.Quantity</td>
+                                    <tr>
+                                        <td>@m.ContractID</td>
+                                        <td>@m.CompanyName</td>
+                                        <td>@m.Quantity</td>
 
-                                                            <td>@m.PricePerQuantity</td>
-                                                            <td>
-                                                                @m.StartDuration.ToShortDateString() - @m.EndDuration.ToShortDateString()
-                                                            </td>
-                                                        </tr>
+                                        <td>@m.PricePerQuantity</td>
+                                        <td>
+                                            @m.StartDuration.ToShortDateString() - @m.EndDuration.ToShortDateString()
+                                        </td>
+                                        <td>
+                                            @{
+
+
+                                                if (@m.EndDuration <= DateTime.Now)
+                                                {
+                                                    <a class="btn btn-block"  asp-action="AdminArchived" asp-controller="Contract" asp-route-id="@m.ContractID" onclick="return confirm('Are you sure you want to archive this contract?')"> Archive</a>
+                                                }
+                                            }
+                                        </td>
+
+                                    </tr>
                                 }
                             }
 
@@ -136,43 +162,46 @@
 <script>
 
     document.getElementById('add_contract').onsubmit = function () {
-        
+
 
         var form = new FormData();
 
         form.append("CompanyName", $('#company_name').val());
         form.append("Quantity", $('#quantity').val());
         form.append("PricePerQuantity", $('#price_per_quantity').val());
-        form.append("YearsOfDuration", $('#duration').val());
-        form.append("StartDuration", $('#contract_start').val() );
-    
+
+        var start = $('#dateRange').val().substr(0, 10);
+        var end = $('#dateRange').val().substr(13, 20);
+
+        form.append("StartDuration", start);
+        form.append("EndDuration", end);
         var XML = new XMLHttpRequest();
 
         XML.open("POST", "/Contract/Add");
         XML.send(form);
 
-         XML.onreadystatechange = function (e) {
+        XML.onreadystatechange = function (e) {
 
-             if (XML.readyState == 4 && XML.status == 200) {
+            if (XML.readyState == 4 && XML.status == 200) {
 
-                 Swal.fire({
-                     title: 'Success!',
-                     text: "Contract Added",
-                     icon: 'success',
-                     confirmButtonText: 'Okay'
-                 }).then((result) => {
-                     if (result.value) {
+                Swal.fire({
+                    title: 'Success!',
+                    text: "Contract Added",
+                    icon: 'success',
+                    confirmButtonText: 'Okay'
+                }).then((result) => {
+                    if (result.value) {
 
-                         window.open("/Contract", "_self");
+                        window.open("/Contract", "_self");
 
 
-                     }
-                 });
+                    }
+                });
 
-                  $(".modal-backdrop").hide();
-                 $("#AddContractModal").hide();
-                
-             }
+                $(".modal-backdrop").hide();
+                $("#AddContractModal").hide();
+
+            }
 
         }
 
@@ -180,23 +209,29 @@
         return false;
     }
 
+       @using Microsoft.AspNetCore.Http;
+                    @inject IHttpContextAccessor HttpContextAccessor
     $(document).ready(function () {
+           var name = '@HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()';
         var table = $('#myTable').DataTable({
-       order : [[ 0, "desc" ]],
+            order: [[0, "desc"]],
             responsive: true,
             dom: 'lBfrtip',
             buttons: [
-                {
-                    extend: 'print',
+                 {
+            extend: 'print',
 
-                    customize: function (win) {
-                        $(win.document.body)
-                            .css({ 'font-size': '10pt' })
-                            .prepend(
-                                '<img style= src="~/logo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
-                            );
-                    }
-                }
+            customize: function (win) {
+                $(win.document.body)
+                    .css({ 'font-size': '10pt' })
+                    .prepend('<center> <img src = "https://i.ibb.co/nzTJbJF/logo.png" /> <h1> Mail Expert Messengerial & Gen. Services, Inc. </h1>  <br> <h3> Contract Report </h3> <br>  </center>'
+
+                                                   
+                ).append(
+                    '<center><br> Created by '+ name +' </center>'
+                );
+            }
+        }
             ],
             drawCallback: function () {
 
@@ -278,20 +313,9 @@
 
     });
 </script>
-<script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
 <script src="~/rate.js"></script>
-<script>
-    $(document).ready(function () {
-    
-    var dateToday = new Date(); 
-    $('.datepicker').datepicker({
-        startDate : dateToday
-    });
 
-        });
-
-
-</script>
 
 
 

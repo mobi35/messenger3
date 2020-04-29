@@ -315,40 +315,41 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-
+                        @using Microsoft.AspNetCore.Http;
+                        @inject IHttpContextAccessor HttpContextAccessor
                         <tbody>
                             @{
 
                                 foreach (var m in Model)
                                 {
-                                <tr>
-                                    <td>
-                                        <a onclick="UserProfile(@m.UserID)" data-toggle="modal" data-target="#user-profile" href="#" class="avatar rounded-circle mr-3">
-                                            <img alt="Image placeholder" style="height:50px;" src="../Images/@m.ImageName ">
-                                        </a>
-                                    </td>
-                                    <td>@m.FirstName @m.LastName</td>
-                                    <td>@m.Email</td>
-                                    <td>@m.Role</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>
-                                        @{
-                                            if (m.AccountStatus == "Disabled" || m.AccountStatus == null)
-                                            {
-                                                <a asp-controller="User" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
+                                    <tr>
+                                        <td>
+                                            <a onclick="UserProfile(@m.UserID)" data-toggle="modal" data-target="#user-profile" href="#" class="avatar rounded-circle mr-3">
+                                                <img alt="Image placeholder" style="height:50px;" src="../Images/@m.ImageName ">
+                                            </a>
+                                        </td>
+                                        <td>@m.FirstName @m.LastName</td>
+                                        <td>@m.Email</td>
+                                        <td>@m.Role</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            @{
+                                                if (m.AccountStatus == "Disabled" || m.AccountStatus == null)
+                                                {
+                                                    <a asp-controller="User" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-controller="User" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
+                                                }
+
                                             }
-                                            else
-                                            {
-                                                <a asp-controller="User" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
-                                            }
-
-                                        }
 
 
 
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
                                 }
 
                             }
@@ -363,6 +364,7 @@
 
 <script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
    <script> 
+          var name = '@HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()';
  $(document).ready(function () {
 
 
@@ -377,13 +379,17 @@
             responsive: true,
             dom: 'lBfrtip',
             buttons: [
-                {
+                  {
                     extend: 'print',
 
                     customize: function (win) {
                         $(win.document.body)
                             .css({ 'font-size': '10pt' })
-                            .prepend(  '<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            .prepend('<center> <img src = "https://i.ibb.co/nzTJbJF/logo.png" /> <h1> Mail Expert Messengerial & Gen. Services, Inc. </h1>  <br> <h3> User Masterlist Report </h3> <br>  </center>'
+
+
+                            ).append(
+                                '<center><br> Created by ' + name + ' </center>'
                             );
                     }
                 }

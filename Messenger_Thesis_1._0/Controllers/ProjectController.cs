@@ -8,6 +8,7 @@ using Messenger_Thesis_1._0.Models;
 using Messenger_Thesis_1._0.Data.Model.Interface;
 using Messenger_Thesis_1._0.Data.Model;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 namespace Messenger_Thesis_1._0.Controllers
 {
@@ -24,13 +25,23 @@ namespace Messenger_Thesis_1._0.Controllers
             this.letterRepo = letterRepo;
         }
 
-        public List<Project> GetProjects()
+        public List<Project> GetProjects(DateTime? startDate, DateTime? endDate)
         {
-            return projectRepo.GetAll().ToList();
+
+            if(startDate != null & endDate != null)
+            {
+                return projectRepo.GetAll().Where(a => a.Archived == false && a.CurrentDateStart >= startDate && a.CurrentDateStart <= endDate).ToList();
+            }
+            else
+            {
+                return projectRepo.GetAll().Where(a => a.Archived == false).ToList();
+            }
+           
         }
-        public IActionResult Index()
+        public IActionResult Index(DateTime? startDate, DateTime? endDate)
         {
-            return View(GetProjects());
+
+            return View(GetProjects(startDate, endDate));
         }
 
         public IActionResult Privacy()
@@ -219,19 +230,134 @@ namespace Messenger_Thesis_1._0.Controllers
         {
            var userID = int.Parse( HttpContext.Session.GetString("UserID").ToString() );
             var getCompanyName = userRepo.FindUser(a => a.UserID == userID);
-            var project = projectRepo.GetAll().Where(a => a.ProjectName == getCompanyName.CompanyName).ToList();
+            var project = projectRepo.GetAll().Where(a => a.ProjectName == getCompanyName.CompanyName && a.UserArchive == false).ToList();
             return View(project);
         }
 
         public IActionResult Admin()
         {
-            var user = userRepo.GetAll().Where(a => a.Role == "Messenger").ToList();
+            var user = userRepo.GetAll().Where(a => a.Role == "Messenger" ).ToList();
             return View(user);
         }
 
+
+
+        public IActionResult ClientArchivePage()
+        {
+            var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
+            var getCompanyName = userRepo.FindUser(a => a.UserID == userID);
+            var project = projectRepo.GetAll().Where(a => a.ProjectName == getCompanyName.CompanyName && a.UserArchive == true).ToList();
+            return View(project);
+        }
+
+        public IActionResult AdminArchivePage()
+        {
+             return View(projectRepo.GetAll().Where(a => a.Archived == true).ToList()); 
+        }
+
+        public IActionResult AdminArchived(int id)
+        {
+            var project = projectRepo.FindProject(a => a.ProjectID == id);
+            if (projectRepo.FindProject(a => a.ProjectID == id).Status == "Completed")
+            {
+                project.Archived = true;
+                projectRepo.Update(project);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<html><script>alert('Project Archived Success.'); window.open('../../../../Project/Index','_self')</script></html>"
+                };
+            }
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Project Archived Fail.'); window.open('../../../../Project/Index','_self')</script></html>"
+            };
+        }
+
+        public IActionResult AdminunArchived(int id)
+        {
+            var project = projectRepo.FindProject(a => a.ProjectID == id);
+            if (projectRepo.FindProject(a => a.ProjectID == id).Status == "Completed")
+            {
+                project.Archived = false;
+                projectRepo.Update(project);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<html><script>alert('Project Archived Success.'); window.open('../../../../Project/Index','_self')</script></html>"
+                };
+            }
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Project Archived Fail.'); window.open('../../../../Project/Index','_self')</script></html>"
+            };
+        }
+
+     
+
+        public IActionResult ClientArchived(int id)
+        {
+           var project = projectRepo.FindProject(a => a.ProjectID == id);
+            if (projectRepo.FindProject(a => a.ProjectID == id).Status == "Completed")
+            {
+                project.UserArchive = true;
+                projectRepo.Update(project);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<html><script>alert('Project Archived Success.'); window.open('../../../../Project/Client','_self')</script></html>"
+                };
+            }
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Project Archived Fail.'); window.open('../../../../Project/Client','_self')</script></html>"
+            };
+        }
+
+        public IActionResult ClientUnArchived(int id)
+        {
+            var project = projectRepo.FindProject(a => a.ProjectID == id);
+            if (projectRepo.FindProject(a => a.ProjectID == id).Status == "Completed")
+            {
+                project.UserArchive = false;
+                projectRepo.Update(project);
+
+                return new ContentResult
+                {
+                    ContentType = "text/html",
+                    StatusCode = (int)HttpStatusCode.OK,
+                    Content = "<html><script>alert('Project Archived Success.'); window.open('../../../../Project/Client','_self')</script></html>"
+                };
+            }
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Project Archived Fail.'); window.open('../../../../Project/Client','_self')</script></html>"
+            };
+        }
+
+
+
+
         public IActionResult Messenger()
         {
-           
 
             var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
             List<Project> proj = new List<Project>();
@@ -327,6 +453,10 @@ namespace Messenger_Thesis_1._0.Controllers
             return "";
         }
 
+        public JsonResult DateFilter(DateTime startDate, DateTime endDate)
+        {
+            return Json( projectRepo.GetAll().Where(a => a.Archived == false && a.CurrentDateStart >= startDate && a.CurrentDateStart <= endDate).ToList());
+        }
 
     }
 }

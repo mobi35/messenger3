@@ -12,7 +12,9 @@
              
                 <div class="card-header border-0">
 
-                    <h3 class="mb-0">Contracts</h3>
+                    <h3 class="mb-0">Contract of Client</h3>
+                    <br />
+                    <a asp-action="ClientArchivedPage" asp-controller="Contract" style="width:10%;" class="btn btn-block"> Archive Projects </a>
                 </div>
                 <div class="table-responsive">
 
@@ -23,6 +25,7 @@
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Price Per Quantity</th>
                                 <th scope="col">Duration</th>
+                                <th>Archive</th>
                             </tr>
                         </thead>
 
@@ -32,15 +35,25 @@
                                 foreach (var m in Model)
                                 {
                                     string v = String.Format("{0:D6}", m.ContractID);
-                                    <tr>
+                                                        <tr>
 
-                                        <td>@Html.Raw("MM")@v</td>
-                                        <td>@m.Quantity</td>
-                                        <td>
-                                            @m.StartDuration.ToShortDateString() - @m.EndDuration.ToShortDateString()
-                                        </td>
-                                        <td>@m.PricePerQuantity</td>
-                                    </tr>
+                                                            <td>@Html.Raw("MM")@v</td>
+                                                            <td>@m.Quantity</td>
+                                                            <td>
+                                                                @m.StartDuration.ToShortDateString() - @m.EndDuration.ToShortDateString()
+                                                            </td>
+                                                            <td>@m.PricePerQuantity</td>
+                                                            <td>
+                                                                @{
+
+
+                                                                    if (@m.EndDuration <= DateTime.Now)
+                                                                    {
+                                                                        <a class="btn btn-block" asp-action="ClientArchived" asp-controller="Contract" asp-route-id="@m.ContractID" onclick="return confirm('Are you sure you want to archive this contract?')"> Archive</a>
+                                                                    }
+                                                                }
+                                                            </td>
+                                                        </tr>
                                 }
                             }
 

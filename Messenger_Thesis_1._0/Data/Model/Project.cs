@@ -45,5 +45,9 @@ namespace Messenger_Thesis_1._0.Data.Model
         public int Messenger  { get; set; }
 
         public string ListOfMessenger { get; set; }
+
+        public bool Archived { get; set; }
+
+        public bool UserArchive { get; set; }
     }
 }

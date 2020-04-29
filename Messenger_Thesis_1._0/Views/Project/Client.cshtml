@@ -296,6 +296,9 @@
                 <div class="card-header border-0">
 
                     <h3 class="mb-0">Contracts</h3>
+
+                    <br />
+                    <a asp-action="ClientArchivePage" asp-controller="Project" style="width:10%;" class="btn btn-block"> Archive Projects </a>
                 </div>
                 <div class="table-responsive">
 
@@ -311,6 +314,7 @@
                                 <th scope="col">Scheduled Date</th>
                                 <th scope="col">View</th>
                                 <th scope="col">Action</th>
+                                <th> Archive </th>
                             </tr>
                         </thead>
 
@@ -337,11 +341,25 @@
                                                                     {
                                                                         <button data-toggle="modal" data-target="#modal-form" onclick="GetClient(@m.ProjectID)" class="btn btn-primary">View</button>
                                                                     }
+
+                                                                 
                                                                 }
 
                                                             </td>
                                                             <td><a asp-action="Delete" asp-controller="Project" onclick="return confirm('are you sure ?')" asp-route-id="@m.ProjectID">Delete</a></td>
+                                                            <td>
+                                                                @{
 
+
+                                                                    if (m.Status == "Completed")
+                                                                    {
+                                                                        <a class="btn btn-block" asp-action="ClientArchived" asp-controller="Project" asp-route-id="@m.ProjectID" onclick="return confirm('Are you sure you want to archive this project?')"> Archive </a>
+                                                                    }
+
+
+                                                                                                                        }
+
+                                                                                                                    </td>
 
                                                         </tr>
                                 }

@@ -87,6 +87,165 @@
             
                 <div style="padding:1%;" class="table-responsive">
                     <h3>Billings</h3>
+
+
+
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+                    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+                    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+                    <input type="text" autocomplete="off" style="width:20%;" name="datefilter" id="dateRange" class="form-control" placeholder="Choose Date" value="" />
+
+                    <button style="width:20%;" class="btn btn-block" id="projectDateFilter">Filter</button>
+                    @using Microsoft.AspNetCore.Http;
+                    @inject IHttpContextAccessor HttpContextAccessor
+                    <script type="text/javascript">
+
+                        function numberWithCommas(x) {
+                        var parts = x.toString().split(".");
+                        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        return parts.join(".");
+                    }
+
+
+
+                        $("#projectDateFilter").click(function () {
+
+                            var start = $('#dateRange').val().substr(0, 10);
+                            var end = $('#dateRange').val().substr(13, 20);
+                            var name = '@HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()';
+
+                            $('#billingTable').DataTable().clear().destroy();
+
+                            if (start != "") {
+
+                                var table = $('#billingTable').DataTable({
+
+
+                                order: [[0, "desc"]],
+                                dom: 'lBfrtip',
+                                buttons: [
+                                    {
+                                        extend: 'print',
+
+                                        customize: function (win) {
+                                            $(win.document.body)
+                                                .css({ 'font-size': '10pt' })
+                                                .prepend('<center> <img src = "https://i.ibb.co/nzTJbJF/logo.png" /> <h1> Mail Expert Messengerial & Gen. Services, Inc. </h1>  <br> <h3> Billings Report</h3> <br> '
+
+                                                    + start + ' - ' + end + '</center>'
+                                            ).append(
+                                                '<center><br> Created by '+ name +' </center>'
+                                            );
+                                        }
+                                    }
+                                ],
+                                drawCallback: function () {
+
+                                    var next = $("#projectTable_next > a");
+                                    next.text('>');
+
+                                    var ss = $("#projectTable_previous > a");
+                                    ss.text('<');
+                                }
+
+                                });
+
+
+
+                            $('.custom-select').removeClass("custom-select");
+
+                                $.ajax({
+
+                                    url: '/Billing/DateFilter',
+                                    data: { startDate: start, endDate: end },
+                                    type: 'GET',
+                                    success: function (e) {
+
+                                        var total = 0;
+                                        var unearned = 0;
+                                        var earned = 0;
+                                        for (var key in Object.keys(e)) {
+                                            table.row.add( {
+                                            "0":      e[key].projectID,
+                                            "1":    e[key].projectName,
+                                            "2":      e[key].quantity,
+                                            "3": "P " + numberWithCommas(e[key].price),
+                                            "4":      e[key].status,
+                                                "5": e[key].invoiceDate.substr(0,10),
+                                                "6": ""
+                                            }).draw();
+                                            total += e[key].price;
+                                            if (e[key].status == "Completed") {
+                                                earned += e[key].price;
+                                            } else {
+                                                unearned += e[key].price;
+                                            }
+                                        }
+
+                                        table.row.add({
+                                            "0": "",
+                                            "1": "",
+                                            "2": "",
+                                            "3": "",
+                                            "4": "TOTAL PRICE",
+                                                "5": "",
+                                                "6": "P "+ numberWithCommas(total)
+                                              }).draw();
+
+                                              table.row.add( {
+                                            "0":      "",
+                                            "1":    "",
+                                            "2":      "",
+                                            "3": "",
+                                            "4":     "UNEARNED",
+                                                "5": "",
+                                                "6": "P "+ numberWithCommas(unearned)
+                                              }).draw();
+
+                                              table.row.add( {
+                                            "0":     "",
+                                            "1":    "",
+                                            "2":     "",
+                                            "3": "",
+                                            "4":    "EARNED",
+                                                "5": "",
+                                                "6":  "P "+ numberWithCommas(earned)
+                                            }).draw();
+
+
+
+
+                                    }
+
+
+                                });
+                            }
+                        });
+
+                        $(function () {
+
+                            $('input[name="datefilter"]').daterangepicker({
+                                autoUpdateInput: false,
+                                locale: {
+                                    cancelLabel: 'Clear'
+                                }
+                            });
+
+                            $('input[name="datefilter"]').on('apply.daterangepicker', function (ev, picker) {
+                                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                            });
+
+                            $('input[name="datefilter"]').on('cancel.daterangepicker', function (ev, picker) {
+                                $(this).val('');
+                            });
+
+                        });
+                    </script>
+
+
                     <table id="billingTable" class="table align-items-center table-flush">
                         <thead class="thead-light">
                             <tr>
@@ -95,34 +254,93 @@
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
-
+                                <th scope="col">Payment Date</th>
                                 <th scope="col">Action</th>
 
                             </tr>
                         </thead>
                         <tbody>
                             @{
-                                foreach (var m in Model)
-                                {
-                                                        <tr>
-                                                            <td>@m.ProjectID</td>
-                                                            <td>@m.ProjectName</td>
-                                                            <td>@m.Quantity</td>
-                                                            <td>@m.Price</td>
-                                                            <td>@m.Status</td>
-                                                            <td>
-                                                                @{
-                                                                    if (m.ImageName != null)
-                                                                    {
-                                                                        <button type="button" class="btn btn-block" data-toggle="modal" data-target="#modal-form" onclick="AddUserClick(); GetBilling(@m.ProjectID,'@m.ImageName' ,'@m.Price')">Show Deposit</button>
+                                float total = 0;
+                                float unearned = 0;
+                                float earned = 0;
 
-                                                                    }
-                                                                }
+                                var tots = "";
+                                var unearnedString = "";
+                                var earnedString = "";
+                                            foreach (var m in Model)
+                                            {
 
-                                                            </td>
+                                                var cur = String.Format("{0:N}", m.Price);
 
-                                                        </tr>
+                                    <tr>
+                                        <td>@m.ProjectID</td>
+                                        <td>@m.ProjectName</td>
+                                        <td>@m.Quantity</td>
+                                        <td>P @cur</td>
+                                        <td>@m.Status</td>
+                                        <td>@m.InvoiceDate</td>
+                                        <td>
+                                                        @{
+                                                    if (m.ImageName != null)
+                                                    {
+                                                    <button type="button" class="btn btn-block" data-toggle="modal" data-target="#modal-form" onclick="AddUserClick(); GetBilling(@m.ProjectID,'@m.ImageName' ,'@m.Price')">Show Deposit</button>
+
+                                                }
                                 }
+
+                                        </td>
+
+                                    </tr>
+
+                                    total += m.Price;
+                                    tots = String.Format("{0:N}", total);
+
+                                    if (m.Status == "Completed")
+                                    {
+                                        earned += m.Price;
+                                      earnedString = String.Format("{0:N}", earned);
+                                    }
+                                    else
+                                    {
+                                        unearned += m.Price;
+                                    unearnedString = String.Format("{0:N}", unearned);
+                                    }
+
+
+                                }
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td>TOTAL PRICE:</td>
+                                    <td></td>
+                                    <td>P @tots</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td>UNEARNED :</td>
+                                    <td></td>
+                                    <td>P @unearnedString</td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td>EARNED:</td>
+                                    <td></td>
+                                    <td>P @earnedString</td>
+                                </tr>
+
+
                             }
                         </tbody>
                     </table>
@@ -132,7 +350,7 @@
         </div>
     </div>
 </div>
-<script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+
 
 
 
@@ -140,21 +358,26 @@
 
 <script>
     $(document).ready(function () {
+          var name = '@HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()';
         var table = $('#billingTable').DataTable({
 
       order : [[ 0, "desc" ]],
             dom: 'lBfrtip',
             buttons: [
-                {
-                    extend: 'print',
+                   {
+                                        extend: 'print',
 
-                    customize: function (win) {
-                        $(win.document.body)
-                            .css({ 'font-size': '10pt' })
-                            .prepend('<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
-                            );
-                    }
-                }
+                                        customize: function (win) {
+                                            $(win.document.body)
+                                                .css({ 'font-size': '10pt' })
+                                                .prepend('<center> <img src = "https://i.ibb.co/nzTJbJF/logo.png" /> <h1> Mail Expert Messengerial & Gen. Services, Inc. </h1>  <br> <h3> Billings Report</h3> <br>  </center>'
+
+                                                   
+                                            ).append(
+                                                '<center><br> Created by '+ name +' </center>'
+                                            );
+                                        }
+                                    }
             ],
             drawCallback: function () {
 

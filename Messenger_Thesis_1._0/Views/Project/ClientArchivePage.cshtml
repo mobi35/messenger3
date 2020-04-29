@@ -1,0 +1,643 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@using Messenger_Thesis_1._0.Data.Model.Interface
+@inject IContractRepository ContractRepository
+@inject IUserRepository UserRepository
+
+@model List<Project>
+@{
+    ViewData["Title"] = "Client Project";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+
+<div class="modal fade" id="edit-user" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+
+        <div class="modal-content">
+            <div id="UpdateForm">
+                <div class="modal-body p-0">
+
+                    <div class="card bg-secondary shadow border-0">
+                        <div class="card-header bg-white pb-3">
+
+                            <div class="btn-wrapper text-center">
+                                <h3>Update User</h3>
+                            </div>
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-3">
+                            <div class="text-center text-muted mb-4">
+                                <small>Account information</small>
+                            </div>
+                            <form role="form" id="update-registration_admin" enctype="multipart/form-data">
+                                <input type="hidden" id="userId" />
+                                <div id="update_parentPassword_admin" class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input id="update_password_admin" class="form-control" placeholder="Password" type="password">
+                                    </div>
+                                </div>
+
+                                <div id="update_parentCPassword_admin" class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input id="update_cpassword_admin" class="form-control" placeholder="Confirm password" type="password">
+                                    </div>
+
+                                    <small class="update_passwordValidation_admin" style="color:#f5365c"></small>
+                                </div>
+
+                                <div class="text-center text-muted mb-4">
+                                    <small>Personal information</small>
+                                </div>
+
+                                <div id="update_parentFirstName_admin" class="form-group mb-4">
+                                    <div class="input-group input-group-alternative">
+
+                                        <input id="update_first-name_admin" class="form-control" placeholder="First Name" type="text">
+                                    </div>
+                                    <small class="update_firstNameValidation_admin" style="color:#f5365c"></small>
+                                </div>
+
+                                <div id="update_parentLastName_admin" class="form-group mb-4">
+                                    <div class="input-group input-group-alternative">
+                                        <input id="update_last-name_admin" class="form-control" placeholder="Last Name" type="text">
+                                    </div>
+                                    <small class="update_lastNameValidation_admin" style="color:#f5365c"></small>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <select id="update_role_admin" class="form-control" data-toggle="select" title="Simple select" data-live-search="true" data-live-search-placeholder="Search ...">
+                                            <option>Accountant</option>
+                                            <option>Admin</option>
+                                            <option>Messenger</option>
+                                            <option>Customer Representative</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div id="update_parentFileinput" class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <input type="file" id="update_fileInput_admin" class="form-control form-control" />
+                                    </div>
+                                    <small class="update_fileinputValidation_admin" style="color:#f5365c"></small>
+                                </div>
+
+
+                                <div class="text-center">
+                                    <button class="btn btn-primary my-4" id="update-submit-admin"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fluid mt--7">
+
+
+
+
+    <!-- Table -->
+    <div class="row">
+        <div class="col">
+
+            <div class="card shadow">
+
+
+
+
+
+                <div class="card-header border-0">
+
+
+                    <div class="col-md-3">
+
+                        <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-lg" role="document">
+
+
+                                <div class="modal-content">
+                                    <div id="RegistrationForm">
+                                        <div class="modal-body p-0">
+
+
+                                            <div class="card bg-secondary shadow border-0">
+                                                <div class="card-header bg-white pb-3">
+
+                                                    <div class="btn-wrapper text-center">
+                                                        <h3>List Of SOA</h3>
+
+                                                    </div>
+                                                    <form asp-action="Invoice" asp-controller="Report">
+                                                        <input type="hidden" id="projectId" name="id" />
+                                                        <input type="submit" class="btn btn-primary" value="Show Invoice" />
+                                                    </form>
+                                                </div>
+                                                <div class="card-body px-lg-5 py-lg-3">
+
+                                                    <form role="form" asp-controller="Client" asp-action="ReadExcelFileAsync" enctype="multipart/form-data">
+
+
+
+                                                        <div class="table-responsive">
+                                                            <table id="soaTable" class="table align-items-center table-flush">
+                                                                <thead class="thead-light">
+                                                                    <tr>
+                                                                        <th scope="col">Receiver Name</th>
+                                                                        <th scope="col">Location</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="letterData">
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+
+
+
+                                                        <br />
+                                                        <br />
+
+
+
+
+                                                    </form>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+                    <div class="col-md-3">
+
+                        <div class="modal fade" id="modal-project" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+                            <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+
+
+                                <div class="modal-content">
+                                    <div id="RegistrationForm">
+                                        <div class="modal-body p-0">
+
+
+                                            <div class="card bg-secondary shadow border-0">
+                                                <div class="card-header bg-white pb-3">
+
+                                                    <div class="btn-wrapper text-center">
+                                                        <h3>Schedule</h3>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body px-lg-5 py-lg-3">
+
+
+                                                    <form role="form" id="projectForm" asp-controller="Client" asp-action="NewProject" enctype="multipart/form-data">
+                                                        <br />
+                                                        <label>Contract</label>
+                                                        <select name="ContractID" id="contract_id" class="form-control">
+
+                                                            @{
+
+                                                                var userID = int.Parse(HttpContextAccessor.HttpContext.Session.GetString("UserID").ToString());
+                                                                var user = UserRepository.FindUser(a => a.UserID == userID);
+                                                                foreach (var m in ContractRepository.GetAll().Where(a => a.CompanyName == user.CompanyName).ToList())
+                                                                {
+
+                                                                    string id = String.Format("{0:D5}", m.ContractID);
+
+                                                                    <option value="@m.ContractID">@Html.Raw("MM")@id</option>
+
+                                                                }
+
+                                                            }
+
+
+
+                                                        </select>
+
+                                                        <br />
+
+                                                      
+                                                        <br />
+
+                                                        <label>Upload your SOA's here using EXCEL (.xlsx)</label>
+                                                        <input type="file" name="DepositImage" class="form-control" id="excelUpload" />
+
+                                                        <br />
+
+                                                        <div class="text-center">
+                                                            <input onclick="return Validate()" type="submit" id="submit" value="Send" class="btn btn-primary my-4" />
+                                                        </div>
+                                                    </form>
+
+
+
+
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div style="padding:1%;" class="card shadow">
+                <button type="button" style="width:15%;" onclick="AddUserClick()" class="btn btn-block" data-toggle="modal" data-target="#modal-project">Schedule Now</button>
+                <div class="card-header border-0">
+
+                    <h3 class="mb-0">Contracts</h3>
+
+                    <br />
+                    <a asp-action="Client" asp-controller="Project" style="width:10%;" class="btn btn-block"> Projects </a>
+                </div>
+                <div class="table-responsive">
+
+                    <table id="myTable" class="table align-items-center table-flush">
+                        <thead class="thead-light">
+                            <tr>
+
+                                <th scope="col">Company Name</th>
+                                <th scope="col">Contract #</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Scheduled Date</th>
+                                <th scope="col">View</th>
+                                <th scope="col">Action</th>
+                                <th> Archive</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                foreach (var m in Model)
+                                {
+                                                        <tr>
+                                                            <td>@m.ProjectName</td>
+                                                            <td>@m.ProjectID</td>
+                                                            <td>@m.Quantity</td>
+                                                            <td>@m.Price</td>
+                                                            <td>@m.TypeOfTask</td>
+                                                            <td>@m.CurrentDateStart.ToShortDateString()</td>
+                                                            <td>
+
+                                                                @{
+
+                                                                    if (m.TypeOfTask == "Delivery")
+                                                                    {
+                                                                        <button data-toggle="modal" data-target="#modal-form" onclick="GetLetterDelivery(@m.ProjectID)" class="btn btn-primary">View</button>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <button data-toggle="modal" data-target="#modal-form" onclick="GetClient(@m.ProjectID)" class="btn btn-primary">View</button>
+                                                                    }
+
+                                                                  
+                                                                }
+
+                                                            </td>
+                                                            <td><a asp-action="Delete" asp-controller="Project" onclick="return confirm('are you sure ?')" asp-route-id="@m.ProjectID">Delete</a></td>
+                                                            <td>
+                                                                @{
+                                                                    if (m.Status == "Completed")
+                                                                    {
+                                                                        <a class="btn btn-block" asp-action="ClientUnArchived" asp-controller="Project" asp-route-id="@m.ProjectID"> UnArchive </a>
+                                                                    }
+                                                                }
+                                                            </td>
+
+                                                        </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function Validate() {
+        if ( $('#contract_id').val() == "" || $('#contract_id').val() == null ) {
+            alert("Please fill choose a contract. If you don't have contract you have to make one first.");
+            return false;
+        }
+    }
+
+    $(document).ready(function () {
+        var table = $('#myTable').DataTable({
+            order: [[1  , "desc"]],
+            responsive: true,
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend(
+                                '<img style= src="~/logo.png"  style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#myTable_next > a");
+                next.text('>');
+
+                var ss = $("#myTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
+
+
+</script>
+
+
+
+
+
+
+<script src="~/assets/js/plugins/jquery/dist/jquery.min.js"></script>
+
+<script src="~/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="~/rate.js"></script>
+
+
+<script> 
+    $(document).ready(function () {
+
+        
+
+        var table = $('#soaTable').DataTable({
+
+            dom: 'lBfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css({ 'font-size': '10pt' })
+                            .prepend( '<img style= src="~/logo.png" style="position:absolute; height:500px; z-index:5000; width:500px; top:0; left:0;" />'
+                            );
+                    }
+                }
+            ],
+            drawCallback: function () {
+
+                var next = $("#myTable_next > a");
+                next.text('>');
+
+                var ss = $("#myTable_previous > a");
+                ss.text('<');
+            }
+
+        });
+        $('.custom-select').removeClass("custom-select");
+    });
+
+
+</script>
+
+
+<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function AddUserClick() {
+        $('#RegistrationForm').show();
+    }
+
+
+
+    function SendProjectID(id) {
+        $('#project-id').val(id);
+    }
+
+    function GetUser(id) {
+
+        $.ajax({
+
+            url: '/User/GetUserDetails',
+            type: 'POST',
+            data: { id: id },
+            success: function (e) {
+
+
+                $('#update_first-name').val(e.firstName);
+                $('#update_last-name').val(e.lastName);
+                $('#userId').val(id);
+                $('#update_role').val(e.role);
+
+
+            }
+
+        });
+    }
+
+
+    $('#update-submit-admin').click(function () {
+
+        var fileInput = document.getElementById('update_fileInput_admin').file;
+
+        var password = $('#update_password_admin').val();
+        var cpassword = $('#update_cpassword_admin').val();
+        var firstName = $('#update_first-name_admin').val();
+        var lastName = $('#update_last-name_admin').val();
+        var role = $('#update_role_admin').val();
+        var userId = $('#userId_admin').val();
+        $.ajax({
+
+            url: '/User/UpdateData',
+            type: 'POST',
+            data: { userId: userId, password: password, cpassword: cpassword, firstName: firstName, lastName: lastName, role: role, fileInput: fileInput },
+            success: function (e) {
+                if (e == "password_not_match") {
+                    $('#update_parentPassword_admin').addClass('has-danger');
+                    $('#update_parentCPassword_admin').addClass('has-danger');
+                    $('.update_passwordValidation_admin').html("Please input your password");
+                }
+
+                if (e == "firstname_required") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Please write your first name");
+                } else if (e == "firstname_not_letter") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Invalid character");
+                } else if (e == "firstname_max_letter") {
+                    $('#update_parentFirstName_admin').addClass('has-danger');
+                    $('.update_firstNameValidation_admin').html("Maximum of 50 characters only");
+                } else {
+                    $('#update_parentFirstName_admin').removeClass("has-danger");
+                    $('#update_parentFirstName_admin').addClass("has-success");
+                    $('.update_firstNameValidation_admin').html("");
+                }
+
+                if (e == "lastname_required") {
+                    $('#update_parentLastName_admin').addClass('has-danger');
+                    $('.update_lastNameValidation_admin').html("Please write your last name");
+                } else if (e == "lastname_not_letter") {
+                    $('#update_parentLastName_admin').addClass('has-danger');
+                    $('.update_lastNameValidation_admin').html("Invalid character");
+                } else if (e == "lastname_max_letter") {
+                    $('#update_parentLastName_admin').addClass('has-danger');
+                    $('.update_lastNameValidation_admin').html("Maximum of 50 characters only");
+                } else {
+                    $('#update_parentLastName_admin').removeClass("has-danger");
+                    $('#update_parentLastName_admin').addClass("has-success");
+                    $('.update_lastNameValidation_admin').html("");
+                }
+
+
+                GetAllUser();
+            }
+
+        });
+
+        return false;
+    });
+
+
+
+
+    function GetClient(id) {
+        var table = $('#soaTable').DataTable();
+     
+        $('#projectId').val(id);
+        $('.letterData').html('');
+
+           table.clear().draw();
+        $.ajax({
+
+            url: '/Project/GetLetterProject',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    table.row.add([ 
+
+                        e[key].receiverName, e[key].locationOfDelivery
+                        ]
+                    ).draw();
+
+
+                }
+
+
+            }
+
+        });
+    }
+
+
+
+     function GetLetterDelivery(id) {
+        var table = $('#soaTable').DataTable();
+        
+        $('#projectId').val(id);
+         $('.letterData').html('');
+            table.clear().draw();
+        $.ajax({
+
+            url: '/Project/GetLetterDelivery',
+            type: 'GET',
+            data: { id: id },
+            success: function (e) {
+
+                for (var key of Object.keys(e)) {
+
+                    table.row.add([ 
+
+                        e[key].receiverName, e[key].locationOfDelivery
+                        ]
+                    ).draw();
+
+                }
+
+
+            }
+
+        });
+    }
+
+
+
+
+</script>
+

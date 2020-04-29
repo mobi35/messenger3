@@ -56,6 +56,8 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Archived");
+
                     b.Property<string>("ClientID");
 
                     b.Property<string>("CompanyName");
@@ -67,6 +69,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<int>("Quantity");
 
                     b.Property<DateTime>("StartDuration");
+
+                    b.Property<bool>("UserArchive");
 
                     b.Property<int>("YearsOfDuration");
 
@@ -149,6 +153,8 @@ namespace Messenger_Thesis_1._0.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Archived");
+
                     b.Property<string>("Area");
 
                     b.Property<string>("ClientName");
@@ -184,6 +190,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<int>("TotalLettersPerMonth");
 
                     b.Property<string>("TypeOfTask");
+
+                    b.Property<bool>("UserArchive");
 
                     b.HasKey("ProjectID");
 

@@ -133,8 +133,11 @@ namespace Messenger_Thesis_1._0.Controllers
             return View(projectRepo.GetAll().Where(a => a.Email == getUser.Email));
         }
 
-       
 
+        public JsonResult DateFilter(DateTime startDate, DateTime endDate)
+        {
+            return Json(projectRepo.GetAll().Where(a => a.InvoiceDate >= startDate && a.InvoiceDate <= endDate).OrderByDescending(a => a.ProjectID).ToList());
+        }
 
 
     }
