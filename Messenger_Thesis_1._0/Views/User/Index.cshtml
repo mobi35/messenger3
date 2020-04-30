@@ -337,11 +337,11 @@
                                             @{
                                                 if (m.AccountStatus == "Disabled" || m.AccountStatus == null)
                                                 {
-                                                    <a asp-controller="User" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
+                                                    <a onclick="return confirm('Are you sure you want to Activate this account?')" asp-controller="User" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
                                                 }
                                                 else
                                                 {
-                                                    <a asp-controller="User" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
+                                                    <a onclick="return confirm('Are you sure you want to Disable this account?')" asp-controller="User" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
                                                 }
 
                                             }
