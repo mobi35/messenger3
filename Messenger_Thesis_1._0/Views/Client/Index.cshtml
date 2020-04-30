@@ -346,6 +346,8 @@
 
                 </div>
                 <div style="padding:1%;" class="table-responsive">
+                    <a asp-action="ArchivedClientAccounts" asp-controller="Client" style="width:10%;" class="btn btn-block">  Archived Clients </a>
+
                     <table class="table align-items-center table-flush" id="myTable">
                         <thead class="thead-light">
                             <tr>
@@ -358,6 +360,7 @@
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                                 <th scope="col">Action</th>
+                                <th scope="col">Archive</th>
                             </tr>
                         </thead>
 
@@ -366,34 +369,38 @@
 
                                 foreach (var m in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            <a onclick="UserProfile(@m.UserID)" data-toggle="modal" data-target="#user-profile" href="#" class="avatar rounded-circle mr-3">
-                                                <img alt="Image placeholder" style="height:50px;" src="../Images/@m.ImageName ">
-                                            </a>
-                                        </td>
-                                        <td>@m.FirstName @m.LastName</td>
-                                        <td>@m.Email</td>
-                                        <td>@m.Role</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            @{
-                                                if (m.AccountStatus == "Disabled" || m.AccountStatus == null)
-                                                {
-                                                    <a asp-controller="Client" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
-                                                }
-                                                else
-                                                {
-                                                    <a asp-controller="Client" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
-                                                }
+                                                        <tr>
+                                                            <td>
+                                                                <a onclick="UserProfile(@m.UserID)" data-toggle="modal" data-target="#user-profile" href="#" class="avatar rounded-circle mr-3">
+                                                                    <img alt="Image placeholder" style="height:50px;" src="../Images/@m.ImageName ">
+                                                                </a>
+                                                            </td>
+                                                            <td>@m.FirstName @m.LastName</td>
+                                                            <td>@m.Email</td>
+                                                            <td>@m.Role</td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>
+                                                                @{
+                                                                    if (m.AccountStatus == "Disabled" || m.AccountStatus == null)
+                                                                    {
+                                                                        <a asp-controller="Client" asp-action="ActivateAccount" asp-route-id="@m.UserID">Activate</a>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <a asp-controller="Client" asp-action="DisableAccount" asp-route-id="@m.UserID">Disable</a>
+                                                                    }
 
-                                            }
+                                                                }
 
 
 
-                                        </td>
-                                    </tr>
+                                                            </td>
+
+                                                            <td>
+                                                                <a class="btn btn-block" asp-action="ArchiveAccountExecute" asp-controller="Client" asp-route-id="@m.UserID" onclick="return confirm('Are you sure you want to archive this account?')"> Archive </a>
+                                                            </td>
+                                                        </tr>
                                 }
                             }
                         </tbody>

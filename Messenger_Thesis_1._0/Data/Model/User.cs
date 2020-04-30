@@ -54,5 +54,7 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public int TaskNumber { get; set; }
 
+        public bool Archived { get; set; }
+
     }
 }

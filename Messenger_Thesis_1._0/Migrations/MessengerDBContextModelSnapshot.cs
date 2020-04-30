@@ -208,6 +208,8 @@ namespace Messenger_Thesis_1._0.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<bool>("Archived");
+
                     b.Property<DateTime>("BirthDate");
 
                     b.Property<string>("CompanyName");
@@ -237,6 +239,8 @@ namespace Messenger_Thesis_1._0.Migrations
                     b.Property<string>("Role");
 
                     b.Property<int>("SOAToDeliver");
+
+                    b.Property<int>("TaskNumber");
 
                     b.Property<int>("TotalNumberOfLetters");
 

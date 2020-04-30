@@ -36,7 +36,41 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Index()
         {
-            return View(Users());
+            return View(_userRepo.GetAll().Where(a => a.Archived == false).ToList());
+        }
+
+        public IActionResult ArchivedAccounts()
+        {
+            return View(_userRepo.GetAll().Where(a => a.Archived == true).ToList());
+        }
+
+        public IActionResult ArchiveAccountExecute(int id)
+        {
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.Archived = true;
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('User Archived Success.'); window.open('../../../../User/Index','_self')</script></html>"
+            };
+        }
+
+        public IActionResult UnArchiveAccountExecute(int id)
+        {
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.Archived = false;
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('User UnArchived Success.'); window.open('../../../../User/Index','_self')</script></html>"
+            };
         }
 
         public IActionResult Create()

@@ -35,8 +35,42 @@ namespace Messenger_Thesis_1._0.Controllers
 
         public IActionResult Index()
         {
-            var users = _userRepo.GetAll().Where(a => a.Role == "Client").OrderByDescending(a => a.UserID).ToList();
+            var users = _userRepo.GetAll().Where(a => a.Role == "Client" && a.Archived == false).OrderByDescending(a => a.UserID).ToList();
             return View(users);
+        }
+
+        public IActionResult ArchivedClientAccounts()
+        {
+            return View(_userRepo.GetAll().Where(a => a.Archived == true && a.Role == "Client").ToList());
+        }
+
+        public IActionResult ArchiveAccountExecute(int id)
+        {
+
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.Archived = true;
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Client Archived Success.'); window.open('../../../../Client/Index','_self')</script></html>"
+            };
+        }
+
+        public IActionResult UnArchiveAccountExecute(int id)
+        {
+            var user = _userRepo.FindUser(a => a.UserID == id);
+            user.Archived = false;
+            _userRepo.Update(user);
+
+            return new ContentResult
+            {
+                ContentType = "text/html",
+                StatusCode = (int)HttpStatusCode.OK,
+                Content = "<html><script>alert('Client UnArchived Success.'); window.open('../../../../Client/Index','_self')</script></html>"
+            };
         }
 
 

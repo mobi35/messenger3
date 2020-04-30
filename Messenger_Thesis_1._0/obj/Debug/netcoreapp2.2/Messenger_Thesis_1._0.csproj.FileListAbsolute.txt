@@ -312,3 +312,5 @@ C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netco
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Project\ClientArchivePage.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Contract\AdminArchivePage.cshtml.g.cs
 C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Contract\ClientArchivedPage.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\Client\ArchivedClientAccounts.cshtml.g.cs
+C:\Users\Adrian Radores\Desktop\messenger2\Messenger_Thesis_1._0\obj\Debug\netcoreapp2.2\Razor\Views\User\ArchivedAccounts.cshtml.g.cs
