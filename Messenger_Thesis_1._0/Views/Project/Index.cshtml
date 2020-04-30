@@ -118,14 +118,9 @@
                                                     <input type="text" readonly class="form-control" id="d_projectid" />
                                                     <br />
                                                     <label>Messengers</label>
-                                                    <select name="messenger" id="d_messenger" class="form-control">
-                                                        @{
-                                                            foreach (var m in UserRepository.GetAll().Where(a => a.Role == "Messenger").ToList())
-                                                            {
-                                                                <option value="@m.UserID">@m.FirstName @m.MiddleName  @m.LastName  </option>
-                                                            }
-                                                        }
-                                                    </select>
+                                                    <br />
+
+                                                    <small>note: the system will automatically assign the messengers.</small>
 
                                                     <br />
                                                     <label>Quantity</label>
@@ -932,25 +927,27 @@
 
           var start = $('#dateRange').val().substr(0, 10);
         var end = $('#dateRange').val().substr(13, 20);
-     
+       var name = '@HttpContextAccessor.HttpContext.Session.GetString("FullName").ToString()';
+
         var table = $('#projectTable').DataTable({
      
 
             order: [[0, "desc"]],
             dom: 'lBfrtip', 
             buttons: [
-                {
-                    extend: 'print',
+                  {
+                                        extend: 'print',
 
-                    customize: function (win) {
-                        $(win.document.body)
-                            .css({ 'font-size': '10pt' })
-                            .prepend('<center> <h1> Project Report</h1> <br> '
-
-                                + start + ' - ' + end + '</center>'
-                            );
-                    }
-                }
+                                        customize: function (win) {
+                                            $(win.document.body)
+                                                .css({ 'font-size': '10pt' })
+                                                .prepend('<center> <img src = "https://i.ibb.co/nzTJbJF/logo.png" /> <h1> Mail Expert Messengerial & Gen. Services, Inc. </h1>  <br> <h3> Project Report</h3> <br> </center>'
+                                                 
+                                            ).append(
+                                                '<center><br> Created by '+ name +' </center>'
+                                            );
+                                        }
+                                    }
             ],
             drawCallback: function () {
 

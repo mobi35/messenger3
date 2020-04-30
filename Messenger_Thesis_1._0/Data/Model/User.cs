@@ -52,5 +52,7 @@ namespace Messenger_Thesis_1._0.Data.Model
 
         public int PickupDay { get; set; }
 
+        public int TaskNumber { get; set; }
+
     }
 }

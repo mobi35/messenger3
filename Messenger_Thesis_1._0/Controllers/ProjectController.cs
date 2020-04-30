@@ -122,42 +122,27 @@ namespace Messenger_Thesis_1._0.Controllers
             var projectModel = projectRepo.FindProject(a => a.ProjectID == project.ProjectID);
             projectModel.Status = "On-going";
 
-            var getArea = letterRepo.GetAll().GroupBy(a => a.Area).Select(a => new { 
-            Key = a.Key,
-            Area = a.FirstOrDefault().Area
+            var getArea = letterRepo.GetAll().GroupBy(a => a.Area).Select(a => new {
+                Key = a.Key,
+                Area = a.FirstOrDefault().Area
             }).ToList();
 
             var getLetter = letterRepo.GetAll().Where(a => a.DeliveryID == project.ProjectID).ToList();
 
             //GET ALL MESSENGER
 
-            var getMessenger = projectRepo.GetAll().Where(a => a.Status == "On-going" && a.Messenger != 0).GroupBy(a => a.Messenger).Select(a => new
-            {
-                Customer = a.Key,
-                Count = a.Count(),
-                Messenger =  a.FirstOrDefault().Messenger
-            }).OrderByDescending(a => a.Count).ToList();
+            var getMessenger = userRepo.GetAll().Where(a => a.Role == "Messenger").OrderBy(a => a.TaskNumber).Select(a => a.UserID);
 
             List<User> userList = new List<User>();
 
             foreach (var getM in getMessenger)
             {
-                userList.Add(userRepo.FindUser(a => a.UserID == getM.Messenger));
+                userList.Add(userRepo.FindUser(a => a.UserID == getM));
             }
-            foreach (var user in userRepo.GetAll().Where(a => a.Role == "Messenger").ToList())
-            {
-                foreach (var mess in getMessenger)
-                {
-                    if (user.UserID != mess.Messenger)
-                        userList.Add(user);
-                }
-            }
-
-          
 
 
             int count = 0;
-            while(getArea.Count() > userList.Count())
+            while (getArea.Count() > userList.Count())
             {
                 userList.Add(userList[count]);
                 count++;
@@ -166,7 +151,7 @@ namespace Messenger_Thesis_1._0.Controllers
             var messengerCount = 0;
             foreach (var a in getArea)
             {
-                foreach(var l in getLetter)
+                foreach (var l in getLetter)
                 {
                     if (a.Area == l.Area)
                     {
@@ -174,6 +159,10 @@ namespace Messenger_Thesis_1._0.Controllers
                         letterRepo.Update(l);
                     }
                 }
+
+                var userModel = userList[messengerCount];
+                userModel.TaskNumber++;
+                userRepo.Update(userModel);
                 messengerCount++;
             }
 
@@ -421,7 +410,7 @@ namespace Messenger_Thesis_1._0.Controllers
         public string FinishedDelivery(int id)
         {
             var project = projectRepo.FindProject(a => a.ProjectID == id);
-           
+
             var userID = int.Parse(HttpContext.Session.GetString("UserID").ToString());
             foreach (var letter in letterRepo.GetAll().Where(a => a.DeliveryID == id && a.MessengerID == userID).ToList())
             {
@@ -432,24 +421,34 @@ namespace Messenger_Thesis_1._0.Controllers
 
             var count = letterRepo.GetAll().Where(a => a.DeliveryID == id).ToList().Count();
             var tryCount = 0;
-            foreach (var letter in letterRepo.GetAll().Where(a => a.DeliveryID == id ).ToList())
+            foreach (var letter in letterRepo.GetAll().Where(a => a.DeliveryID == id).ToList())
             {
-                if(letter.Status == null )
+                if (letter.Status == null)
                 {
                     break;
-                }else
+                }
+                else
                 {
                     tryCount++;
                 }
             }
 
-            if(count == tryCount)
+            if (count == tryCount)
             {
                 project.Status = "Completed";
                 projectRepo.Update(project);
             }
 
-           
+            var letterList = letterRepo.GetAll().Where(a => a.DeliveryID == id && a.MessengerID == userID).Select(a => a.MessengerID).ToList();
+
+            foreach (var l in letterList.Distinct().ToList())
+            {
+                var user = userRepo.FindUser(a => a.UserID == l);
+                user.TaskNumber--;
+                userRepo.Update(user);
+            }
+
+
             return "";
         }
 
