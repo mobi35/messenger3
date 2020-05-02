@@ -106,6 +106,9 @@ namespace Messenger_Thesis_1._0.Controllers
             var projectModel = projectRepo.FindProject(a => a.ProjectID == project.ProjectID);
             projectModel.Status = "On-going";
             projectModel.Messenger = project.Messenger;
+            var user = userRepo.FindUser(a => a.UserID == project.Messenger);
+            user.TaskNumber++;
+            userRepo.Update(user);
             projectModel.Area = project.Area;
             projectModel.CurrentDateStart = DateTime.Now.AddDays(2);
             projectRepo.Update(projectModel);
@@ -376,6 +379,11 @@ namespace Messenger_Thesis_1._0.Controllers
         {
             var project = projectRepo.FindProject(a => a.ProjectID == id);
             project.Status = "Completed";
+
+            var user = userRepo.FindUser(a => a.UserID == project.Messenger);
+            user.TaskNumber--;
+            userRepo.Update(user);
+
             projectRepo.Update(project);
 
 

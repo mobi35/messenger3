@@ -48,6 +48,20 @@ namespace Messenger_Thesis_1._0.Controllers
         {
 
             var user = _userRepo.FindUser(a => a.UserID == id);
+
+            if (user.Role == "Messenger")
+            {
+                if (user.TaskNumber > 0)
+                {
+                    return new ContentResult
+                    {
+                        ContentType = "text/html",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Content = "<html><script>alert('Cannot Disable because this messenger has pending task'); window.open('../../../../User/Index','_self')</script></html>"
+                    };
+                };
+            }
+
             user.Archived = true;
             _userRepo.Update(user);
 
@@ -135,6 +149,19 @@ namespace Messenger_Thesis_1._0.Controllers
         {
 
             var user = _userRepo.FindUser(a => a.UserID == id);
+
+            if(user.Role == "Messenger")
+            {
+                if (user.TaskNumber > 0) {
+                    return new ContentResult
+                    {
+                        ContentType = "text/html",
+                        StatusCode = (int)HttpStatusCode.OK,
+                        Content = "<html><script>alert('Cannot Disable because this messenger has pending task'); window.open('../../../../User/Index','_self')</script></html>"
+                    };
+                };
+            }
+
             user.AccountStatus = "Disabled";
             _userRepo.Update(user);
             
